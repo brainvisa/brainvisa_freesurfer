@@ -1,0 +1,52 @@
+
+
+#-----------------------------------------------------------------------------
+class PythonComponent_freesurfer( GenericMakerComponent ):
+  _name = 'freesurfer_python'
+
+  def __init__( self, opts ):
+    options[ 'freesurfer_python' ] = options[ 'freesurfer_plugin' ]
+    GenericMakerComponent.__init__( self, options[ 'freesurfer_plugin' ] )
+
+  def name( self ):
+    return 'freesurfer'
+
+  def _libraries( self ):
+    return []
+
+  def dependencies( self ):
+    return [  ]
+
+  def doEpydoc( self ):
+    return True
+
+  def pythonModule( self ):
+    return 'freesurfer'
+
+  def configureCompilation( self ):
+    pass
+
+  def build( self, instances ):
+    pass
+
+
+#-----------------------------------------------------------------------------
+class Component_freesurfer( GenericMakerComponent ):
+  _name = 'freesurfer_plugin'
+
+  def dependencies( self ):
+    return [  PythonComponent_freesurfer ]
+
+
+  def templateConfigurationFiles( self ):
+    []
+
+
+  def configureCompilation( self ):
+    pass
+
+  def build( self, instances ):
+    pass
+
+  def makeDoxygenDocumentation( self ):
+    pass
