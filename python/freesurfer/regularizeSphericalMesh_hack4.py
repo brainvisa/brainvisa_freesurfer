@@ -1,15 +1,19 @@
 import math, sys, time
 from numpy import *
 import numpy
-import gifti
+#import gifti
 import pickle
-from gifti import GiftiIntentCode
+#from gifti import GiftiIntentCode
+from soma import aims
 
 def remesh(unstructured, target):
 	T = time.time()
-	svertex = target.getArraysFromIntent(GiftiIntentCode.NIFTI_INTENT_POINTSET)[0].data
-	uvertex = unstructured.getArraysFromIntent(GiftiIntentCode.NIFTI_INTENT_POINTSET)[0].data
-	ufaces = unstructured.getArraysFromIntent(GiftiIntentCode.NIFTI_INTENT_TRIANGLE)[0].data
+	#svertex = target.getArraysFromIntent(GiftiIntentCode.NIFTI_INTENT_POINTSET)[0].data
+	#uvertex = unstructured.getArraysFromIntent(GiftiIntentCode.NIFTI_INTENT_POINTSET)[0].data
+	#ufaces = unstructured.getArraysFromIntent(GiftiIntentCode.NIFTI_INTENT_TRIANGLE)[0].data
+	svertex = array(target.vertex())
+	uvertex = array(unstructured.vertex())
+	ufaces = array(unstructured.polygon())
 	# roughly same center and same bounding box
 	if (not allclose(svertex.mean(0), uvertex.mean(0), atol=1e-2)) or (not allclose(svertex.max(0), uvertex.max(0), atol=1e-2)):
 		print "\nWARNING : different mean or max(0)\n"
@@ -66,78 +70,80 @@ def remesh(unstructured, target):
 	print time.time() - T
 	return isinN, isin
 
-def apply_remesh(remesh_params, orig_mesh, orig_pal):
-	isinN, isinT = remesh_params[0], transpose(remesh_params[1])
-	if -1 in isinN:
-		print "\nWARNING : -1 in remeshing output\n"
-	ufaces = orig_mesh.getArraysFromIntent(GiftiIntentCode.NIFTI_INTENT_TRIANGLE)[0].data
-	T = rollaxis(orig_pal[ufaces[isinN]], 0, 3)
-	texout = ((1 - isinT[0] - isinT[1]) * T[0] + isinT[0] * T[1] + isinT[1] * T[2]).T
-	return texout.astype(orig_pal.dtype)
+#def apply_remesh(remesh_params, orig_mesh, orig_pal):
+#	isinN, isinT = remesh_params[0], transpose(remesh_params[1])
+#	if -1 in isinN:
+#		print "\nWARNING : -1 in remeshing output\n"
+#	ufaces = orig_mesh.getArraysFromIntent(GiftiIntentCode.NIFTI_INTENT_TRIANGLE)[0].data
+#	T = rollaxis(orig_pal[ufaces[isinN]], 0, 3)
+#	texout = ((1 - isinT[0] - isinT[1]) * T[0] + isinT[0] * T[1] + isinT[1] * T[2]).T
+#	return texout.astype(orig_pal.dtype)
+#
+## plus lente, mais bouffe moins de ram
+#def apply_remesh_slower(remesh_params, orig_mesh, orig_pal):
+#	isinN, isin = remesh_params[0], array(remesh_params[1])
+#	assert(not -1 in isinN)
+#	ufaces = orig_mesh.getArraysFromIntent(GiftiIntentCode.NIFTI_INTENT_TRIANGLE)[0].data
+#	texout = zeros((len(isinN), len(orig_pal[0])), orig_pal.dtype)
+#	for n in range(len(isin)):
+#		t = orig_pal[ufaces[isinN[n]]]
+#		value = (1-isin[n][0]-isin[n][1])*t[0] + isin[n][0]*t[1] + isin[n][1]*t[2]
+#		texout[n] = value
+#	return texout
 
-# plus lente, mais bouffe moins de ram
-def apply_remesh_slower(remesh_params, orig_mesh, orig_pal):
-	isinN, isin = remesh_params[0], array(remesh_params[1])
-	assert(not -1 in isinN)
-	ufaces = orig_mesh.getArraysFromIntent(GiftiIntentCode.NIFTI_INTENT_TRIANGLE)[0].data
-	texout = zeros((len(isinN), len(orig_pal[0])), orig_pal.dtype)
-	for n in range(len(isin)):
-		t = orig_pal[ufaces[isinN[n]]]
-		value = (1-isin[n][0]-isin[n][1])*t[0] + isin[n][0]*t[1] + isin[n][1]*t[2]
-		texout[n] = value
-	return texout
-
-if __name__ == '__main__':
-	if len(sys.argv) == 5:
-		srcmesh, srcpal, dstmesh, dstpal = sys.argv[1:]
-		assert(srcmesh.endswith('.gii') and dstmesh.endswith('.gii'))
-		assert(srcpal.endswith('.npy') and dstpal.endswith('.npy'))
-		srcgii = gifti.loadImage(srcmesh)
-		dstgii = gifti.loadImage(dstmesh)
-		for x in srcgii, dstgii:
-			x.showSummary()
-		print "computing transformation"
-		remesh_params = remesh(srcgii, dstgii)
-		print "applying on palettes"
-		texout = apply_remesh(remesh_params, srcgii, numpy.load(srcpal))
-		numpy.save(open(dstpal, 'w'), texout)
-	elif len(sys.argv) == 4:
-		srcmesh, dstmesh, isinFile = sys.argv[1:]
-		print 'srcmesh', srcmesh
-		print 'dstmesh', dstmesh
-		print 'isinFile', isinFile
-		assert(srcmesh.endswith('.gii') and dstmesh.endswith('.gii'))
-		srcgii = gifti.loadImage(srcmesh)
-		dstgii = gifti.loadImage(dstmesh)
-		for x in srcgii, dstgii:
-			x.showSummary()
-		print "computing transformation"
-		remesh_params = remesh(srcgii, dstgii)
-		f = open(isinFile,'w')
-		pickle.dump(remesh_params, f)
-		f.close()
-	elif 1:
-		# auto test (sans args)
-		mesh = gifti.loadImage("uvlarge.gii")
-		sphere = gifti.loadImage("icolarge.gii")
-		print mesh.showSummary()
-		print sphere.showSummary()
-		# same center
-		print allclose(mesh.arrays[0].data.mean(0), sphere.arrays[0].data.mean(0), atol=1e-4)
-		# same bounding box
-		print allclose(mesh.arrays[0].data.max(0), sphere.arrays[0].data.max(0), atol=1e-2)
-		isinN, isin = remesh(mesh, sphere)
-		isin_correct = load("isincorrect.npy")
-		print allclose(column_stack([isinN, isin]), isin_correct)
-
+#if __name__ == '__main__':
+#	if len(sys.argv) == 5:
+#		srcmesh, srcpal, dstmesh, dstpal = sys.argv[1:]
+#		assert(srcmesh.endswith('.gii') and dstmesh.endswith('.gii'))
+#		assert(srcpal.endswith('.npy') and dstpal.endswith('.npy'))
+#		srcgii = gifti.loadImage(srcmesh)
+#		dstgii = gifti.loadImage(dstmesh)
+#		for x in srcgii, dstgii:
+#			x.showSummary()
+#		print "computing transformation"
+#		remesh_params = remesh(srcgii, dstgii)
+#		print "applying on palettes"
+#		texout = apply_remesh(remesh_params, srcgii, numpy.load(srcpal))
+#		numpy.save(open(dstpal, 'w'), texout)
+#	elif len(sys.argv) == 4:
+#		srcmesh, dstmesh, isinFile = sys.argv[1:]
+#		print 'srcmesh', srcmesh
+#		print 'dstmesh', dstmesh
+#		print 'isinFile', isinFile
+#		assert(srcmesh.endswith('.gii') and dstmesh.endswith('.gii'))
+#		srcgii = gifti.loadImage(srcmesh)
+#		dstgii = gifti.loadImage(dstmesh)
+#		for x in srcgii, dstgii:
+#			x.showSummary()
+#		print "computing transformation"
+#		remesh_params = remesh(srcgii, dstgii)
+#		f = open(isinFile,'w')
+#		pickle.dump(remesh_params, f)
+#		f.close()
+#	elif 1:
+#		# auto test (sans args)
+#		mesh = gifti.loadImage("uvlarge.gii")
+#		sphere = gifti.loadImage("icolarge.gii")
+#		print mesh.showSummary()
+#		print sphere.showSummary()
+#		# same center
+#		print allclose(mesh.arrays[0].data.mean(0), sphere.arrays[0].data.mean(0), atol=1e-4)
+#		# same bounding box
+#		print allclose(mesh.arrays[0].data.max(0), sphere.arrays[0].data.max(0), atol=1e-2)
+#		isinN, isin = remesh(mesh, sphere)
+#		isin_correct = load("isincorrect.npy")
+#		print allclose(column_stack([isinN, isin]), isin_correct)
+#
 
 # Brainvisa function
 def regularizeSphericalMesh(srcmesh, isinFile, dstmesh='./ico100_7.gii'):
 	print "source", srcmesh
 	print "isin", isinFile
 	print "destination", dstmesh
-	srcgii = gifti.loadImage(srcmesh)
-	dstgii = gifti.loadImage(dstmesh)
+	#srcgii = gifti.loadImage(srcmesh)
+	#dstgii = gifti.loadImage(dstmesh)
+	srcgii = aims.read(srcmesh)
+	dstgii = aims.read(dstmesh)
 	print "computing transformation"
 	remesh_params = remesh(srcgii, dstgii)
 	f = open(isinFile,'w')

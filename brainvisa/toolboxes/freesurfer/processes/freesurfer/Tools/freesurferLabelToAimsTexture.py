@@ -55,8 +55,10 @@ def execution(self, context):
   f = neuroHierarchy.databases.findDiskItem(_type='FreesurferParcellationPath', subject=self.WhiteMesh.get('subject'))
   context.write("Updating database, path = " + f.fullPath())
   neuroHierarchy.databases.update([f.fullPath()])
+  context.write("database updated, path = " + f.fullPath())
 
   # GYRI PART
+  context.write("---Gyri---")
   f = neuroHierarchy.databases.findDiskItem(_type='FreesurferReadableGyriTexture', subject=self.WhiteMesh.get('subject'), side=self.WhiteMesh.get('side'))
   if f!=None:
     context.write("Gyri part, read file = " + f.fullPath())
@@ -65,6 +67,7 @@ def execution(self, context):
     context.write("no gyri file, conversion from freesurfer failed")
 
   # SULCI-GYRI PART
+  context.write("---Sulci-Gyri---")
   f = neuroHierarchy.databases.findDiskItem(_type='FreesurferReadableSulciGyriTexture', subject=self.WhiteMesh.get('subject'), side=self.WhiteMesh.get('side'))
   if f!=None:
     context.write("Sulci-Gyri part, read file = " + f.fullPath())

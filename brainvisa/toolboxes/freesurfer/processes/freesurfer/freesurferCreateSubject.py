@@ -23,6 +23,9 @@ def execution(self, context):
   context.write(cmd)
   context.write(self.database.name)
   launchFreesurferCommand(context, self.database.name, 'recon-all', '-i', self.DicomImage.fullPath(), '-subjid', self.subjectName)
+  createdDir = self.database.name+'/'+self.subjectName
+  context.write("Updating database, path = " + createdDir)
+  neuroHierarchy.databases.update([createdDir])
   #neuroHierarchy.databases.update()
   
 

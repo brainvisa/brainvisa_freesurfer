@@ -2,7 +2,7 @@ from numpy import array, vstack
 import math
 from soma import aims
 #from tio import Texture
-import fff2.graph as FG
+#import nipy.neurospin.graph as FG
 from numpy.linalg import pinv
 import pickle
 import sys
