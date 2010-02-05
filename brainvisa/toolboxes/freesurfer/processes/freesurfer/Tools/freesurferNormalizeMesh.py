@@ -7,7 +7,7 @@ userlevel = 2
 signature = Signature(
     'whiteMesh', ReadDiskItem('AimsWhite', 'MESH mesh'),
     'anat', ReadDiskItem('Raw T1 MRI', 'NIFTI-1 image'),
-    'matrix', ReadDiskItem('SPM Transformation Parameters', 'Matlab file'),
+    'matrix', ReadDiskItem('SPM normalization matrix', 'Matlab file'),
     'normAnat', ReadDiskItem('Raw T1 MRI', 'NIFTI-1 image',
                              requiredAttributes = {'normalized' : 'yes'}),
     'whiteNormMesh', WriteDiskItem('AimsNormalizedWhite', 'MESH mesh'),
