@@ -7,7 +7,7 @@ userlevel = 2
 signature = Signature(
   'WhiteMesh', ReadDiskItem('White', 'MESH mesh', enableConversion=0),
   'Isin', ReadDiskItem('BaseFreesurferType', 'FreesurferIsin'),
-  'Gyri', ReadDiskItem('FreesurferGyri', 'Texture'),
+  'Gyri', ReadDiskItem('FreesurferGyri', 'Texture',_debug=sys.stdout),
   'SulciGyri', ReadDiskItem('FreesurferSulciGyri', 'Texture'),
   'ResampledGyri', WriteDiskItem('ResampledGyri', 'Texture'),
   'ResampledSulciGyri', WriteDiskItem('ResampledSulciGyri', 'Texture'),

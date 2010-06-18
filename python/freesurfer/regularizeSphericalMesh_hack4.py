@@ -136,7 +136,7 @@ def remesh(unstructured, target):
 #
 
 # Brainvisa function
-def regularizeSphericalMesh(srcmesh, isinFile, dstmesh='./ico100_7.gii'):
+def regularizeSphericalMesh(srcmesh, isinFile, dstmesh='./ico100_7.mesh'):
 	print "source", srcmesh
 	print "isin", isinFile
 	print "destination", dstmesh

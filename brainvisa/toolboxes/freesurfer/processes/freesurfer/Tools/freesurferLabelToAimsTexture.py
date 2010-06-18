@@ -52,10 +52,16 @@ def execution(self, context):
 
   # DATABASE UPDATE
 
-  f = neuroHierarchy.databases.findDiskItem(_type='FreesurferParcellationPath', subject=self.WhiteMesh.get('subject'))
-  context.write("Updating database, path = " + f.fullPath())
-  neuroHierarchy.databases.update([f.fullPath()])
-  context.write("database updated, path = " + f.fullPath())
+  context.write("Clearing database...")
+  neuroHierarchy.databases.clear()
+  context.write("Database cleared")
+  context.write("Updating database...")
+  neuroHierarchy.databases.update()
+  context.write("database updated")
+  #f = neuroHierarchy.databases.findDiskItem(_type='FreesurferParcellationPath', subject=self.WhiteMesh.get('subject'))
+  #context.write("Updating database, path = " + f.fullPath())
+  #neuroHierarchy.databases.update([f.fullPath()])
+  #context.write("database updated, path = " + f.fullPath())
 
   # GYRI PART
   context.write("---Gyri---")

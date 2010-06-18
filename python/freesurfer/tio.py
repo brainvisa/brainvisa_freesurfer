@@ -62,6 +62,7 @@ class Texture:
 
     @staticmethod
     def read(file):
+        # TODO remplacer les [:-1] pour enlever les '\n' par .strip()
         p = Texture(file)
         if os.path.splitext(file)[1] == '.gz':
             f_in = _gz.open(p.filename)
@@ -106,10 +107,11 @@ class Texture:
             except:
                 raise TypeError, 'Datatype not recognized.'
             #
-            nb_t = _np.int(f_in.readline()[:-1]) # on vire le\n
-            datatemp = _np.fromstring(string=f_in.readline(), sep=' ')
+            #nb_t = _np.int(f_in.readline()[:-1]) # on vire le\n
+            datatemp = _np.fromstring(string=f_in.read().replace('\n',' ').strip(), sep=' ')
+            nb_t = int(datatemp[0])
             p.data = []
-            pos = 0
+            pos = 1
             for t in range(nb_t):
                 current_t = _np.int(datatemp[pos])
                 pos += 1

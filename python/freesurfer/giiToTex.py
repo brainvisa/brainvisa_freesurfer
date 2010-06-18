@@ -1,17 +1,21 @@
 import gifti
 import sys
 from tio import Texture
+import numpy as n
 
 def giiToTex(filename):
     out = filename[:filename.rfind('gii')]+'tex'
     g = gifti.loadImage(filename)
-    t = Texture(filename=out, data=g.getArrays()[0].data)
+    data = n.array(g.getArrays()[0].data)
+    print data.shape
+    t = Texture(filename=out, data=data.squeeze())
     t.write()
 
 # Brainvisa function
 def giftiToTex(filename, output):
     g = gifti.loadImage(filename)
-    t = Texture(filename=output, data=g.getArrays()[0].data)
+    data = n.array(g.getArrays()[0].data).squeeze()
+    t = Texture(filename=output, data=data)
     t.write()
 
 def usage():
