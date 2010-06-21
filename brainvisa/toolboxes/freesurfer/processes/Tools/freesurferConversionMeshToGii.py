@@ -1,4 +1,5 @@
 from neuroProcesses import *
+from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
 name = '04 Conversion of Freesurfer meshes to Gifti format'
 userlevel = 2
@@ -24,11 +25,11 @@ def initialization(self):
 def execution(self, context):
   context.write('Convert meshes in Freesurfer fromat to Gifti format.')
   context.write('mris_convert %s %s'%(self.Pial.fullPath(),self.PialGifti.fullPath()))
-  context.system( 'mris_convert', self.Pial.fullPath(), self.PialGifti.fullPath())
+  launchFreesurferCommand( context, self.Pial.get('_database'), 'mris_convert', self.Pial.fullPath(), self.PialGifti.fullPath())
   context.write('mris_convert %s %s'%(self.White.fullPath(),self.WhiteGifti.fullPath()))
-  context.system( 'mris_convert', self.White.fullPath(), self.WhiteGifti.fullPath())
+  launchFreesurferCommand( context, self.White.get('_database'),  'mris_convert', self.White.fullPath(), self.WhiteGifti.fullPath())
   context.write('mris_convert %s %s'%(self.SphereReg.fullPath(),self.SphereRegGifti.fullPath()))
-  context.system( 'mris_convert', self.SphereReg.fullPath(), self.SphereRegGifti.fullPath())
+  launchFreesurferCommand( context, self.SphereReg.get('_database'),  'mris_convert', self.SphereReg.fullPath(), self.SphereRegGifti.fullPath())
   
 
 

@@ -14,10 +14,10 @@ def initialization(self):
   self.linkParameters('NiiAnatImage', 'AnatImage')
   
 def execution(self, context):
-  launchFreesurferCommand(context, self.AnatImage.get('_database'),
-                          'mri_convert',
-                          self.AnatImage.fullPath(),
-                          self.NiiAnatImage.fullPath())
+  launchFreesurferCommand( context, self.AnatImage.get('_database'),
+                           'mri_convert',
+                           self.AnatImage.fullPath(),
+                           self.NiiAnatImage.fullPath() )
   
   context.system('python', '-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiAnatImage.fullPath()))
 

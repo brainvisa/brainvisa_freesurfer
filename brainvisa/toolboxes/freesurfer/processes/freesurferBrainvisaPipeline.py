@@ -51,24 +51,24 @@ signature = Signature(
 
 def initialization( self ):
   self.linkParameters( 'leftPial', 'anat' )
-  self.linkParameters( 'leftWhite', 'anat' )
-  self.linkParameters( 'leftSphereReg', 'anat' )
-  self.linkParameters( 'leftThickness', 'anat' )
+  #self.linkParameters( 'leftWhite', 'anat' )
+  #self.linkParameters( 'leftSphereReg', 'anat' )
+  #self.linkParameters( 'leftThickness', 'anat' )
   self.linkParameters( 'leftCurv', 'anat' )
-  self.linkParameters( 'leftAvgCurv', 'anat' )
-  self.linkParameters( 'leftCurvPial', 'anat' )
-  self.linkParameters( 'leftGyri', 'anat' )
-  self.linkParameters( 'leftSulciGyri', 'anat' )
+  #self.linkParameters( 'leftAvgCurv', 'anat' )
+  #self.linkParameters( 'leftCurvPial', 'anat' )
+  #self.linkParameters( 'leftGyri', 'anat' )
+  #self.linkParameters( 'leftSulciGyri', 'anat' )
 
   self.linkParameters( 'rightPial', 'anat' )
-  self.linkParameters( 'rightWhite', 'anat' )
-  self.linkParameters( 'rightSphereReg', 'anat' )
-  self.linkParameters( 'rightThickness', 'anat' )
+  #self.linkParameters( 'rightWhite', 'anat' )
+  #self.linkParameters( 'rightSphereReg', 'anat' )
+  #self.linkParameters( 'rightThickness', 'anat' )
   self.linkParameters( 'rightCurv', 'anat' )
-  self.linkParameters( 'rightAvgCurv', 'anat' )
-  self.linkParameters( 'rightCurvPial', 'anat' )
-  self.linkParameters( 'rightGyri', 'anat' )
-  self.linkParameters( 'rightSulciGyri', 'anat' )
+  #self.linkParameters( 'rightAvgCurv', 'anat' )
+  #self.linkParameters( 'rightCurvPial', 'anat' )
+  #self.linkParameters( 'rightGyri', 'anat' )
+  #self.linkParameters( 'rightSulciGyri', 'anat' )
 
   #self.linkParameters( 'bv_anat', 'leftPial' )
   #self.linkParameters( 'bv_anat', 'rightPial' )
@@ -78,155 +78,169 @@ def initialization( self ):
   eNode.addChild('BfreesurferAnatToNii',
                  ProcessExecutionNode('freesurferAnatToNii',
                                       optional=1))
-  eNode.addLink('BfreesurferAnatToNii.AnatImage', 'anat')
+  eNode.addDoubleLink('BfreesurferAnatToNii.AnatImage', 'anat')
   # 4
   eNode.addChild('LfreesurferConversionMeshToGii',
                  ProcessExecutionNode('freesurferConversionMeshToGii',
                                       optional=1))
-  eNode.addLink('LfreesurferConversionMeshToGii.Pial', 'leftPial')
+  eNode.addDoubleLink('LfreesurferConversionMeshToGii.Pial', 'leftPial')
+  eNode.addDoubleLink('LfreesurferConversionMeshToGii.White', 'leftWhite')
+  eNode.addDoubleLink('LfreesurferConversionMeshToGii.SphereReg', 'leftSphereReg')
   eNode.addChild('RfreesurferConversionMeshToGii',
                  ProcessExecutionNode('freesurferConversionMeshToGii',
                                       optional=1))
-  eNode.addLink('RfreesurferConversionMeshToGii.Pial', 'rightPial')
+  eNode.addDoubleLink('RfreesurferConversionMeshToGii.Pial', 'rightPial')
+  eNode.addDoubleLink('RfreesurferConversionMeshToGii.White', 'rightWhite')
+  eNode.addDoubleLink('RfreesurferConversionMeshToGii.SphereReg', 'rightSphereReg')
   # 5
   eNode.addChild('LfreesurferConversionGiiMeshToAims',
                 ProcessExecutionNode('freesurferConversionGiiMeshToAims',
                                      optional=1))
-  eNode.addLink('LfreesurferConversionGiiMeshToAims.PialGifti',
+  eNode.addDoubleLink('LfreesurferConversionGiiMeshToAims.PialGifti',
                 'LfreesurferConversionMeshToGii.PialGifti')
   eNode.addChild('RfreesurferConversionGiiMeshToAims',
                 ProcessExecutionNode('freesurferConversionGiiMeshToAims',
                                      optional=1))
-  eNode.addLink('RfreesurferConversionGiiMeshToAims.PialGifti',
+  eNode.addDoubleLink('RfreesurferConversionGiiMeshToAims.PialGifti',
                 'RfreesurferConversionMeshToGii.PialGifti')
   # 6
   eNode.addChild('LfreesurferIsinComputing',
                  ProcessExecutionNode('freesurferIsinComputing',
                                       optional=1))
-  eNode.addLink('LfreesurferIsinComputing.SphereRegMesh',
+  eNode.addDoubleLink('LfreesurferIsinComputing.SphereRegMesh',
                  'LfreesurferConversionMeshToGii.SphereRegGifti')
   eNode.addChild('RfreesurferIsinComputing',
                  ProcessExecutionNode('freesurferIsinComputing',
                                       optional=1))
-  eNode.addLink('RfreesurferIsinComputing.SphereRegMesh',
+  eNode.addDoubleLink('RfreesurferIsinComputing.SphereRegMesh',
                  'RfreesurferConversionMeshToGii.SphereRegGifti')
   # 7
   eNode.addChild('LfreesurferMeshResampling',
                  ProcessExecutionNode('freesurferMeshResampling',
                                       optional=1))
-  eNode.addLink('LfreesurferMeshResampling.PialMesh',
+  eNode.addDoubleLink('LfreesurferMeshResampling.PialMesh',
                 'LfreesurferConversionGiiMeshToAims.PialMesh')
   eNode.addChild('RfreesurferMeshResampling',
                  ProcessExecutionNode('freesurferMeshResampling',
                                       optional=1))
-  eNode.addLink('RfreesurferMeshResampling.PialMesh',
+  eNode.addDoubleLink('RfreesurferMeshResampling.PialMesh',
                 'RfreesurferConversionGiiMeshToAims.PialMesh')
   # 8
   eNode.addChild('LfreesurferMessToAimsRef',
                  ProcessExecutionNode('freesurferMessToAimsRef',
                                       optional=1))
-  eNode.addLink('LfreesurferMessToAimsRef.ResampledPialMesh',
+  eNode.addDoubleLink('LfreesurferMessToAimsRef.ResampledPialMesh',
                 'LfreesurferMeshResampling.ResampledPialMesh')
   eNode.addChild('RfreesurferMessToAimsRef',
                  ProcessExecutionNode('freesurferMessToAimsRef',
                                       optional=1))
-  eNode.addLink('RfreesurferMessToAimsRef.ResampledPialMesh',
+  eNode.addDoubleLink('RfreesurferMessToAimsRef.ResampledPialMesh',
                 'RfreesurferMeshResampling.ResampledPialMesh')
   # 9
 #  eNode.addChild('LfreesurferLabelAsciiConvert',
 #                 ProcessExecutionNode('freesurferLabelAsciiConvert',
 #                                      optional=1))
-#  eNode.addLink('LfreesurferLabelAsciiConvert.Gyri', 'leftGyri')
+#  eNode.addDoubleLink('LfreesurferLabelAsciiConvert.Gyri', 'leftGyri')
 #  eNode.addChild('RfreesurferLabelAsciiConvert',
 #                 ProcessExecutionNode('freesurferLabelAsciiConvert',
 #                                      optional=1))
-#  eNode.addLink('RfreesurferLabelAsciiConvert.Gyri', 'rightGyri')
+#  eNode.addDoubleLink('RfreesurferLabelAsciiConvert.Gyri', 'rightGyri')
   # 10
 #  eNode.addChild('LfreesurferLabelToTex',
 #                 ProcessExecutionNode('freesurferLabelToTex',
 #                                      optional=1))
-#  eNode.addLink('LfreesurferLabelToTex.WhiteMesh',
+#  eNode.addDoubleLink('LfreesurferLabelToTex.WhiteMesh',
 #                'LfreesurferConversionGiiMeshToAims.WhiteMesh')
 #  eNode.addChild('RfreesurferLabelToTex',
 #                 ProcessExecutionNode('freesurferLabelToTex',
 #                                      optional=1))
-#  eNode.addLink('RfreesurferLabelToTex.WhiteMesh',
+#  eNode.addDoubleLink('RfreesurferLabelToTex.WhiteMesh',
 #                'RfreesurferConversionGiiMeshToAims.WhiteMesh')
   # 9/10
   eNode.addChild('LfreesurferLabelToAimsTexture',
                  ProcessExecutionNode('freesurferLabelToAimsTexture',
                                      optional=1))
-  eNode.addLink('LfreesurferLabelToAimsTexture.WhiteMesh',
-                'LfreesurferConversionGiiMeshToAims.WhiteMesh')
+  eNode.addDoubleLink('LfreesurferLabelToAimsTexture.WhiteMesh',
+                      'LfreesurferConversionGiiMeshToAims.WhiteMesh')
+  eNode.addDoubleLink('LfreesurferLabelToAimsTexture.Gyri', 'leftGyri')
+  eNode.addDoubleLink('LfreesurferLabelToAimsTexture.SulciGyri', 'leftSulciGyri')
   eNode.addChild('RfreesurferLabelToAimsTexture',
                  ProcessExecutionNode('freesurferLabelToAimsTexture',
                                      optional=1))
-  eNode.addLink('RfreesurferLabelToAimsTexture.WhiteMesh',
-                'RfreesurferConversionGiiMeshToAims.WhiteMesh')
+  eNode.addDoubleLink('RfreesurferLabelToAimsTexture.WhiteMesh',
+                      'RfreesurferConversionGiiMeshToAims.WhiteMesh')
+  eNode.addDoubleLink('RfreesurferLabelToAimsTexture.Gyri', 'rightGyri')
+  eNode.addDoubleLink('RfreesurferLabelToAimsTexture.SulciGyri', 'rightSulciGyri')
   # 11
   eNode.addChild('LfreesurferResampleLabels',
                  ProcessExecutionNode('freesurferResampleLabels',
                                      optional=1))
-  eNode.addLink('LfreesurferResampleLabels.WhiteMesh',
+  eNode.addDoubleLink('LfreesurferResampleLabels.WhiteMesh',
                 'LfreesurferConversionGiiMeshToAims.WhiteMesh')
   eNode.addChild('RfreesurferResampleLabels',
                  ProcessExecutionNode('freesurferResampleLabels',
                                      optional=1))
-  eNode.addLink('RfreesurferResampleLabels.WhiteMesh',
+  eNode.addDoubleLink('RfreesurferResampleLabels.WhiteMesh',
                 'RfreesurferConversionGiiMeshToAims.WhiteMesh')
   # 12
   eNode.addChild('LfreesurferTexturesToGii',
                  ProcessExecutionNode('freesurferTexturesToGii',
                                       optional=1))
-  eNode.addLink('LfreesurferTexturesToGii.Curv', 'leftCurv')
+  eNode.addDoubleLink('LfreesurferTexturesToGii.Curv', 'leftCurv')
+  eNode.addDoubleLink('LfreesurferTexturesToGii.Thickness', 'leftThickness')
+  eNode.addDoubleLink('LfreesurferTexturesToGii.AvgCurv', 'leftAvgCurv')
+  eNode.addDoubleLink('LfreesurferTexturesToGii.CurvPial', 'leftCurvPial')
   eNode.addChild('RfreesurferTexturesToGii',
                  ProcessExecutionNode('freesurferTexturesToGii',
                                       optional=1))
-  eNode.addLink('RfreesurferTexturesToGii.Curv', 'rightCurv')
+  eNode.addDoubleLink('RfreesurferTexturesToGii.Curv', 'rightCurv')
+  eNode.addDoubleLink('RfreesurferTexturesToGii.Thickness', 'rightThickness')
+  eNode.addDoubleLink('RfreesurferTexturesToGii.AvgCurv', 'rightAvgCurv')
+  eNode.addDoubleLink('RfreesurferTexturesToGii.CurvPial', 'rightCurvPial')
   # 13
   eNode.addChild('LfreesurferGiiTexturesToAims',
                  ProcessExecutionNode('freesurferGiiTexturesToAims',
                                       optional=1))
-  eNode.addLink('LfreesurferGiiTexturesToAims.GiftiCurv',
+  eNode.addDoubleLink('LfreesurferGiiTexturesToAims.GiftiCurv',
                 'LfreesurferTexturesToGii.GiftiCurv')
   eNode.addChild('RfreesurferGiiTexturesToAims',
                  ProcessExecutionNode('freesurferGiiTexturesToAims',
                                       optional=1))
-  eNode.addLink('RfreesurferGiiTexturesToAims.GiftiCurv',
+  eNode.addDoubleLink('RfreesurferGiiTexturesToAims.GiftiCurv',
                 'RfreesurferTexturesToGii.GiftiCurv')
   # 14
   eNode.addChild('LfreesurferResamplingDataTextures',
                  ProcessExecutionNode('freesurferResamplingDataTextures',
                                       optional=1))
-  eNode.addLink('LfreesurferResamplingDataTextures.OriginalMesh',
+  eNode.addDoubleLink('LfreesurferResamplingDataTextures.OriginalMesh',
                 'LfreesurferMessToAimsRef.AimsWhite')
   eNode.addChild('RfreesurferResamplingDataTextures',
                  ProcessExecutionNode('freesurferResamplingDataTextures',
                                       optional=1))
-  eNode.addLink('RfreesurferResamplingDataTextures.OriginalMesh',
+  eNode.addDoubleLink('RfreesurferResamplingDataTextures.OriginalMesh',
                 'RfreesurferMessToAimsRef.AimsWhite')
   # 15
   eNode.addChild('LfreesurferInflate',
                  ProcessExecutionNode('freesurferInflate',
                                       optional=1))
-  eNode.addLink('LfreesurferInflate.White',
+  eNode.addDoubleLink('LfreesurferInflate.White',
                 'LfreesurferMessToAimsRef.AimsWhite')
   eNode.addChild('RfreesurferInflate',
                  ProcessExecutionNode('freesurferInflate',
                                       optional=1))
-  eNode.addLink('RfreesurferInflate.White',
+  eNode.addDoubleLink('RfreesurferInflate.White',
                 'RfreesurferMessToAimsRef.AimsWhite')
   # 16
   eNode.addChild('freesurferConcatenate',
                  ProcessExecutionNode('freesurferConcatenate',
                                       optional=1))
-  eNode.addLink('freesurferConcatenate.LeftWhite',
+  eNode.addDoubleLink('freesurferConcatenate.LeftWhite',
                 'LfreesurferMessToAimsRef.AimsWhite')
   # 17
   eNode.addChild('freesurferConcatTex',
                  ProcessExecutionNode('freesurferConcatTex',
                                       optional=1))
-  eNode.addLink('freesurferConcatTex.LeftGyri',
+  eNode.addDoubleLink('freesurferConcatTex.LeftGyri',
                 'LfreesurferResampleLabels.ResampledGyri')
   # 18
   self.setExecutionNode( eNode )
