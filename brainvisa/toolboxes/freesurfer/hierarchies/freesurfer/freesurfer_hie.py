@@ -35,7 +35,11 @@
 hierarchy = (
   SetWeakAttr( 'database', '%f' ),
   SetContent(
-    'group_analysis',
+    'database_fso', SetType( 'Database description page' ),
+    'database_settings', SetType( 'Database settings' ),
+    '*', SetType('Database Cache file'),
+    
+        'group_analysis',
     SetContent(
     '{freesurfer_group_of_subjects}',
     SetContent(
