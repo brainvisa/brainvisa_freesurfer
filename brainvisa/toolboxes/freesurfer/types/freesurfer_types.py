@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Copyright CEA and IFR 49 (2000-2005)
 #
 #  This software and supporting documentation were developed by
@@ -34,10 +35,8 @@
 
 include('builtin')
 
-FileType( 'Any Type', None, [] )
-
 FileType( 'FreesurferType', 'Any Type')
-FileType( 'FreesurferMesh', 'Any Type')
+FileType( 'FreesurferMesh', 'Mesh')
 
 # Group
 FileType( 'Freesurfer Group definition', 'XML parameters', 'XML')

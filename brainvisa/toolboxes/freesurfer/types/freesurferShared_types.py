@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Copyright CEA and IFR 49 (2000-2005)
 #
 #  This software and supporting documentation were developed by
@@ -32,5 +33,6 @@
 # The fact that you are presently reading this means that you have had
 # knowledge of the CeCILL license version 2 and that you accept its terms.
 
-FileType( 'Any Type', None, [] )
-FileType( 'Ico Mesh', 'Any Type' )
+include('builtin')
+
+FileType( 'Ico Mesh', 'Mesh' )
