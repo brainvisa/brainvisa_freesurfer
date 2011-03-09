@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import math, sys, time
 from numpy import *
 import numpy
@@ -10,8 +11,11 @@ def remeshAims( unstructured, target ):
     mi = aims.MeshInterpoler( unstructured, target )
     mi.project()
     isiN = mi.projectedTriangles()[0].arraydata()
-    inin = zip( mi.projectedTriCoord1()[0].arraydata(),
-        mi.projectedTriCoord2().arraydata() )
+    c1 = mi.projectedTriCoord1()[0].arraydata()
+    c2 = mi.projectedTriCoord2()[0].arraydata()
+    isin = numpy.hstack( ( numpy.reshape( c1, [ len(c1), 1 ] ),
+        numpy.reshape( c2, [ len(c2), 1 ] ) ) )
+    print isin[0]
     return isiN, isin
 
 

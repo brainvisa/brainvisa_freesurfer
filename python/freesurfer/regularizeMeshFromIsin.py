@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from numpy import array, vstack
 import math
 from soma import aims, aimsalgo
@@ -6,23 +7,30 @@ from soma import aims, aimsalgo
 from numpy.linalg import pinv
 import pickle
 import sys
+import numpy
 
 def regularizeMeshAims(brainMesh, isinFile,
                        output_mesh, realsphere='./ico100_7.mesh'):
     brain = aims.read(brainMesh)
     sphere = aims.read(realsphere)
+    print 'totor 1'
     isin = pickle.load(open(isinFile))
-    triangles = aims.TimeTexture_FLOAT()
+    triangles = aims.TimeTexture_U32()
     triangles[0].assign( isin[0] )
+    aisin = numpy.array( isin[1] )
     coords1 = aims.TimeTexture_FLOAT()
-    coords1[0].assign( isin[1][:,0] )
+    coords1[0].assign( aisin[:,0] )
     coords2 = aims.TimeTexture_FLOAT()
-    coords2[0].assign( isin[1][:,1] )
+    coords2[0].assign( aisin[:,1] )
     coords3 = aims.TimeTexture_FLOAT()
-    coords3[0].assign( isin[1][:,2] )
-    mi = aims.MeshInterpoler( brain, output_mesh )
+    coords3[0].assign( 1. - aisin[:,0] - aisin[:,1] )
+    print 'coords shape: ', triangles[0].size(), coords1[0].size(), coords2[0].size(), coords3[0].size()
+    mi = aims.MeshInterpoler( brain, sphere )
     mi.reloadProjectionParams( triangles, coords1, coords2, coords3 )
+    print 'params reloaded:', mi.projectedTriangles()[0].size(), mi.projectedTriCoord1()[0].size(), mi.projectedTriCoord2()[0].size(), mi.projectedTriCoord3()[0].size()
+    print sphere.vertex().size()
     sphere2 = mi.resampleMesh( brain )
+    print >> sys.sterr, 'write:', output_mesh
     aims.write(sphere2, output_mesh)
 
 
