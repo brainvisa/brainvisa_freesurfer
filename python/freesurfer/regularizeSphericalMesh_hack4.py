@@ -4,7 +4,16 @@ import numpy
 #import gifti
 import pickle
 #from gifti import GiftiIntentCode
-from soma import aims
+from soma import aims, aimsalgo
+
+def remeshAims( unstructured, target ):
+    mi = aims.MeshInterpoler( unstructured, target )
+    mi.project()
+    isiN = mi.projectedTriangles()[0].arraydata()
+    inin = zip( mi.projectedTriCoord1()[0].arraydata(),
+        mi.projectedTriCoord2().arraydata() )
+    return isiN, isin
+
 
 def remesh(unstructured, target):
 	T = time.time()
@@ -146,6 +155,7 @@ def regularizeSphericalMesh(srcmesh, isinFile, dstmesh='./ico100_7.mesh'):
 	dstgii = aims.read(dstmesh)
 	print "computing transformation"
 	remesh_params = remesh(srcgii, dstgii)
+	#remesh_params = remeshAims(srcgii, dstgii)
 	f = open(isinFile,'w')
 	pickle.dump(remesh_params, f)
 	f.close()

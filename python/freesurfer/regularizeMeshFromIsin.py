@@ -1,11 +1,30 @@
 from numpy import array, vstack
 import math
-from soma import aims
+from soma import aims, aimsalgo
 #from tio import Texture
 #import nipy.neurospin.graph as FG
 from numpy.linalg import pinv
 import pickle
 import sys
+
+def regularizeMeshAims(brainMesh, isinFile,
+                       output_mesh, realsphere='./ico100_7.mesh'):
+    brain = aims.read(brainMesh)
+    sphere = aims.read(realsphere)
+    isin = pickle.load(open(isinFile))
+    triangles = aims.TimeTexture_FLOAT()
+    triangles[0].assign( isin[0] )
+    coords1 = aims.TimeTexture_FLOAT()
+    coords1[0].assign( isin[1][:,0] )
+    coords2 = aims.TimeTexture_FLOAT()
+    coords2[0].assign( isin[1][:,1] )
+    coords3 = aims.TimeTexture_FLOAT()
+    coords3[0].assign( isin[1][:,2] )
+    mi = aims.MeshInterpoler( brain, output_mesh )
+    mi.reloadProjectionParams( triangles, coords1, coords2, coords3 )
+    sphere2 = mi.resampleMesh( brain )
+    aims.write(sphere2, output_mesh)
+
 
 def regularizeMesh(brainMesh, isinFile,
                    output_mesh, realsphere='./ico100_7.mesh'):
@@ -46,5 +65,6 @@ if __name__ == "__main__":
     print "Real sphere mesh:", sys.argv[3]
     print "Output mesh:", sys.argv[4]
     regularizeMesh(sys.argv[1], sys.argv[2], sys.argv[4], sys.argv[3])
+    #regularizeMeshAims(sys.argv[1], sys.argv[2], sys.argv[4], sys.argv[3])
 
 
