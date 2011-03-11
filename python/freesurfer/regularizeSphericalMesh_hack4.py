@@ -10,12 +10,13 @@ from soma import aims, aimsalgo
 def remeshAims( unstructured, target ):
     mi = aims.MeshInterpoler( unstructured, target )
     mi.project()
-    isiN = mi.projectedTriangles()[0].arraydata()
-    c1 = mi.projectedTriCoord1()[0].arraydata()
-    c2 = mi.projectedTriCoord2()[0].arraydata()
+    t = mi.projectedTriangles()
+    tc1, tc2 = mi.projectedTriCoord1(), mi.projectedTriCoord2()
+    isiN = numpy.array( t[0].arraydata() )
+    c1 = numpy.array( tc1[0].arraydata() )
+    c2 = numpy.array( tc2[0].arraydata() )
     isin = numpy.hstack( ( numpy.reshape( c1, [ len(c1), 1 ] ),
         numpy.reshape( c2, [ len(c2), 1 ] ) ) )
-    print isin[0]
     return isiN, isin
 
 
@@ -153,13 +154,11 @@ def regularizeSphericalMesh(srcmesh, isinFile, dstmesh='./ico100_7.mesh'):
 	print "source", srcmesh
 	print "isin", isinFile
 	print "destination", dstmesh
-	#srcgii = gifti.loadImage(srcmesh)
-	#dstgii = gifti.loadImage(dstmesh)
 	srcgii = aims.read(srcmesh)
 	dstgii = aims.read(dstmesh)
 	print "computing transformation"
-	remesh_params = remesh(srcgii, dstgii)
-	#remesh_params = remeshAims(srcgii, dstgii)
+	#remesh_params = remesh(srcgii, dstgii)
+	remesh_params = remeshAims(srcgii, dstgii)
 	f = open(isinFile,'w')
 	pickle.dump(remesh_params, f)
 	f.close()

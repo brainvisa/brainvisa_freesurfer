@@ -23,8 +23,9 @@ signature = Signature(
 def initialization(self):
   self.triangles_number = 40000
   self.initial_icosphere_triangles_number = 200000
-  self.linkParameters('RightTemplateMesh', 'LeftTemplateMesh', 'undecimated_icosphere')
-  self.setOptional( 'LeftDensityTexture', 'RightDensityTexture' )
+  self.linkParameters( 'RightTemplateMesh', 'LeftTemplateMesh' )
+  self.setOptional( 'LeftDensityTexture', 'RightDensityTexture',
+    'undecimated_icosphere' )
   self.linkParameters('RightDensityTexture', 'LeftDensityTexture')
 
 
@@ -42,7 +43,7 @@ def execution( self, context ):
   for side, outmesh, outtex in zip( sides, outtmeshes, outdtex ):
     # get a full icosphere
     icosphere = aims.SurfaceGenerator.icosphere( [ 0, 0, 0 ], 100., icopolynum )
-    if undecimatedWritten and self.undecimated_icosphere is not None:
+    if not undecimatedWritten and self.undecimated_icosphere is not None:
       aims.write( icosphere, self.undecimated_icosphere.fullPath() )
       undecimatedWritten = True
     context.write( 'using an initial icosphere of', len( icosphere.polygon() ),
