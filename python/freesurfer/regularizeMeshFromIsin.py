@@ -14,18 +14,11 @@ def regularizeMeshAims(brainMesh, isinFile,
     brain = aims.read(brainMesh)
     sphere = aims.read(realsphere)
     isin = pickle.load(open(isinFile))
-    triangles = aims.TimeTexture_U32()
-    triangles[0].assign( isin[0] )
-    triangles[0].arraydata()[:] = isin[0] # due to a bug somewhere...
+    triangles = aims.TimeTexture( isin[0] )
     aisin = numpy.array( isin[1] )
-    coords1 = aims.TimeTexture_FLOAT()
-    coords1[0].assign( aisin[:,0] )
-    coords1[0].arraydata()[:] = aisin[:,0] # due to a bug somewhere...
-    coords2 = aims.TimeTexture_FLOAT()
-    coords2[0].assign( aisin[:,1] )
-    coords2[0].arraydata()[:] = aisin[:,1] # due to a bug somewhere...
-    coords3 = aims.TimeTexture_FLOAT()
-    coords3[0].assign( 1. - aisin[:,0] - aisin[:,1] )
+    coords1 = aims.TimeTexture( aisin[:,0] )
+    coords2 = aims.TimeTexture( aisin[:,1] )
+    coords3 = aims.TimeTexture( 1. - aisin[:,0] - aisin[:,1] )
     mi = aims.MeshInterpoler( brain, sphere )
     mi.reloadProjectionParams( triangles, coords1, coords2, coords3 )
     t = mi.projectedTriangles()
@@ -71,7 +64,7 @@ if __name__ == "__main__":
     print "Isin file:", sys.argv[2]
     print "Real sphere mesh:", sys.argv[3]
     print "Output mesh:", sys.argv[4]
-    regularizeMesh(sys.argv[1], sys.argv[2], sys.argv[4], sys.argv[3])
-    #regularizeMeshAims(sys.argv[1], sys.argv[2], sys.argv[4], sys.argv[3])
+    #regularizeMesh(sys.argv[1], sys.argv[2], sys.argv[4], sys.argv[3])
+    regularizeMeshAims(sys.argv[1], sys.argv[2], sys.argv[4], sys.argv[3])
 
 
