@@ -21,7 +21,6 @@ def regularizeMeshAims(brainMesh, isinFile,
     coords3 = aims.TimeTexture( 1. - aisin[:,0] - aisin[:,1] )
     mi = aims.MeshInterpoler( brain, sphere )
     mi.reloadProjectionParams( triangles, coords1, coords2, coords3 )
-    t = mi.projectedTriangles()
     sphere2 = mi.resampleMesh( brain )
     aims.write(sphere2, output_mesh)
 
