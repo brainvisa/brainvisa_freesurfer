@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Copyright CEA and IFR 49 (2000-2005)
 #
 #  This software and supporting documentation were developed by
@@ -32,6 +33,7 @@
 # The fact that you are presently reading this means that you have had
 # knowledge of the CeCILL license version 2 and that you accept its terms.
 
+
 hierarchy = (
   SetWeakAttr( 'database', '%f' ),
   SetContent(
@@ -55,6 +57,12 @@ hierarchy = (
     '{subject}', SetFileNameStrongAttribute('subject'), SetType('Subject'),
     SetContent(
       'mri', SetContent(
+        'orig', SetType( 'T1 FreesurferAnat' ),
+        'nu', SetType( 'Nu FreesurferAnat' ),
+        'ribbon', SetType( 'Ribbon Freesurfer' ),
+        'transforms', SetContent(
+          'talairach.auto', SetType('Talairach Auto Freesurfer'),
+        ),
         'orig', SetContent(
           '001', SetType('FreesurferAnat'),
         ),

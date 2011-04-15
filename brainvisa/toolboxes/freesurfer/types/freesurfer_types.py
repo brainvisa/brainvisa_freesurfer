@@ -45,6 +45,12 @@ FileType( 'AverageBrainWhite', 'FreesurferMesh')
 # Mri / Orig
 FileType( 'FreesurferAnat', 'FreesurferType')
 
+#Mri
+FileType( 'T1 FreesurferAnat', 'Raw T1 MRI' )
+FileType( 'Nu FreesurferAnat', 'T1 MRI Bias Corrected' )
+FileType( 'Ribbon Freesurfer', 'Voronoi Diagram' )
+FileType( 'Talairach Auto Freesurfer', 'MINC transformation matrix' )
+
 # Surf
 FileType( 'SphereReg', 'FreesurferMesh')
 FileType( 'BaseFreesurferType', 'FreesurferType')
