@@ -37,6 +37,7 @@ include('builtin')
 
 FileType( 'FreesurferType', 'Any Type')
 FileType( 'FreesurferMesh', 'Mesh')
+#FileType( 'FreesurferAnaT', 'FreesurferMGZ')
 
 # Group
 FileType( 'Freesurfer Group definition', 'XML parameters', 'XML')
@@ -45,11 +46,13 @@ FileType( 'AverageBrainWhite', 'FreesurferMesh')
 # Mri / Orig
 FileType( 'FreesurferAnat', 'FreesurferType')
 
+
 #Mri
-FileType( 'T1 FreesurferAnat', 'Raw T1 MRI' )
-FileType( 'Nu FreesurferAnat', 'T1 MRI Bias Corrected' )
-FileType( 'Ribbon Freesurfer', 'Voronoi Diagram' )
+FileType( 'T1 FreesurferAnat', 'FreesurferType')
+FileType( 'Nu FreesurferAnat', 'FreesurferType' )
+FileType( 'Ribbon Freesurfer', 'FreesurferType' )
 FileType( 'Talairach Auto Freesurfer', 'MINC transformation matrix' )
+
 
 # Surf
 FileType( 'SphereReg', 'FreesurferMesh')
