@@ -113,8 +113,10 @@ def execution( self, context ):
   context.runProcess( 'ImportT1MRI', input=tmp_ori, output=self.T1_output)
   #context.runProcess( 'ImportGenericVolume', self.nu_image , self.Biais_corrected_output)
   context.runProcess( 'ImportData', tmp_nu , self.Biais_corrected_output)
+  context.system( 'AimsFileConvert', '-i',  self.Biais_corrected_output, '-o', self.Biais_corrected_output, '-t', 'S16')
   #context.runProcess( 'ImportGenericVolume', tmp_ribbon , self.Voronoi_output)
   context.runProcess( 'ImportData', tmp_ribbon , self.Voronoi_output)
+  context.system( 'AimsFileConvert', '-i',  self.Voronoi_output, '-o', self.Voronoi_output, '-t', 'S16')
   
   
   #Convert .xfm and create ACPC file
