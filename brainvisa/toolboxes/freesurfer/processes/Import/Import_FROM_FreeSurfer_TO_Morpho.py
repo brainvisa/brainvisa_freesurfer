@@ -72,6 +72,10 @@ signature=Signature(
   'Rgrey_white_output', WriteDiskItem( 'Right Grey White Mask', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
   'Lgrey_white_output', WriteDiskItem( 'Left Grey White Mask', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
   # 'input_spm_orientation', Choice( '0', '1', ), 
+  'left_hemi_cortex', WriteDiskItem( 'Left CSF+GREY Mask',
+      'Aims writable volume formats' ),
+  'right_hemi_cortex', WriteDiskItem( 'Right CSF+GREY Mask',
+      'Aims writable volume formats' ),
 )
 
 
@@ -90,6 +94,8 @@ def initialization( self ):
   self.linkParameters( 'histo_analysis', 'Biais_corrected_output' )
   self.linkParameters( 'Rgrey_white_output', 'T1_output' )
   self.linkParameters( 'Lgrey_white_output', 'T1_output' )
+  self.linkParameters( 'left_hemi_cortex', 'Biais_corrected_output' )
+  self.linkParameters( 'right_hemi_cortex', 'Biais_corrected_output' )
 
 
 
@@ -179,4 +185,27 @@ def execution( self, context ):
   context.write("Launch VipGreyStatFromClassif to generate a histo analysis file")
   context.system( 'VipGreyStatFromClassif', '-i',  self.Biais_corrected_output, '-c', VipGreyStatClassif, '-a', self.histo_analysis, '-g', '100', '-w','200')
 
+  Lbraing = context.temporary( 'GIS Image' )
+  context.system( 'VipMask', '-i', self.Lgrey_white_output, "-m",
+                  self.Voronoi_output, "-o", Lbraing, "-w",
+                  "t", "-l", "2" )
+  han = context.temporary( 'Histo Analysis' )
+  open( han.fullPath(), 'w' ).write( \
+  '''sequence: unknown
+csf: mean: -1 sigma: -1
+gray: mean: 100 sigma: 1
+white: mean: 200 sigma: 1
+''' )
+
+  context.system( "VipHomotopicSnake", "-i", Lbraing, "-h",
+                  han, "-o", self.left_hemi_cortex, "-w", "t" )
+  trManager.copyReferential(self.Biais_corrected_output, self.left_hemi_cortex)
+
+  Rbraing = context.temporary( 'GIS Image' )
+  context.system( "VipMask", "-i", self.Rgrey_white_output, "-m",
+                  self.Voronoi_output, "-o", Rbraing,
+                  "-w", "t", "-l", "1" )
+  context.system( "VipHomotopicSnake", "-i", Rbraing, "-h",
+                  han, "-o", self.right_hemi_cortex, "-w", "t" )
+  trManager.copyReferential(self.Biais_corrected_output, self.right_hemi_cortex)
 
