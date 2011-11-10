@@ -37,8 +37,15 @@ from soma import aims
 import numpy
 import registration
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
+import threading 
 
 
+
+def delInMainThread( lock, thing ):
+  lock.acquire()
+  del thing
+  print 'deleted'
+  lock.release()
 
 name = 'Import From FreeSurfer to T1 pipeline'
 roles = ('importer',)
@@ -76,6 +83,7 @@ signature=Signature(
       'Aims writable volume formats' ),
   'right_hemi_cortex', WriteDiskItem( 'Right CSF+GREY Mask',
       'Aims writable volume formats' ),
+  'use_t1pipeline', Choice( ( 'graphically', 0 ), ( 'in batch', 1 ), ( 'don\'t use it', 2 ) )
 )
 
 
@@ -100,6 +108,11 @@ def initialization( self ):
 
 
 def execution( self, context ):
+  #a rajouter ?
+  #pi, p = context.getProgressInfo( self )
+  #pi.children = [ None ] * 3
+  #nsteps = 2
+  
   #Temporary files
   tmp_ori = context.temporary( 'NIFTI-1 image', 'Raw T1 MRI'  )
   tmp_nu = context.temporary( 'NIFTI-1 image', 'T1 MRI Bias Corrected'  )
@@ -108,6 +121,7 @@ def execution( self, context ):
   
   #Convert the three volumes from .mgz to .nii with Freesurfer
   context.write("Convert .mgz to .nii with FreeSurfer")
+  
   launchFreesurferCommand(context, database, 'mri_convert', '-i', self.T1_orig, '-o', tmp_ori)
   launchFreesurferCommand(context, database, 'mri_convert', '-i', self.nu_image, '-o', tmp_nu)
   launchFreesurferCommand(context, database, 'mri_convert', '-i', self.ribbon_image, '-o', tmp_ribbon)
@@ -179,28 +193,48 @@ def execution( self, context ):
 
   #Launch VipT1BiaisCorrection
   context.write("Launch T1BiasCorrection")
+  
+  #On doit indiquer les valeurs de write_hfiltered et write_wridges à no maintenant ?
   context.runProcess( 'T1BiasCorrection', mri=self.T1_output, mri_corrected=self.Biais_corrected_output, Commissure_coordinates=self.Talairach_transform)
+
+
+  #Move T1BiasCorrection to T1BiasCorrectionGeneral
+  #context.runProcess( 'T1BiasCorrectionGeneral', mri=self.T1_output, mri_corrected=self.Biais_corrected_output, write_hfiltered='no', write_wridges='no', white_ridges="/volatile/TMP/toto.nii", Commissure_coordinates=self.Talairach_transform)
+  #context.runProcess( 'T1BiasCorrectionGeneral', mri=self.T1_output, mri_corrected=self.Biais_corrected_output, write_hfiltered='no', hfiltered = "/volatile/TMP/toto.nii", write_wridges='no', white_ridges="/volatile/TMP/toto1.nii")
+
+    #self.write_hfiltered = 'no'
+    #self.write_wridges = 'no'
+    #self.hfiltered = None
+    #self.white_ridges = None
+
 
   #Launch VipGreyStatFromClassif to generate a histo analysis file
   context.write("Launch VipGreyStatFromClassif to generate a histo analysis file")
   context.system( 'VipGreyStatFromClassif', '-i',  self.Biais_corrected_output, '-c', VipGreyStatClassif, '-a', self.histo_analysis, '-g', '100', '-w','200')
 
+
+
+  #Histo temporaire pour segmentaiton du cortex
+  han = context.temporary( 'Histo Analysis' )
+  open( han.fullPath(), 'w' ).write( \
+  '''sequence: unknown
+  csf: mean: -1 sigma: -1
+  gray: mean: 100 sigma: 1
+  white: mean: 200 sigma: 1
+  ''' )
+  
+  
+  #Segmentation du cortex : Lcortex_subject
   Lbraing = context.temporary( 'GIS Image' )
   context.system( 'VipMask', '-i', self.Lgrey_white_output, "-m",
                   self.Voronoi_output, "-o", Lbraing, "-w",
                   "t", "-l", "2" )
-  han = context.temporary( 'Histo Analysis' )
-  open( han.fullPath(), 'w' ).write( \
-  '''sequence: unknown
-csf: mean: -1 sigma: -1
-gray: mean: 100 sigma: 1
-white: mean: 200 sigma: 1
-''' )
-
   context.system( "VipHomotopicSnake", "-i", Lbraing, "-h",
                   han, "-o", self.left_hemi_cortex, "-w", "t" )
   trManager.copyReferential(self.Biais_corrected_output, self.left_hemi_cortex)
-
+  
+  
+  #Segmentation du cortex : Rcortex_subject
   Rbraing = context.temporary( 'GIS Image' )
   context.system( "VipMask", "-i", self.Rgrey_white_output, "-m",
                   self.Voronoi_output, "-o", Rbraing,
@@ -208,4 +242,73 @@ white: mean: 200 sigma: 1
   context.system( "VipHomotopicSnake", "-i", Rbraing, "-h",
                   han, "-o", self.right_hemi_cortex, "-w", "t" )
   trManager.copyReferential(self.Biais_corrected_output, self.right_hemi_cortex)
+
+
+  #Launch Morphologist
+  t1pipeline = getProcessInstance( 'morphologist' )
+  t1pipeline.mri = self.T1_output
+  
+  t1pipeline.mri_corrected = self.Biais_corrected_output
+  
+  enode = t1pipeline.executionNode()
+  
+  #npi, proc = context.getProgressInfo( enode, parent=pi )
+  
+  #context.progress()
+
+
+  context.write( _t_( 'Now run the last part of the regular T1 pipeline.' ) )
+  
+  
+  enode.PrepareSubject.setSelected( False )
+  enode.BiasCorrection.setSelected( False )
+  enode.HistoAnalysis.setSelected( False )
+  enode.BrainSegmentation.setSelected( False )
+  enode.SplitBrain.setSelected( False )
+  enode.TalairachTransformation.setSelected( False )
+  
+  enode.GreyWhiteInterface.setSelected( True )
+  enode.GreyWhiteInterface.GreyWhiteInterface.setSelected( False )
+  enode.GreyWhiteInterface.cortex_image.setSelected( False )
+  enode.GreyWhiteInterface.GreyWhiteMesh.GreyWhiteInterface05.setSelected( True )
+
+  enode.HemispheresMesh.setSelected( True )
+  enode.HeadMesh.setSelected( True )
+  enode.CorticalFoldsGraph.setSelected( True )
+  # we _must_ build 3.1 graphs because 3.0 overwrite cortex images.
+  enode.CorticalFoldsGraph.CorticalFoldsGraph_3_1.setSelected( True )
+  
+
+
+  if self.use_t1pipeline == 0:
+    pv = mainThreadActions().call( ProcessView, t1pipeline )
+    r = context.ask( 'run the pipeline, then click here', 'OK' )
+    print '***************** OK clicked'
+    mainThreadActions().call( pv.close )
+    lock = threading.Lock()
+    lock.acquire()
+    mainThreadActions().push( delInMainThread, lock, pv )
+    del pv
+    print '*** DELETED'
+    lock.release()
+    print 'lock released'
+    
+    
+  elif self.use_t1pipeline == 1:
+    context.runProcess( t1pipeline )
+  else:
+    context.write( '<font color="#a0a060">' \
+      + _t_( 'Pipeline not run since the "use_t1pipeline" parameter ' \
+        'prevents it' ) + '</font>')
+  
+  context.write( 'OK')
+  #context.progress( 10, nsteps, self )
+  
+
+
+
+
+
+
+
 
