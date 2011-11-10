@@ -44,12 +44,13 @@ import threading
 def delInMainThread( lock, thing ):
   lock.acquire()
   del thing
-  print 'deleted'
+  #print 'deleted'
   lock.release()
 
 name = 'Import From FreeSurfer to T1 pipeline'
 roles = ('importer',)
 userLevel = 2
+
 
 def validation():
   try:
@@ -139,6 +140,28 @@ def execution( self, context ):
   context.system( 'AimsFileConvert', '-i',  self.Voronoi_output, '-o', self.Voronoi_output, '-t', 'S16')
   
   
+  ##Convert .xfm and create ACPC file
+  ##mniReferential = trManager.referential(registration.talairachMNIReferentialId )
+  #if self.Talairach_Auto is not None:
+    ## import / convert transformation to MNI space
+    ##context.write( _t_( 'import transformation' ) )
+    #context.write("Convert Talairach_Auto into AC-PC File")
+    #m = []
+    #i = 0
+    #rl = False 
+    #for l in open( self.Talairach_Auto.fullPath() ).xreadlines():
+      #print l
+      #if l.startswith( 'Linear_Transform =' ):
+	#rl = True
+      #elif rl:
+	#if l.endswith( ';\n' ):
+	  #l = l[:-2]
+	  #print l
+	#m.append( [ float(x) for x in l.split() ] )
+	#i += 1
+	#if i == 3:
+	  #break
+
   #Convert .xfm and create ACPC file
   #mniReferential = trManager.referential(registration.talairachMNIReferentialId )
   if self.Talairach_Auto is not None:
@@ -151,16 +174,18 @@ def execution( self, context ):
     for l in open( self.Talairach_Auto.fullPath() ).xreadlines():
       print l
       if l.startswith( 'Linear_Transform =' ):
-	rl = True
+        rl = True
       elif rl:
-	if l.endswith( ';\n' ):
-	  l = l[:-2]
-	  print l
-	m.append( [ float(x) for x in l.split() ] )
-	i += 1
-	if i == 3:
-	  break
-
+        if l.endswith( ';\n' ):
+          l = l[:-2]
+          print l
+        m.append( [ float(x) for x in l.split() ] )
+        i += 1
+        if i == 3:
+          break
+            
+            
+            
     talairach_freesrufer = aims.AffineTransformation3d( numpy.array( m  + [[ 0., 0., 0., 1. ]] ) )
     print shfjGlobals.aimsVolumeAttributes( tmp_ori)[ 'transformations' ]
     header_nifti =  aims.AffineTransformation3d(shfjGlobals.aimsVolumeAttributes(tmp_ori)[ 'transformations' ][-1] )
@@ -292,8 +317,6 @@ def execution( self, context ):
     #print '*** DELETED'
     lock.release()
     #print 'lock released'
-    
-    
   elif self.use_t1pipeline == 1:
     context.runProcess( t1pipeline )
   else:
