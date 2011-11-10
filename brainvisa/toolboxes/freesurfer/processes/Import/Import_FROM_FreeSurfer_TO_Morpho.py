@@ -283,15 +283,15 @@ def execution( self, context ):
   if self.use_t1pipeline == 0:
     pv = mainThreadActions().call( ProcessView, t1pipeline )
     r = context.ask( 'run the pipeline, then click here', 'OK' )
-    print '***************** OK clicked'
+    #print '***************** OK clicked'
     mainThreadActions().call( pv.close )
     lock = threading.Lock()
     lock.acquire()
     mainThreadActions().push( delInMainThread, lock, pv )
     del pv
-    print '*** DELETED'
+    #print '*** DELETED'
     lock.release()
-    print 'lock released'
+    #print 'lock released'
     
     
   elif self.use_t1pipeline == 1:
