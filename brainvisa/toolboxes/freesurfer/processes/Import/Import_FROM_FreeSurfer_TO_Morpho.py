@@ -83,8 +83,8 @@ signature=Signature(
   'left_hemi_cortex', WriteDiskItem( 'Left CSF+GREY Mask',
       'Aims writable volume formats' ),
   'right_hemi_cortex', WriteDiskItem( 'Right CSF+GREY Mask',
-      'Aims writable volume formats' ),
-  'use_t1pipeline', Choice( ( 'graphically', 0 ), ( 'in batch', 1 ), ( 'don\'t use it', 2 ) )
+      'Aims writable volume formats' ), 
+  'use_t1pipeline', Choice( ( 'graphically', 0 ), ( 'in batch', 1 ), ( 'don\'t use it', 2 ) )   
 )
 
 
@@ -105,6 +105,7 @@ def initialization( self ):
   self.linkParameters( 'Lgrey_white_output', 'T1_output' )
   self.linkParameters( 'left_hemi_cortex', 'Biais_corrected_output' )
   self.linkParameters( 'right_hemi_cortex', 'Biais_corrected_output' )
+  
 
 
 
@@ -302,7 +303,7 @@ def execution( self, context ):
   enode.CorticalFoldsGraph.setSelected( True )
   # we _must_ build 3.1 graphs because 3.0 overwrite cortex images.
   enode.CorticalFoldsGraph.CorticalFoldsGraph_3_1.setSelected( True )
-  
+
 
 
   if self.use_t1pipeline == 0:
