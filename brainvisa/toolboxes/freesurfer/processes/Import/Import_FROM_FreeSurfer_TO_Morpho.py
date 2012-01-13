@@ -32,24 +32,49 @@
 # knowledge of the CeCILL license version 2 and that you accept its terms.
 from neuroProcesses import *
 from brainvisa import shelltools
+from brainvisa.validation import ValidationError
 import shfjGlobals, stat
 from soma import aims
 import numpy
 import registration
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 import threading 
+from soma.wip.application.api import Application
 
 
 
-def delInMainThread( lock, thing ):
+configuration = Application().configuration
+
+
+ 
+def validation():
+  pass
+   #if ( not configuration.SPM.spm8_standalone_command \
+       #or not configuration.SPM.spm8_standalone_mcr_path ) \
+       #or not distutils.spawn.find_executable( \
+          #configuration.matlab.executable ):
+          #raise ValidationError( 'SPM or matlab is not found' )
+
+
+def delInMainThread( lock, thing ): #Pour pb de communiation avec Anatomist
   lock.acquire()
   del thing
   #print 'deleted'
   lock.release()
 
+
+
 name = 'Import From FreeSurfer to T1 pipeline'
 roles = ('importer',)
-userLevel = 2
+userLevel = 1
+
+
+print "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+print "******* TEST PARAM SPM ******** " + configuration.SPM.spm5_path
+#print "test params freesurfer : " + configuration.FreeSurfer.freesurfer_home_path
+if configuration.freesurfer.freesurfer_home_path is not None :
+  print "test params freesurfer : " + configuration.freesurfer.freesurfer_home_path
+print "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
 
 
 def validation():
@@ -110,11 +135,19 @@ def initialization( self ):
 
 
 def execution( self, context ):
-  #a rajouter ?
+ 
+  #print "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  #print "******* TEST PARAM SPM ******** " + configuration.SPM.spm5_path
+  #print "test params freesurfer : " + configuration.FreeSurfer.freesurfer_home_path
+  #if configuration.freesurfer.freesurfer_home_path is not None :
+  #  print "test params freesurfer : " + configuration.freesurfer.freesurfer_home_path
+  #print "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+ 
+ #a rajouter ?
   #pi, p = context.getProgressInfo( self )
   #pi.children = [ None ] * 3
   #nsteps = 2
-  
+
   #Temporary files
   tmp_ori = context.temporary( 'NIFTI-1 image', 'Raw T1 MRI'  )
   tmp_nu = context.temporary( 'NIFTI-1 image', 'T1 MRI Bias Corrected'  )
@@ -123,7 +156,7 @@ def execution( self, context ):
   
   #Convert the three volumes from .mgz to .nii with Freesurfer
   context.write("Convert .mgz to .nii with FreeSurfer")
-  
+
   launchFreesurferCommand(context, database, 'mri_convert', '-i', self.T1_orig, '-o', tmp_ori)
   launchFreesurferCommand(context, database, 'mri_convert', '-i', self.nu_image, '-o', tmp_nu)
   launchFreesurferCommand(context, database, 'mri_convert', '-i', self.ribbon_image, '-o', tmp_ribbon)
@@ -220,6 +253,7 @@ def execution( self, context ):
   #Launch VipT1BiaisCorrection
   context.write("Launch T1BiasCorrection")
   
+
   #On doit indiquer les valeurs de write_hfiltered et write_wridges à no maintenant ?
   context.runProcess( 'T1BiasCorrection', mri=self.T1_output, mri_corrected=self.Biais_corrected_output, Commissure_coordinates=self.Talairach_transform)
 
@@ -238,7 +272,7 @@ def execution( self, context ):
   context.write("Launch VipGreyStatFromClassif to generate a histo analysis file")
   context.system( 'VipGreyStatFromClassif', '-i',  self.Biais_corrected_output, '-c', VipGreyStatClassif, '-a', self.histo_analysis, '-g', '100', '-w','200')
 
-
+  
 
   #Histo temporaire pour segmentaiton du cortex
   han = context.temporary( 'Histo Analysis' )
@@ -268,6 +302,19 @@ def execution( self, context ):
   context.system( "VipHomotopicSnake", "-i", Rbraing, "-h",
                   han, "-o", self.right_hemi_cortex, "-w", "t" )
   trManager.copyReferential(self.Biais_corrected_output, self.right_hemi_cortex)
+
+
+
+  #Lock Data
+  self.T1_output.lockData()
+  self.Biais_corrected_output.lockData()
+  self.histo_analysis.lockData()
+  self.Voronoi_output.lockData()
+  self.Rgrey_white_output.lockData()
+  self.Lgrey_white_output.lockData()
+  self.left_hemi_cortex.lockData()
+  self.right_hemi_cortex.lockData()
+ 
 
 
   #Launch Morphologist
