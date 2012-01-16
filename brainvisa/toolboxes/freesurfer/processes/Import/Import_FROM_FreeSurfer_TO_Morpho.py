@@ -69,11 +69,11 @@ roles = ('importer',)
 userLevel = 1
 
 
-# FIXME: uncomment the following when FS config is OK.
 #print "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+#print "******* TEST PARAM SPM ******** " + configuration.SPM.spm5_path
 #print "test params freesurfer : " + configuration.FreeSurfer.freesurfer_home_path
 #if configuration.freesurfer.freesurfer_home_path is not None :
-  #print "test params freesurfer : " + configuration.freesurfer.freesurfer_home_path
+#  print "test params freesurfer : " + configuration.freesurfer.freesurfer_home_path
 #print "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
 
 
