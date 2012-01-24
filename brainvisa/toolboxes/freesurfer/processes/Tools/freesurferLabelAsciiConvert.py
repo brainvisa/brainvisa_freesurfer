@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from neuroProcesses import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
@@ -15,8 +16,6 @@ def initialization(self):
   
 def execution(self, context):
   context.write('Resample brain mesh.')
-  #context.write(neuroHierarchy.databases.findDiskItem(_type='FreesurferParcellationPath', subject='s12069'))
-  #neuroHierarchy.databases.update(['/volatile/alan/freesurfertest/s12069/label'])
   if self.Gyri.get('side')=='left':
     side = 'lh'
   elif self.Gyri.get('side')=='right':
