@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="minf_2.0">
+<d>
+  <d name="en">
+    <xhtml name="short">Here a process to import some data from FreeSurfer into a brainvisa database and to run the Morphologist pipeline. 
+   
+    
+</xhtml>
+    <d name="parameters">
+      <xhtml name="Voronoi_output">Output for brainvisa ontology</xhtml>
+      <xhtml name="normalization_transformation">Output for brainvisa ontology</xhtml>
+      <xhtml name="T1_output">Output for brainvisa ontology</xhtml>
+      <xhtml name="use_t1pipeline"/>
+      <xhtml name="ribbon_image">Input comes from freesurfer ontology, which corresponds to {directory_data_fressurfer}/{subject}/mri/ribbon.mgz</xhtml>
+      <xhtml name="T1_orig">Input comes from freesurfer ontology, which corresponds to {directory_data_fressurfer}/{subject}/mri/ori.mgz
+</xhtml>
+      <xhtml name="Rgrey_white_output">Output for brainvisa ontology</xhtml>
+      <xhtml name="Biais_corrected_output">Output for brainvisa ontology</xhtml>
+      <xhtml name="Lgrey_white_output">Output for brainvisa ontology</xhtml>
+      <xhtml name="Talairach_transform">Output for brainvisa ontology</xhtml>
+      <xhtml name="Talairach_Auto">Input comes from freesurfer ontology, which corresponds to {directory_data_fressurfer}/{subject}/mri/transforms/talairach.auto</xhtml>
+      <xhtml name="histo_analysis">Output for brainvisa ontologie. </xhtml>
+    </d>
+    <xhtml name="long"><p>By using this process, you can import some data processed with FreeSurfer and use mainly the computed  segmentation and perhaps handly corrected. In fact, this segmentation can be computed with Morphologist pipeline but if you are already processed this kind of step, this process import your segementation and do not rewrite the file by Morphologist. So that, the Morphologist pipeline wiil be launch with some steps unselected. To be more accurate, the pipeline will start to "GreyWhite Surface" step. After that the pipeline will compute some meshes, and especially extract cortical fold graph to drive an idenfication of sulci at the end (with other process).</p>
+
+<p>
+In order to use this process, you need to set 2 databases:
+<ul>
+    <li>one with freesurfer ontology (to import from the freesurfer organisation)</li>
+    <li>one with brainvisa ontology (to manage new outputs in the brainvisa organisation)</li>
+</ul>
+For more explanations, please refer to <a href="categories/freesurfer/category_documentation.html">documentation of the freesurfer toolbox</a> . </p></xhtml>
+  </d>
+</d>
+</minf>

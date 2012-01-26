@@ -37,7 +37,8 @@ import shfjGlobals, stat
 from soma import aims
 import numpy
 import registration
-from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
+#from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
+from freesurfer.brainvisaFreesurfer import *
 import threading 
 from soma.wip.application.api import Application
 
@@ -47,8 +48,8 @@ configuration = Application().configuration
 
 
  
-def validation():
-  pass
+#def validation():
+#  pass
    #if ( not configuration.SPM.spm8_standalone_command \
        #or not configuration.SPM.spm8_standalone_mcr_path ) \
        #or not distutils.spawn.find_executable( \
@@ -69,14 +70,6 @@ roles = ('importer',)
 userLevel = 1
 
 
-#print "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
-#print "******* TEST PARAM SPM ******** " + configuration.SPM.spm5_path
-#print "test params freesurfer : " + configuration.FreeSurfer.freesurfer_home_path
-#if configuration.freesurfer.freesurfer_home_path is not None :
-#  print "test params freesurfer : " + configuration.freesurfer.freesurfer_home_path
-#print "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
-
-
 def validation():
   try:
     from soma import aims
@@ -87,10 +80,19 @@ def validation():
   except:
     raise ValidationError( 'numpy module not available' )
 
+  testFreesurferCommand()
+  #try: 
+    #testFreesurferCommand(self.context)
+    #print "retour testFreesurferCommand : "
+    #print retour
+  #except:
+    #raise ValidationError( 'FreeSurfer not available' )
+  
 
 signature=Signature(
   'T1_orig', ReadDiskItem( 'T1 FreesurferAnat',  'FreesurferMGZ' ),
-  'nu_image', ReadDiskItem( 'Nu FreesurferAnat', 'FreesurferMGZ' ),
+  #seems no mandatory ?
+  #'nu_image', ReadDiskItem( 'Nu FreesurferAnat', 'FreesurferMGZ' ),
   'ribbon_image', ReadDiskItem( 'Ribbon Freesurfer', 'FreesurferMGZ' ),
   'Talairach_Auto', ReadDiskItem( 'Talairach Auto Freesurfer', 'MINC transformation matrix' ), 
  # 'normalized_referential', ReadDiskItem( 'Referential', 'Referential'),
@@ -105,10 +107,11 @@ signature=Signature(
   'Rgrey_white_output', WriteDiskItem( 'Right Grey White Mask', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
   'Lgrey_white_output', WriteDiskItem( 'Left Grey White Mask', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
   # 'input_spm_orientation', Choice( '0', '1', ), 
-  'left_hemi_cortex', WriteDiskItem( 'Left CSF+GREY Mask',
-      'Aims writable volume formats' ),
-  'right_hemi_cortex', WriteDiskItem( 'Right CSF+GREY Mask',
-      'Aims writable volume formats' ), 
+  #Obsolete with Morphologist 2012
+  #'left_hemi_cortex', WriteDiskItem( 'Left CSF+GREY Mask',
+  #    'Aims writable volume formats' ),
+  #'right_hemi_cortex', WriteDiskItem( 'Right CSF+GREY Mask',
+  #    'Aims writable volume formats' ), 
   'use_t1pipeline', Choice( ( 'graphically', 0 ), ( 'in batch', 1 ), ( 'don\'t use it', 2 ) )   
 )
 
@@ -116,33 +119,27 @@ signature=Signature(
 def initialization( self ):
   #self.signature[ 'output' ].browseUserLevel = 3
   #self.signature[ 'nu input' ].databaseUserLevel = 2
-  self.linkParameters( 'nu_image', 'T1_orig' )
+  #self.linkParameters( 'nu_image', 'T1_orig' )
   self.linkParameters( 'ribbon_image', 'T1_orig' )
   self.linkParameters( 'Talairach_Auto', 'T1_orig' )
-  self.linkParameters( 'Biais_corrected_output', 'T1_output' )
+  #self.linkParameters( 'Biais_corrected_output', 'T1_output' )
   #self.linkParameters( 'white_ridges', 'T1_output' )
   #self.linkParameters( 'hfiltered', 'T1_output' )
   self.linkParameters( 'Voronoi_output', 'T1_output' )
   self.linkParameters( 'normalization_transformation', 'T1_output' )
   self.linkParameters( 'Talairach_transform', 'T1_output' )
   self.linkParameters( 'histo_analysis', 'Biais_corrected_output' )
+  #self.linkParameters( 'histo_analysis', 'T1_output' )
   self.linkParameters( 'Rgrey_white_output', 'T1_output' )
   self.linkParameters( 'Lgrey_white_output', 'T1_output' )
-  self.linkParameters( 'left_hemi_cortex', 'Biais_corrected_output' )
-  self.linkParameters( 'right_hemi_cortex', 'Biais_corrected_output' )
+  #Obsolete with Morphologist 2012
+  #self.linkParameters( 'left_hemi_cortex', 'Biais_corrected_output' )
+  #self.linkParameters( 'right_hemi_cortex', 'Biais_corrected_output' )
   
 
 
 
 def execution( self, context ):
- 
-  #print "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  #print "******* TEST PARAM SPM ******** " + configuration.SPM.spm5_path
-  #print "test params freesurfer : " + configuration.FreeSurfer.freesurfer_home_path
-  #if configuration.freesurfer.freesurfer_home_path is not None :
-  #  print "test params freesurfer : " + configuration.freesurfer.freesurfer_home_path
-  #print "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
- 
  #a rajouter ?
   #pi, p = context.getProgressInfo( self )
   #pi.children = [ None ] * 3
@@ -150,15 +147,22 @@ def execution( self, context ):
 
   #Temporary files
   tmp_ori = context.temporary( 'NIFTI-1 image', 'Raw T1 MRI'  )
-  tmp_nu = context.temporary( 'NIFTI-1 image', 'T1 MRI Bias Corrected'  )
+  #tmp_nu = context.temporary( 'NIFTI-1 image', 'T1 MRI Bias Corrected'  )
   tmp_ribbon = context.temporary( 'NIFTI-1 image', 'Voronoi Diagram'  )
   database = self.T1_orig.get('_database')
   
   #Convert the three volumes from .mgz to .nii with Freesurfer
   context.write("Convert .mgz to .nii with FreeSurfer")
 
+  #correct line
   launchFreesurferCommand(context, database, 'mri_convert', '-i', self.T1_orig, '-o', tmp_ori)
-  launchFreesurferCommand(context, database, 'mri_convert', '-i', self.nu_image, '-o', tmp_nu)
+  
+  #launchFreesurfer(context, database, 'mri_convert', '-i', self.T1_orig, '-o', tmp_ori)
+  #cmd = 'freesurfer | mri_convert -i /volatile/TMP/test_config_freesurfer/T1.mgz -o /volatile/TMP/test_config_freesurfer/result_test.nii'
+  #context.system(cmd)
+  
+  
+  #launchFreesurferCommand(context, database, 'mri_convert', '-i', self.nu_image, '-o', tmp_nu)
   launchFreesurferCommand(context, database, 'mri_convert', '-i', self.ribbon_image, '-o', tmp_ribbon)
 
   #Import Data 
@@ -167,8 +171,10 @@ def execution( self, context ):
   #context.runProcess( 'ImportT1MRI', input=self.T1_orig, output=self.T1_output)
   context.runProcess( 'ImportT1MRI', input=tmp_ori, output=self.T1_output)
   #context.runProcess( 'ImportGenericVolume', self.nu_image , self.Biais_corrected_output)
-  context.runProcess( 'ImportData', tmp_nu , self.Biais_corrected_output)
-  context.system( 'AimsFileConvert', '-i',  self.Biais_corrected_output, '-o', self.Biais_corrected_output, '-t', 'S16')
+  
+  #context.runProcess( 'ImportData', tmp_nu , self.Biais_corrected_output)
+  #context.system( 'AimsFileConvert', '-i',  self.Biais_corrected_output, '-o', self.Biais_corrected_output, '-t', 'S16')
+  
   #context.runProcess( 'ImportGenericVolume', tmp_ribbon , self.Voronoi_output)
   context.runProcess( 'ImportData', tmp_ribbon , self.Voronoi_output)
   context.system( 'AimsFileConvert', '-i',  self.Voronoi_output, '-o', self.Voronoi_output, '-t', 'S16')
@@ -221,7 +227,7 @@ def execution( self, context ):
             
             
     talairach_freesrufer = aims.AffineTransformation3d( numpy.array( m  + [[ 0., 0., 0., 1. ]] ) )
-    print shfjGlobals.aimsVolumeAttributes( tmp_ori)[ 'transformations' ]
+    #print shfjGlobals.aimsVolumeAttributes( tmp_ori)[ 'transformations' ]
     header_nifti =  aims.AffineTransformation3d(shfjGlobals.aimsVolumeAttributes(tmp_ori)[ 'transformations' ][-1] )
     t1aims2mni = talairach_freesrufer * header_nifti
     aims.write( t1aims2mni, self.normalization_transformation.fullPath() )
@@ -263,46 +269,51 @@ def execution( self, context ):
 
   
 
-  #Histo temporaire pour segmentaiton du cortex
-  han = context.temporary( 'Histo Analysis' )
-  open( han.fullPath(), 'w' ).write( \
-  '''sequence: unknown
-  csf: mean: -1 sigma: -1
-  gray: mean: 100 sigma: 1
-  white: mean: 200 sigma: 1
-  ''' )
+  #Obsolete with Morphologist 2012
+  ##Histo temporaire pour segmentaiton du cortex
+  #han = context.temporary( 'Histo Analysis' )
+  #open( han.fullPath(), 'w' ).write( \
+  #'''sequence: unknown
+  #csf: mean: -1 sigma: -1
+  #gray: mean: 100 sigma: 1
+  #white: mean: 200 sigma: 1
+  #''' )
   
   
-  #Segmentation du cortex : Lcortex_subject
-  Lbraing = context.temporary( 'GIS Image' )
-  context.system( 'VipMask', '-i', self.Lgrey_white_output, "-m",
-                  self.Voronoi_output, "-o", Lbraing, "-w",
-                  "t", "-l", "2" )
-  context.system( "VipHomotopicSnake", "-i", Lbraing, "-h",
-                  han, "-o", self.left_hemi_cortex, "-w", "t" )
-  trManager.copyReferential(self.Biais_corrected_output, self.left_hemi_cortex)
+  #Obsolete with Morphologist 2012
+  ##Segmentation du cortex : Lcortex_subject
+  #Lbraing = context.temporary( 'GIS Image' )
+  #context.system( 'VipMask', '-i', self.Lgrey_white_output, "-m",
+                  #self.Voronoi_output, "-o", Lbraing, "-w",
+                  #"t", "-l", "2" )
+  #context.system( "VipHomotopicSnake", "-i", Lbraing, "-h",
+                  #han, "-o", self.left_hemi_cortex, "-w", "t" )
+  #trManager.copyReferential(self.Biais_corrected_output, self.left_hemi_cortex)
   
   
-  #Segmentation du cortex : Rcortex_subject
-  Rbraing = context.temporary( 'GIS Image' )
-  context.system( "VipMask", "-i", self.Rgrey_white_output, "-m",
-                  self.Voronoi_output, "-o", Rbraing,
-                  "-w", "t", "-l", "1" )
-  context.system( "VipHomotopicSnake", "-i", Rbraing, "-h",
-                  han, "-o", self.right_hemi_cortex, "-w", "t" )
-  trManager.copyReferential(self.Biais_corrected_output, self.right_hemi_cortex)
-
+  ##Segmentation du cortex : Rcortex_subject
+  #Rbraing = context.temporary( 'GIS Image' )
+  #context.system( "VipMask", "-i", self.Rgrey_white_output, "-m",
+                  #self.Voronoi_output, "-o", Rbraing,
+                  #"-w", "t", "-l", "1" )
+  #context.system( "VipHomotopicSnake", "-i", Rbraing, "-h",
+                  #han, "-o", self.right_hemi_cortex, "-w", "t" )
+  #trManager.copyReferential(self.Biais_corrected_output, self.right_hemi_cortex)
+  #end of obsolete with Morphologist 2012
 
 
   #Lock Data
   self.T1_output.lockData()
   self.Biais_corrected_output.lockData()
+  self.normalization_transformation.lockData()
+  self.Talairach_transform.lockData() 
   self.histo_analysis.lockData()
   self.Voronoi_output.lockData()
   self.Rgrey_white_output.lockData()
   self.Lgrey_white_output.lockData()
-  self.left_hemi_cortex.lockData()
-  self.right_hemi_cortex.lockData()
+  #Obsolete with Morphologist 2012
+  #self.left_hemi_cortex.lockData()
+  #self.right_hemi_cortex.lockData()
  
 
 
@@ -329,11 +340,15 @@ def execution( self, context ):
   enode.SplitBrain.setSelected( False )
   enode.TalairachTransformation.setSelected( False )
   
-  enode.GreyWhiteInterface.setSelected( True )
-  enode.GreyWhiteInterface.GreyWhiteInterface.setSelected( False )
-  enode.GreyWhiteInterface.cortex_image.setSelected( False )
-  enode.GreyWhiteInterface.GreyWhiteMesh.GreyWhiteInterface05.setSelected( True )
-
+  #enode.GreyWhiteInterface.setSelected( True )
+  #enode.GreyWhiteInterface.GreyWhiteInterface.setSelected( False )
+  #For Morphologist 2012
+  enode.GreyWhiteClassification.setSelected( False )
+  #enode.GreyWhiteInterface.cortex_image.setSelected( False )
+  #enode.GreyWhiteInterface.GreyWhiteMesh.GreyWhiteInterface05.setSelected( True )
+  #For Morphologist 2012
+  enode.GreyWhiteSurface.setSelected( True )
+  
   enode.HemispheresMesh.setSelected( True )
   enode.HeadMesh.setSelected( True )
   enode.CorticalFoldsGraph.setSelected( True )
