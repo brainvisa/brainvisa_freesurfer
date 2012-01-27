@@ -7,20 +7,20 @@
 
 <h2>PRESENTATION</h2>
 
-  <p>Since the 4.2 release of BrainVISA, we propose a new toolbox which allows to make some bridges with the FreeSurfer software.  
+  <p>Since the 4.2 release of BrainVISA, we propose a new toolbox which allows making some bridges with the FreeSurfer software.  
   For the moment, the toolbox will be separate in 2 parts:</p>
   <p>
-  <ul><li>The first part is an import process (advanced user level or number 1, please see in the preferences of BrainVISA), to import some data computed by FreeSurfer which can be used to run Morphologist Pipeline. In few words, from the following files orig.mgz, ribbon.mgz and talairach.auto, you can run the Morphologist Pipeline by using the segmentation brain created with FreeSufer and not computed by Morphologist. So that, you can preserve your segmentation and complete your analysis by launching Morphologist Pipeline in order to obtain some meshes, and especially to extract cortical fold graph then an idenfication of sulci.<p></p></li>
-  <li>The second part is yet in advanced user level (that means under development), which is composed by a set of process/pipeline to run FreeSufer. </li></ul></p>
+  <ul><li>The first part is an import process (advanced user level or number 1, please see in the preferences of BrainVISA), to import some data computed by FreeSurfer which can be used to run Morphologist Pipeline. In few words, from the following files orig.mgz, ribbon.mgz and talairach.auto, you can run the Morphologist Pipeline by using the segmentation brain created with FreeSufer and not computed by Morphologist. So that, you can preserve your segmentation and complete your analysis by launching Morphologist Pipeline in order to obtain some meshes, and especially to extract cortical fold graph then perform an idenfication of sulci.<p></p></li>
+  <li>The second part is yet in advanced user level (level 2, that means under development), which is composed by a set of process/pipeline to run FreeSufer. Those processes are under development, so the using of them can lead to some errors.</li></ul></p>
 
 
 
     <h2>DATABASE</h2>
 <h3>Introduction</h3>  
-<p>This toolbox is a little unusual because you need to use 2 databases: one with a specific ontology for FreeSurfer and the other with the brainvisa ontology. If you work with FreeSurfer, you know that data are organised with a specific order with someting like that :</p>
+<p>This toolbox is a little unusual because you need to use 2 databases: one with a specific ontology for FreeSurfer and the other one with a brainvisa ontology. If you work with FreeSurfer, you know that data are organised with a specific order with someting like that:</p>
 <p><img src="bvimage://org_database_freesurfer.png" /></p>
 
-<p>In the same way, BrainVISA have a specific organisation to store data which is described by an ontology, the brainvisa-3.1.0 ontology. By default, data are always organized with it. But in the case of an interface between FreeSurfer/BrainVISA, you need to know the organisation both software. So that, to use this toolbox, you need at least one database for FreeSurfer and one database for BrainVISA.</p>
+<p>In the same way, BrainVISA have a specific organisation to manage data which is described by an ontology, the brainvisa-3.1.0 ontology. By default, data are always organized with it. But in the case of an interface between FreeSurfer/BrainVISA, you need to know the organisation both software. So that, to use this toolbox, you need at least one database for FreeSurfer and one database for BrainVISA.</p>
 
 
 
@@ -53,18 +53,19 @@
 
 <h2>HOW TO SET FREESURFER</h2>
  <h3>Environment variables</h3> 
- <p>To use FreeSufer, you need to set 2 environment variables:  </p>
+ <p>To use FreeSufer, you have to set 2 environment variables:  </p>
  <ul><li>$SUBJECTS_DIR: path to indicate where is the directory with (analyzed) subjects.</li>
  <li>$FREESURFER_HOME: path to indicate where is installed FreeSurfer.</li></ul>
  
  <p>If those variables are not set, you can use a specific panel in <em>BrainVISA</em> -&gt; <em>Preferences</em> -&gt; <em>FREESURFER</em>.</p>
  
  <p>In order to run FreeSurfer, BrainVISA tries to launch this programm with this order:</p>
- <ul><li>Read values set in bainvisa preferences ( freesurfer_home_path and subjects_dir_path) </li>
- <li>If it doesn't work or if the value are empty, BrainVISA reads value of environment variables of system.</li> 
- <li>Otherwise, try to find an executable</li></ul>
+  <li>Try to find a freesurfer command such as mri_convert, if Freesurfer is already start, then BrainVISA can use directly commands on the system.</li>
+ <ul><li>Otherwise, read values set in bainvisa preferences (freesurfer_home_path and subjects_dir_path).</li>
+ <li>Or, if it doesn't work or if the value are empty, BrainVISA reads values of environment variables of system.</li> 
+ </ul>
 
- <h3>In spite of the trials above, you can't use FreeSurfer, so try a last thing: launch your FreeSurfer environnment in a shell, then launch BrainVISA.</h3> 
+ <h3>In spite of the trials above, you can't use FreeSurfer, so try a last thing: launch your FreeSurfer environnment in a shell, then launch BrainVISA in the same shell.</h3> 
 
 </xhtml>
 
