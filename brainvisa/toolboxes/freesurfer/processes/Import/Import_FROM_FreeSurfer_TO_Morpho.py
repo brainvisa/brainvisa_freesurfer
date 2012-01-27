@@ -71,16 +71,17 @@ userLevel = 1
 
 
 def validation():
-  try:
-    from soma import aims
-  except:
-    raise ValidationError( 'aims module not available' )
-  try:
-    import numpy
-  except:
-    raise ValidationError( 'numpy module not available' )
+  pass
+  #try:
+    #from soma import aims
+  #except:
+    #raise ValidationError( 'aims module not available' )
+  #try:
+    #import numpy
+  #except:
+    #raise ValidationError( 'numpy module not available' )
 
-  testFreesurferCommand()
+  #testFreesurferCommand()
   #try: 
     #testFreesurferCommand(self.context)
     #print "retour testFreesurferCommand : "
@@ -352,7 +353,9 @@ def execution( self, context ):
   enode.HemispheresMesh.setSelected( True )
   enode.HeadMesh.setSelected( True )
   enode.CorticalFoldsGraph.setSelected( True )
-  # we _must_ build 3.1 graphs because 3.0 overwrite cortex images.
+  # we _must_ build 3.1 graphs because 3.0 overwrite cortex images
+  # now we could use 3.0 graph thanks to Morpho 2012 but it seems a good choice to keep 
+  #3.1 even if it is not the default value in Mropho 2012
   enode.CorticalFoldsGraph.CorticalFoldsGraph_3_1.setSelected( True )
 
 
