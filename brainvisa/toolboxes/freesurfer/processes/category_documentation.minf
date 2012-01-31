@@ -11,7 +11,7 @@
   For the moment, the toolbox will be separate in 2 parts:</p>
   <p>
   <ul><li>The first part is an import process (advanced user level or number 1, please see in the preferences of BrainVISA), to import some data computed by FreeSurfer which can be used to run Morphologist Pipeline. In few words, from the following files orig.mgz, ribbon.mgz and talairach.auto, you can run the Morphologist Pipeline by using the segmentation brain created with FreeSufer and not computed by Morphologist. So that, you can preserve your segmentation and complete your analysis by launching Morphologist Pipeline in order to obtain some meshes, and especially to extract cortical fold graph then performs an idenfication of sulci.<p></p></li>
-  <li>The second part is yet in advanced user level (level 2, that means under development), which is composed by a set of process/pipeline to run FreeSufer. Those processes are under development, so the using of them can lead to some errors.</li></ul></p>
+  <li>The second part is yet in expert user level (level 2, that means under development), which is composed by a set of process/pipeline to run FreeSufer. These processes are under development, so the using of them can lead to some errors.</li></ul></p>
 
 
 
@@ -57,7 +57,7 @@
  <ul><li>$SUBJECTS_DIR: path to indicate where is the directory with (analyzed) subjects.</li>
  <li>$FREESURFER_HOME: path to indicate where is installed FreeSurfer.</li></ul>
  
- <p>If those variables are not set, you can use the specific panel in <em>BrainVISA</em> -&gt; <em>Preferences</em> -&gt; <em>FREESURFER</em>.</p>
+ <p>If these variables are not set, you can use the specific panel in <em>BrainVISA</em> -&gt; <em>Preferences</em> -&gt; <em>FREESURFER</em>.</p>
  
  <p>In order to run FreeSurfer, BrainVISA tries to launch this programm with this order:</p>
  <ul>
