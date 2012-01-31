@@ -135,5 +135,4 @@ class FreeSurferConfiguration( ConfigurationGroup ):
     self._subjects_dir_path = None
     self._executable_freesurfer = None
     super( FreeSurferConfiguration, self ).__init__( *args, **kwargs )
-    #self.onAttributeChange( 'spm8_path', self.changeSpm8Path )
     
