@@ -123,7 +123,7 @@ def initialization( self ):
   #self.linkParameters( 'nu_image', 'T1_orig' )
   self.linkParameters( 'ribbon_image', 'T1_orig' )
   self.linkParameters( 'Talairach_Auto', 'T1_orig' )
-  #self.linkParameters( 'Biais_corrected_output', 'T1_output' )
+  self.linkParameters( 'Biais_corrected_output', 'T1_output' )
   #self.linkParameters( 'white_ridges', 'T1_output' )
   #self.linkParameters( 'hfiltered', 'T1_output' )
   self.linkParameters( 'Voronoi_output', 'T1_output' )
