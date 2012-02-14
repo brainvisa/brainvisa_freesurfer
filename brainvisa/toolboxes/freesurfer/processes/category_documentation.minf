@@ -33,7 +33,7 @@
  <li>Click on <em>Add</em> button.</li>
  <li>Select the directory which corresponds at your freesurfer directory.</li>
  <li>Click on <em>expert_settings</em>.</li>
- <li>Select "freesurfer" or type "freesurfeer" if it doesn't appear in the list. It corresponds to the ontology.</li>
+ <li>Select "freesurfer" or type "freesurfer" if it doesn't appear in the list. It corresponds to the ontology.</li>
  <li>Click on OK.</li>
  <li>BrainVISA should open the "Update database process" with the new selected database. Click OK.</li>
  </ul>
