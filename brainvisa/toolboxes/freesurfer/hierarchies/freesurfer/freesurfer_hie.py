@@ -97,6 +97,10 @@ hierarchy = (
                                     SetWeakAttr('side','left'),
         'rh.r.aims.white.inflated', SetType('AimsInflatedWhite'),
                                     SetWeakAttr('side','right'),
+        'lh.r.curv.white.inflated', SetType('AimsInflatedWhiteCurvTex'),
+                                    SetWeakAttr('side','left'),
+        'rh.r.curv.white.inflated', SetType('AimsInflatedWhiteCurvTex'),
+                                    SetWeakAttr('side','right'),
         #
         'lh.avg_curv', SetType('FreesurferAvgCurvType'),
                        SetWeakAttr('side','left'),

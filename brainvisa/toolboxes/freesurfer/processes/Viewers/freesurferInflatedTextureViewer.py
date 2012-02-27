@@ -10,7 +10,7 @@ def validation():
   anatomist.validation()
 
 signature = Signature(
-  'Texture', ReadDiskItem('AimsInflated', 'Texture'),
+  'Texture', ReadDiskItem('AimsInflatedWhiteCurvTex', 'Texture'),
   'WhiteMesh', ReadDiskItem('AimsInflatedWhite', 'MESH mesh', enableConversion=0),
 )
 

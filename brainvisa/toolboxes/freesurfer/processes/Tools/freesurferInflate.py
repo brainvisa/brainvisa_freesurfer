@@ -6,11 +6,10 @@ userlevel = 2
 signature = Signature(
   'White', ReadDiskItem('AimsWhite', 'MESH mesh'),
   'InflatedWhite', WriteDiskItem('AimsInflatedWhite', 'MESH mesh'),
-  'InflatedWhiteCurvTex', WriteDiskItem('AimsInflatedWhite', 'Texture'),
+  'InflatedWhiteCurvTex', WriteDiskItem('AimsInflatedWhiteCurvTex', 'Texture'),
   )
 
 def initialization(self):
-  self.linkParameters('White', 'White')
   self.linkParameters('InflatedWhite', 'White')
   self.linkParameters('InflatedWhiteCurvTex', 'White')
 
