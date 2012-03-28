@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from neuroProcesses import *
 
 name = 'Brainvisa Freesurfer Pipeline Light'
@@ -119,27 +120,27 @@ def initialization( self ):
   eNode.addLink('RfreesurferMeshResampling.Isin',
                 'RfreesurferIsinComputing.Isin')
   # 8
-  eNode.addChild('LfreesurferMessToAimsRef',
-                 ProcessExecutionNode('freesurferMessToAimsRef',
+  eNode.addChild('LfreesurferMeshToAimsRef',
+                 ProcessExecutionNode('freesurferMeshToAimsRef',
                                       optional=1))
-  eNode.addLink('LfreesurferMessToAimsRef.ResampledPialMesh',
+  eNode.addLink('LfreesurferMeshToAimsRef.ResampledPialMesh',
                 'LfreesurferMeshResampling.ResampledPialMesh')
-  eNode.addChild('RfreesurferMessToAimsRef',
-                 ProcessExecutionNode('freesurferMessToAimsRef',
+  eNode.addChild('RfreesurferMeshToAimsRef',
+                 ProcessExecutionNode('freesurferMeshToAimsRef',
                                       optional=1))
-  eNode.addLink('RfreesurferMessToAimsRef.ResampledPialMesh',
+  eNode.addLink('RfreesurferMeshToAimsRef.ResampledPialMesh',
                 'RfreesurferMeshResampling.ResampledPialMesh')
   # 15
   eNode.addChild('LfreesurferInflate',
                  ProcessExecutionNode('freesurferInflate',
                                       optional=1))
   eNode.addLink('LfreesurferInflate.White',
-                'LfreesurferMessToAimsRef.AimsWhite')
+                'LfreesurferMeshToAimsRef.AimsWhite')
   eNode.addChild('RfreesurferInflate',
                  ProcessExecutionNode('freesurferInflate',
                                       optional=1))
   eNode.addLink('RfreesurferInflate.White',
-                'RfreesurferMessToAimsRef.AimsWhite')
+                'RfreesurferMeshToAimsRef.AimsWhite')
   # 18
   self.setExecutionNode( eNode )
 

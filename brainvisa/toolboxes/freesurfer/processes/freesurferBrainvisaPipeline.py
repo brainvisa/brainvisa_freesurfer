@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from neuroProcesses import *
 
 name = 'Brainvisa Freesurfer Pipeline'
@@ -126,15 +127,15 @@ def initialization( self ):
   eNode.addDoubleLink('RfreesurferMeshResampling.PialMesh',
                 'RfreesurferConversionGiiMeshToAims.PialMesh')
   # 8
-  eNode.addChild('LfreesurferMessToAimsRef',
-                 ProcessExecutionNode('freesurferMessToAimsRef',
+  eNode.addChild('LfreesurferMeshToAimsRef',
+                 ProcessExecutionNode('freesurferMeshToAimsRef',
                                       optional=1))
-  eNode.addDoubleLink('LfreesurferMessToAimsRef.ResampledPialMesh',
+  eNode.addDoubleLink('LfreesurferMeshToAimsRef.ResampledPialMesh',
                 'LfreesurferMeshResampling.ResampledPialMesh')
-  eNode.addChild('RfreesurferMessToAimsRef',
-                 ProcessExecutionNode('freesurferMessToAimsRef',
+  eNode.addChild('RfreesurferMeshToAimsRef',
+                 ProcessExecutionNode('freesurferMeshToAimsRef',
                                       optional=1))
-  eNode.addDoubleLink('RfreesurferMessToAimsRef.ResampledPialMesh',
+  eNode.addDoubleLink('RfreesurferMeshToAimsRef.ResampledPialMesh',
                 'RfreesurferMeshResampling.ResampledPialMesh')
   # 9
 #  eNode.addChild('LfreesurferLabelAsciiConvert',
@@ -213,29 +214,29 @@ def initialization( self ):
                  ProcessExecutionNode('freesurferResamplingDataTextures',
                                       optional=1))
   eNode.addDoubleLink('LfreesurferResamplingDataTextures.OriginalMesh',
-                'LfreesurferMessToAimsRef.AimsWhite')
+                'LfreesurferMeshToAimsRef.AimsWhite')
   eNode.addChild('RfreesurferResamplingDataTextures',
                  ProcessExecutionNode('freesurferResamplingDataTextures',
                                       optional=1))
   eNode.addDoubleLink('RfreesurferResamplingDataTextures.OriginalMesh',
-                'RfreesurferMessToAimsRef.AimsWhite')
+                'RfreesurferMeshToAimsRef.AimsWhite')
   # 15
   eNode.addChild('LfreesurferInflate',
                  ProcessExecutionNode('freesurferInflate',
                                       optional=1))
   eNode.addDoubleLink('LfreesurferInflate.White',
-                'LfreesurferMessToAimsRef.AimsWhite')
+                'LfreesurferMeshToAimsRef.AimsWhite')
   eNode.addChild('RfreesurferInflate',
                  ProcessExecutionNode('freesurferInflate',
                                       optional=1))
   eNode.addDoubleLink('RfreesurferInflate.White',
-                'RfreesurferMessToAimsRef.AimsWhite')
+                'RfreesurferMeshToAimsRef.AimsWhite')
   # 16
   eNode.addChild('freesurferConcatenate',
                  ProcessExecutionNode('freesurferConcatenate',
                                       optional=1))
   eNode.addDoubleLink('freesurferConcatenate.LeftWhite',
-                'LfreesurferMessToAimsRef.AimsWhite')
+                'LfreesurferMeshToAimsRef.AimsWhite')
   # 17
   eNode.addChild('freesurferConcatTex',
                  ProcessExecutionNode('freesurferConcatTex',
