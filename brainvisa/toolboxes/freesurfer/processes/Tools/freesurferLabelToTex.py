@@ -1,4 +1,4 @@
-from neuroProcesses import *
+from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
 name = '10 Converting freesurfer labels to Aims tex format.'

@@ -1,4 +1,4 @@
-from neuroProcesses import *
+from brainvisa.processes import *
 
 name = '16 Concatenate meshes'
 userlevel = 2

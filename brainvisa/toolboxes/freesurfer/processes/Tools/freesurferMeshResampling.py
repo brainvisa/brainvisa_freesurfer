@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from neuroProcesses import *
+from brainvisa.processes import *
 
 name = '07 Mesh resampling'
 userlevel = 2

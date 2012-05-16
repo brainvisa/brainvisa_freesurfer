@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from brainvisa.configuration.neuroConfig import mainPath
-import neuroProcesses
+import brainvisa.processes
 from soma.wip.application.api import Application
 from brainvisa.validation import ValidationError
 import distutils.spawn
@@ -14,7 +14,7 @@ configuration = Application().configuration
 
 def testFreesurferCommand( *args, **kwargs ):
   #print " -- Function testFreesurferCommand -- "
-  context = neuroProcesses.defaultContext()
+  context = brainvisa.processes.defaultContext()
   launchFreesurferCommand(context, None, 'mri_convert', '-h')
 
 

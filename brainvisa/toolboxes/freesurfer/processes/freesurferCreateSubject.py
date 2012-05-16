@@ -1,5 +1,5 @@
 import os
-from neuroProcesses import *
+from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
 name = "01 Create Freesurfer subject from Dicom anatomical image"

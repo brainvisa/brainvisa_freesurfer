@@ -1,4 +1,4 @@
-from neuroProcesses import *
+from brainvisa.processes import *
 
 name = '17 Concatenate textures'
 userlevel = 2

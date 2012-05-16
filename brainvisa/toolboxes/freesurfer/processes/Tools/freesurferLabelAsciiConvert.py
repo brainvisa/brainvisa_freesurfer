@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from neuroProcesses import *
+from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
 name = '09 Converting labels to readable ascii format.'

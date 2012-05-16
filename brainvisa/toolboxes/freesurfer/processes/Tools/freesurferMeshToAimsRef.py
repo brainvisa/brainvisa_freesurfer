@@ -1,5 +1,5 @@
 import os
-from neuroProcesses import *
+from brainvisa.processes import *
 
 name = '08 Conversion of meshes to aims referential'
 userlevel = 2

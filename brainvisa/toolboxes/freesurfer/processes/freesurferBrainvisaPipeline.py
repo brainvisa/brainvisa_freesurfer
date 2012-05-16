@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from neuroProcesses import *
+from brainvisa.processes import *
 
 name = 'Brainvisa Freesurfer Pipeline'
 userlevel = 2

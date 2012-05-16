@@ -1,4 +1,4 @@
-from neuroProcesses import *
+from brainvisa.processes import *
 
 name = '14 Resampling freesurfer data textures.'
 userlevel = 2

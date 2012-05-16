@@ -1,5 +1,5 @@
 import os
-from neuroProcesses import *
+from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
 name = "03b Convert Freesurfer anatomical image to Nifti format"

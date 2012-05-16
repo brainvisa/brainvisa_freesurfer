@@ -1,5 +1,5 @@
 import os
-from neuroProcesses import *
+from brainvisa.processes import *
 
 name = '18 Meshes normalization'
 userlevel = 2

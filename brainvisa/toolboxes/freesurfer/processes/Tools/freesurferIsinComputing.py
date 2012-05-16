@@ -1,4 +1,4 @@
-from neuroProcesses import *
+from brainvisa.processes import *
 
 name = '06 Computation of resampling parameters'
 userlevel = 2

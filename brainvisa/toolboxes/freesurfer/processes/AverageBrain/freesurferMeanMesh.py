@@ -1,4 +1,4 @@
-from neuroProcesses import *
+from brainvisa.processes import *
 from brainvisa.group_utils import Subject
 from soma.minf.api import registerClass, readMinf
 

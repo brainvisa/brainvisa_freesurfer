@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from neuroProcesses import *
+from brainvisa.processes import *
 from brainvisa.group_utils import Subject
 from soma.minf.api import registerClass, readMinf
 from soma import aims, aimsalgo

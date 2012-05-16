@@ -1,4 +1,4 @@
-from neuroProcesses import *
+from brainvisa.processes import *
 
 name = '15 Meshes inflate'
 userlevel = 2

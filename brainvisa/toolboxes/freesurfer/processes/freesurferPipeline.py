@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from neuroProcesses import *
+from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
 name = "02 Launch Freesurfer full pipeline TEST-VERSION"

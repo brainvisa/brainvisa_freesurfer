@@ -1,4 +1,4 @@
-from neuroProcesses import *
+from brainvisa.processes import *
 
 name = '13 Converting gifti textures to Aims texture format.'
 userlevel = 2

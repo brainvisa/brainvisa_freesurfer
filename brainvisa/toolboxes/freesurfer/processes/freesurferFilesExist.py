@@ -1,5 +1,5 @@
 import os
-from neuroProcesses import *
+from brainvisa.processes import *
 
 name = '03 Check Freesurfer files'
 userlevel = 2

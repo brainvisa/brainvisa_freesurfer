@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from neuroProcesses import *
+from brainvisa.processes import *
 
 name = '05 Conversion of Gifti meshes to Aims mesh format'
 userlevel = 2
