@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from neuroConfig import mainPath
+from brainvisa.configuration.neuroConfig import mainPath
 import neuroProcesses
 from soma.wip.application.api import Application
 from brainvisa.validation import ValidationError
