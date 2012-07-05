@@ -42,6 +42,8 @@ FileType( 'FreesurferMesh', 'Mesh')
 # Group
 FileType( 'Freesurfer Group definition', 'XML parameters', 'XML')
 FileType( 'AverageBrainWhite', 'FreesurferMesh')
+FileType( 'BothAverageBrainWhite', 'FreesurferMesh')
+
 
 # Mri / Orig
 FileType( 'FreesurferAnat', 'FreesurferType')

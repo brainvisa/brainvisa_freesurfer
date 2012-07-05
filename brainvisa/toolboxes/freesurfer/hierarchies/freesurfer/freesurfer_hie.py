@@ -52,6 +52,7 @@ hierarchy = (
                                  SetWeakAttr('side','left'),
         'rh.averagebrain.white', SetType('AverageBrainWhite'),
                                  SetWeakAttr('side','right'),
+        'averagebrain.white', SetType('BothAverageBrainWhite'),
     ))),
 
     '{subject}', SetFileNameStrongAttribute('subject'), SetType('Subject'),
