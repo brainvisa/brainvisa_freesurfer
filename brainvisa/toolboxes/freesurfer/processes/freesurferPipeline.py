@@ -16,9 +16,13 @@ def initialization(self):
   pass
   
 def execution(self, context):
-  context.write('Launch the Freesurfer pipeline on subject ' + self.AnatImage.get('subject'))
-  database = self.AnatImage.get('_database')
   subject = self.AnatImage.get('subject')
+  if subject is None:
+    subject = os.path.basename( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImage.fullPath() ) ) ) )
+  context.write('Launch the Freesurfer pipeline on subject ' + subject )
+  database = self.AnatImage.get('_database')
+  if not database:
+    database = os.path.dirname( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImage.fullPath() ) ) ) )
   context.write('recon-all -autorecon-all -subjid %s'%subject)
   launchFreesurferCommand(context, database, 'recon-all',
     '-autorecon-all', '-subjid', subject )
