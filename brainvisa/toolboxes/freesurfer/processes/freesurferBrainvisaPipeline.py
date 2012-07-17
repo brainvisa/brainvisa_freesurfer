@@ -80,16 +80,34 @@ def initialization( self ):
                  ProcessExecutionNode('freesurferAnatToNii',
                                       optional=1))
   eNode.addDoubleLink('BfreesurferAnatToNii.AnatImage', 'anat')
+  
+  
   # 4
   eNode.addChild('LfreesurferConversionMeshToGii',
                  ProcessExecutionNode('freesurferConversionMeshToGii',
                                       optional=1))
+  
+  #eNode.addDoubleLink('LfreesurferConversionMeshToGii.Pial', 'BfreesurferAnatToNii.AnatImage')
+  
+  #eNode.LfreesurferConversionMeshToGii.removeLink( 'White',
+                                                   #'Pial' )
+                                                    
+  #eNode.LfreesurferConversionMeshToGii.removeLink( 'SphereReg',
+                                                   #'Pial' )                                                  
+                                     
   eNode.addDoubleLink('LfreesurferConversionMeshToGii.Pial', 'leftPial')
   eNode.addDoubleLink('LfreesurferConversionMeshToGii.White', 'leftWhite')
   eNode.addDoubleLink('LfreesurferConversionMeshToGii.SphereReg', 'leftSphereReg')
   eNode.addChild('RfreesurferConversionMeshToGii',
                  ProcessExecutionNode('freesurferConversionMeshToGii',
                                       optional=1))
+                                      
+  #eNode.RfreesurferConversionMeshToGii.removeLink( 'White',
+                                                   #'Pial' )
+                                                    
+  #eNode.RfreesurferConversionMeshToGii.removeLink( 'SphereReg',
+                                                   #'Pial' )   
+                                      
   eNode.addDoubleLink('RfreesurferConversionMeshToGii.Pial', 'rightPial')
   eNode.addDoubleLink('RfreesurferConversionMeshToGii.White', 'rightWhite')
   eNode.addDoubleLink('RfreesurferConversionMeshToGii.SphereReg', 'rightSphereReg')
@@ -161,6 +179,13 @@ def initialization( self ):
   eNode.addChild('LfreesurferLabelToAimsTexture',
                  ProcessExecutionNode('freesurferLabelToAimsTexture',
                                      optional=1))
+                                     
+  #eNode.LfreesurferLabelToAimsTexture.removeLink( 'Gyri',
+                                                  #'WhiteMesh' )
+                                                  
+  #eNode.LfreesurferLabelToAimsTexture.removeLink( 'SulciGyri',
+                                                  #'WhiteMesh' )                                                
+                                     
   eNode.addDoubleLink('LfreesurferLabelToAimsTexture.WhiteMesh',
                       'LfreesurferConversionGiiMeshToAims.WhiteMesh')
   eNode.addDoubleLink('LfreesurferLabelToAimsTexture.Gyri', 'leftGyri')
@@ -168,6 +193,13 @@ def initialization( self ):
   eNode.addChild('RfreesurferLabelToAimsTexture',
                  ProcessExecutionNode('freesurferLabelToAimsTexture',
                                      optional=1))
+                                     
+  #eNode.RfreesurferLabelToAimsTexture.removeLink( 'Gyri',
+                                                  #'WhiteMesh' )
+                                                  
+  #eNode.RfreesurferLabelToAimsTexture.removeLink( 'SulciGyri',
+                                                  #'WhiteMesh' )                                   
+                                     
   eNode.addDoubleLink('RfreesurferLabelToAimsTexture.WhiteMesh',
                       'RfreesurferConversionGiiMeshToAims.WhiteMesh')
   eNode.addDoubleLink('RfreesurferLabelToAimsTexture.Gyri', 'rightGyri')
@@ -187,6 +219,16 @@ def initialization( self ):
   eNode.addChild('LfreesurferTexturesToGii',
                  ProcessExecutionNode('freesurferTexturesToGii',
                                       optional=1))
+                                      
+  #eNode.LfreesurferTexturesToGii.removeLink( 'AvgCurv',
+                                             #'Curv' )
+                                             
+  #eNode.LfreesurferTexturesToGii.removeLink( 'CurvPial',
+                                             #'Curv' )
+                                             
+  #eNode.LfreesurferTexturesToGii.removeLink( 'Thickness',
+                                             #'Curv' )                                           
+                                      
   eNode.addDoubleLink('LfreesurferTexturesToGii.Curv', 'leftCurv')
   eNode.addDoubleLink('LfreesurferTexturesToGii.Thickness', 'leftThickness')
   eNode.addDoubleLink('LfreesurferTexturesToGii.AvgCurv', 'leftAvgCurv')
@@ -194,6 +236,16 @@ def initialization( self ):
   eNode.addChild('RfreesurferTexturesToGii',
                  ProcessExecutionNode('freesurferTexturesToGii',
                                       optional=1))
+                                      
+  #eNode.RfreesurferTexturesToGii.removeLink( 'AvgCurv',
+                                             #'Curv' )
+                                             
+  #eNode.RfreesurferTexturesToGii.removeLink( 'CurvPial',
+                                             #'Curv' )
+                                             
+  #eNode.RfreesurferTexturesToGii.removeLink( 'Thickness',
+                                             #'Curv' )                                      
+                                      
   eNode.addDoubleLink('RfreesurferTexturesToGii.Curv', 'rightCurv')
   eNode.addDoubleLink('RfreesurferTexturesToGii.Thickness', 'rightThickness')
   eNode.addDoubleLink('RfreesurferTexturesToGii.AvgCurv', 'rightAvgCurv')
