@@ -68,6 +68,7 @@ class Texture:
             f_in = _gz.open(p.filename)
         else:
             f_in = open(p.filename)
+            print 'b'
         #
         p.textype = f_in.read(5)
         if p.textype not in textypes:
@@ -82,20 +83,27 @@ class Texture:
                 raise TypeError, 'Littleindian byteorder not supported yet.'
             #
             datatypesize = (_np.frombuffer(f_in.read(4),_np.uint32))[0]
+            print 'datatypesize', datatypesize
             try:
                 datatype     = datatypes[f_in.read(datatypesize)]
+                print 'c', datatype
             except:
                 raise TypeError, 'Datatype not recognized.'
             #
             nb_t    = (_np.frombuffer(f_in.read(4), _np.uint32))[0]
+            print 'nb_t', nb_t
             #
             # TODO some sanity check on data length
             p.data = []
             for t in range(nb_t):
                 current_t = (_np.frombuffer(f_in.read(4), _np.uint32))[0]
+                print 'current_t', current_t
                 nbitems = (_np.frombuffer(f_in.read(4), _np.uint32))[0]
+                print 'nbitems', nbitems
                 size = nbitems*datatype().nbytes
+                print 'size', size
                 p.data.append(_np.frombuffer(f_in.read(size),datatype))
+                print 'd'
         #
         # ASCII
         else:
@@ -130,7 +138,6 @@ class Texture:
         #car aims n'ouvre pas les float64 :
         if self.data.dtype == _np.float64:
             self.data = self.data.astype(_np.float32)
-        
         try:
             test = self.data.shape[1]
             nb_t = _np.uint32(self.data.shape[0])
@@ -139,6 +146,7 @@ class Texture:
 
             
         if filename==None:
+            print '2'
             filename = self.filename
 
         zip = False
@@ -169,24 +177,35 @@ class Texture:
         
         # si binaire
         else:
+            print '8'
             self.convertToBinary()
             f_out.write(self.textype)
+            print 'textype', self.textype
             f_out.write([k for k, v in byteordertypes.items()
                          if v == self.byteorder][0])
+            print 'byte orders', self.byteorder
+            print 'datatype.items', datatypes.items()            
             datatype = [k for k, v in datatypes.items()
                         if v == self.data.dtype][0]
+            print 'datatype', datatype
             datatypesize = _np.uint32(len(datatype))
+            print 'datatypesize'; datatypesize
             f_out.write(datatypesize.tostring())
+            print '01', datatypesize.tostring()
             f_out.write(datatype)
+            print '02', datatype
             f_out.write(nb_t.tostring())
+            print '03', nb_t.tostring()
             
             # ecrit les donnees en gerant la dimension t
             if nb_t==1 :
+                print '9'
                 f_out.write('\x00\x00\x00\x00')
                 f_out.write(_np.uint32(len(self.data)).tostring())
                 f_out.write(self.data.tostring())
+                print 'data.tostring', self.data.tostring()
             else:
-                for t in range(nb_t):
+                for t in range(nb_t): 
                     f_out.write(_np.uint32(t).tostring())
                     e = self.data[t]                   
                     f_out.write(_np.uint32(len(e)).tostring())
