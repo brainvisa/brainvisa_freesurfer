@@ -35,6 +35,20 @@
 
 include('builtin')
 
+from brainvisa.tools import aimsGlobals
+
+Format( 'FreesurferPial', "f|*.pial" )
+Format( 'FreesurferWhite', "f|*.white" )
+Format( 'FreesurferSphereReg', "f|*.sphere.reg" )
+Format( 'FreesurferThickness', "f|*.thickness" )
+Format( 'FreesurferCurv', "f|*.curv" )
+Format( 'FreesurferAvgCurv', "f|*.avg_curv" )
+Format( 'FreesurferCurvPial', "f|*.curv.pial" )
+Format( 'FreesurferParcellation', "f|*.annot")
+Format( 'FreesurferMGZ', "f|*.mgz")
+Format( 'FreesurferIsin', "f|*.isin")
+Format( 'FreesurferLabel', "f|*.label")
+
 FileType( 'FreesurferType', 'Any Type')
 FileType( 'FreesurferMesh', 'Mesh')
 #FileType( 'FreesurferAnaT', 'FreesurferMGZ')
@@ -46,12 +60,13 @@ FileType( 'BothAverageBrainWhite', 'FreesurferMesh')
 
 
 # Mri / Orig
-FileType( 'FreesurferAnat', 'FreesurferType')
+FileType( 'FreesurferAnat', 'T1 MRI', aimsGlobals.aimsVolumeFormats + [ 'FreesurferMGZ' ] )
+FileType( 'RawFreesurferAnat', 'FreesurferAnat' )
 
 
 #Mri
-FileType( 'T1 FreesurferAnat', 'FreesurferType')
-FileType( 'Nu FreesurferAnat', 'FreesurferType' )
+FileType( 'T1 FreesurferAnat', 'FreesurferAnat')
+FileType( 'Nu FreesurferAnat', 'T1 FreesurferAnat' )
 FileType( 'Ribbon Freesurfer', 'FreesurferType' )
 FileType( 'Talairach Auto Freesurfer', 'MINC transformation matrix' )
 
@@ -101,15 +116,3 @@ FileType( 'FreesurferResampledBothParcellationType', 'FreesurferType')
 FileType( 'BothResampledGyri', 'FreesurferResampledBothParcellationType')
 FileType( 'BothResampledSulciGyri', 'FreesurferResampledBothParcellationType')
 
-
-Format( 'FreesurferPial', "f|*.pial" )
-Format( 'FreesurferWhite', "f|*.white" )
-Format( 'FreesurferSphereReg', "f|*.sphere.reg" )
-Format( 'FreesurferThickness', "f|*.thickness" )
-Format( 'FreesurferCurv', "f|*.curv" )
-Format( 'FreesurferAvgCurv', "f|*.avg_curv" )
-Format( 'FreesurferCurvPial', "f|*.curv.pial" )
-Format( 'FreesurferParcellation', "f|*.annot")
-Format( 'FreesurferMGZ', "f|*.mgz")
-Format( 'FreesurferIsin', "f|*.isin")
-Format( 'FreesurferLabel', "f|*.label")

@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 import os
 import numpy as _np
-import gzip as _gz 
+import gzip as _gz
+from soma import aims
 
 #from zip import *
 
@@ -62,76 +64,82 @@ class Texture:
 
     @staticmethod
     def read(file):
-        # TODO remplacer les [:-1] pour enlever les '\n' par .strip()
         p = Texture(file)
-        if os.path.splitext(file)[1] == '.gz':
-            f_in = _gz.open(p.filename)
-        else:
-            f_in = open(p.filename)
-            print 'b'
-        #
-        p.textype = f_in.read(5)
-        if p.textype not in textypes:
-            raise TypeError, "On char 0: Texture type not regular, it should be \'ascii\' or \'binar\'"
-        #
-        # BINAR
-        if p.textype == textypes[1]:
-            p.byteorder = byteordertypes.get(f_in.read(4))
-            if p.byteorder == None:
-                raise TypeError, 'Dataorder not recognized.'
-            if p.byteorder == byteordertypes.get('ABCD'):
-                raise TypeError, 'Littleindian byteorder not supported yet.'
-            #
-            datatypesize = (_np.frombuffer(f_in.read(4),_np.uint32))[0]
-            print 'datatypesize', datatypesize
-            try:
-                datatype     = datatypes[f_in.read(datatypesize)]
-                print 'c', datatype
-            except:
-                raise TypeError, 'Datatype not recognized.'
-            #
-            nb_t    = (_np.frombuffer(f_in.read(4), _np.uint32))[0]
-            print 'nb_t', nb_t
-            #
-            # TODO some sanity check on data length
-            p.data = []
-            for t in range(nb_t):
-                current_t = (_np.frombuffer(f_in.read(4), _np.uint32))[0]
-                print 'current_t', current_t
-                nbitems = (_np.frombuffer(f_in.read(4), _np.uint32))[0]
-                print 'nbitems', nbitems
-                size = nbitems*datatype().nbytes
-                print 'size', size
-                p.data.append(_np.frombuffer(f_in.read(size),datatype))
-                print 'd'
-        #
-        # ASCII
-        else:
-            f_in.readline() #vire le \n de la fin de la premiere ligne
-            p.byteorder = byteordertypes.get('DCBA') # par defaut
-            datatypetemp = f_in.readline()
-            try:
-                datatype = datatypes[datatypetemp[:-1]] #vire le \n a la fin
-            except:
-                raise TypeError, 'Datatype not recognized.'
-            #
-            #nb_t = _np.int(f_in.readline()[:-1]) # on vire le\n
-            datatemp = _np.fromstring(string=f_in.read().replace('\n',' ').strip(), sep=' ')
-            nb_t = int(datatemp[0])
-            p.data = []
-            pos = 1
-            for t in range(nb_t):
-                current_t = _np.int(datatemp[pos])
-                pos += 1
-                nbitems = _np.int(datatemp[pos])
-                pos += 1
-                p.data.append(_np.array(datatemp[pos:pos+nbitems]))
-                pos += nbitems
-        #
-        p.data = _np.array(p.data, dtype=datatype)
-        p.data = p.data.squeeze()
-        f_in.close()
+        aimstex = aims.read( file )
+        p.data = _np.array( aimstex[0], copy=False )
+        p.data = p.data.squeeze() # not needed I think
         return p
+
+        ## TODO remplacer les [:-1] pour enlever les '\n' par .strip()
+        #p = Texture(file)
+        #if os.path.splitext(file)[1] == '.gz':
+            #f_in = _gz.open(p.filename)
+        #else:
+            #f_in = open(p.filename)
+            #print 'b'
+        ##
+        #p.textype = f_in.read(5)
+        #if p.textype not in textypes:
+            #raise TypeError, "On char 0: Texture type not regular, it should be \'ascii\' or \'binar\'"
+        ##
+        ## BINAR
+        #if p.textype == textypes[1]:
+            #p.byteorder = byteordertypes.get(f_in.read(4))
+            #if p.byteorder == None:
+                #raise TypeError, 'Dataorder not recognized.'
+            #if p.byteorder == byteordertypes.get('ABCD'):
+                #raise TypeError, 'Littleindian byteorder not supported yet.'
+            ##
+            #datatypesize = (_np.frombuffer(f_in.read(4),_np.uint32))[0]
+            #print 'datatypesize', datatypesize
+            #try:
+                #datatype     = datatypes[f_in.read(datatypesize)]
+                #print 'c', datatype
+            #except:
+                #raise TypeError, 'Datatype not recognized.'
+            ##
+            #nb_t    = (_np.frombuffer(f_in.read(4), _np.uint32))[0]
+            #print 'nb_t', nb_t
+            ##
+            ## TODO some sanity check on data length
+            #p.data = []
+            #for t in range(nb_t):
+                #current_t = (_np.frombuffer(f_in.read(4), _np.uint32))[0]
+                #print 'current_t', current_t
+                #nbitems = (_np.frombuffer(f_in.read(4), _np.uint32))[0]
+                #print 'nbitems', nbitems
+                #size = nbitems*datatype().nbytes
+                #print 'size', size
+                #p.data.append(_np.frombuffer(f_in.read(size),datatype))
+                #print 'd'
+        ##
+        ## ASCII
+        #else:
+            #f_in.readline() #vire le \n de la fin de la premiere ligne
+            #p.byteorder = byteordertypes.get('DCBA') # par defaut
+            #datatypetemp = f_in.readline()
+            #try:
+                #datatype = datatypes[datatypetemp[:-1]] #vire le \n a la fin
+            #except:
+                #raise TypeError, 'Datatype not recognized.'
+            ##
+            ##nb_t = _np.int(f_in.readline()[:-1]) # on vire le\n
+            #datatemp = _np.fromstring(string=f_in.read().replace('\n',' ').strip(), sep=' ')
+            #nb_t = int(datatemp[0])
+            #p.data = []
+            #pos = 1
+            #for t in range(nb_t):
+                #current_t = _np.int(datatemp[pos])
+                #pos += 1
+                #nbitems = _np.int(datatemp[pos])
+                #pos += 1
+                #p.data.append(_np.array(datatemp[pos:pos+nbitems]))
+                #pos += nbitems
+        ##
+        #p.data = _np.array(p.data, dtype=datatype)
+        #p.data = p.data.squeeze()
+        #f_in.close()
+        #return p
     
     
     def write(self,filename=None):

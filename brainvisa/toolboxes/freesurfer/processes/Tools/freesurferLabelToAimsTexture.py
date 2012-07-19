@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 from glob import glob
@@ -6,13 +7,13 @@ name = '09/10 Converting freesurfer unreadable labels to aims textures.'
 userlevel = 2
 
 signature = Signature(
-  'WhiteMesh', ReadDiskItem('White', 'MESH mesh', enableConversion=0),
+  'WhiteMesh', ReadDiskItem('White', 'Aims mesh formats', enableConversion=0),
   'Gyri', ReadDiskItem('FreesurferGyriTexture', 'FreesurferParcellation'),
   'SulciGyri', ReadDiskItem('FreesurferSulciGyriTexture', 'FreesurferParcellation'),
 #  'Gyri', ReadDiskItem('FreesurferReadableGyriTexture', 'Series of FreesurferLabel'),
 #  'SulciGyri', ReadDiskItem('FreesurferReadableSulciGyriTexture', 'Series of FreesurferLabel'),
-  'GyriTexture', WriteDiskItem('FreesurferGyri', 'Texture'),
-  'SulciGyriTexture', WriteDiskItem('FreesurferSulciGyri', 'Texture'),
+  'GyriTexture', WriteDiskItem('FreesurferGyri', 'Aims Texture formats'),
+  'SulciGyriTexture', WriteDiskItem('FreesurferSulciGyri', 'Aims Texture formats'),
   )
 
 def initialization(self):

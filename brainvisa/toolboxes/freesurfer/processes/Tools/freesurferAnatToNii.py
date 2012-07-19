@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
@@ -6,8 +7,8 @@ name = "03b Convert Freesurfer anatomical image to Nifti format"
 userLevel = 2
 
 signature = Signature(
-  'AnatImage', ReadDiskItem('FreesurferAnat', 'FreesurferMGZ'),
-  'NiiAnatImage', WriteDiskItem('FreesurferAnat', 'NIFTI-1 image'),
+  'AnatImage', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
+  'NiiAnatImage', WriteDiskItem('RawFreesurferAnat', 'NIFTI-1 image'),
   )
 
 def initialization(self):

@@ -1,21 +1,22 @@
+# -*- coding: utf-8 -*-
 from brainvisa.processes import *
 
 name = '14 Resampling freesurfer data textures.'
 userlevel = 2
 
 signature = Signature(
-  'OriginalMesh', ReadDiskItem('White', 'MESH mesh', enableConversion=0),
+  'OriginalMesh', ReadDiskItem('White', 'Aims mesh formats', enableConversion=0),
   'Isin', ReadDiskItem('BaseFreesurferType', 'FreesurferIsin'),
   #
-  'Curv', ReadDiskItem('FreesurferCurvType', 'Texture'),
-  'AvgCurv', ReadDiskItem('FreesurferAvgCurvType', 'Texture'),
-  'CurvPial', ReadDiskItem('FreesurferCurvPialType', 'Texture'),
-  'Thickness', ReadDiskItem('FreesurferThicknessType', 'Texture'),
+  'Curv', ReadDiskItem('FreesurferCurvType', 'Aims Texture formats'),
+  'AvgCurv', ReadDiskItem('FreesurferAvgCurvType', 'Aims Texture formats'),
+  'CurvPial', ReadDiskItem('FreesurferCurvPialType', 'Aims Texture formats'),
+  'Thickness', ReadDiskItem('FreesurferThicknessType', 'Aims Texture formats'),
   #
-  'ResampledCurv', WriteDiskItem('ResampledFreesurferCurvType', 'Texture'),
-  'ResampledAvgCurv', WriteDiskItem('ResampledFreesurferAvgCurvType', 'Texture'),
-  'ResampledCurvPial', WriteDiskItem('ResampledFreesurferCurvPialType', 'Texture'),
-  'ResampledThickness', WriteDiskItem('ResampledFreesurferThicknessType', 'Texture'),
+  'ResampledCurv', WriteDiskItem('ResampledFreesurferCurvType', 'Aims Texture formats'),
+  'ResampledAvgCurv', WriteDiskItem('ResampledFreesurferAvgCurvType', 'Aims Texture formats'),
+  'ResampledCurvPial', WriteDiskItem('ResampledFreesurferCurvPialType', 'Aims Texture formats'),
+  'ResampledThickness', WriteDiskItem('ResampledFreesurferThicknessType', 'Aims Texture formats'),
   )
 
 

@@ -65,7 +65,7 @@ hierarchy = (
           'talairach.auto', SetType('Talairach Auto Freesurfer'),
         ),
         'orig', SetContent(
-          '001', SetType('FreesurferAnat'),
+          '001', SetType('RawFreesurferAnat'),
         ),
       ),
       'surf', SetContent(

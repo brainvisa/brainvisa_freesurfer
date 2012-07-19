@@ -1,25 +1,26 @@
+# -*- coding: utf-8 -*-
 from brainvisa.processes import *
 
 name = '16 Concatenate meshes'
 userlevel = 2
 
 signature = Signature(
-  'LeftWhite', ReadDiskItem('AimsWhite', 'MESH mesh',
+  'LeftWhite', ReadDiskItem('AimsWhite', 'Aims mesh formats',
                             requiredAttributes = {'side' : 'left'}),
-  'RightWhite', ReadDiskItem('AimsWhite', 'MESH mesh',
+  'RightWhite', ReadDiskItem('AimsWhite', 'Aims mesh formats',
                              requiredAttributes = {'side' : 'right'}),
-  'LeftPial', ReadDiskItem('AimsPial', 'MESH mesh',
+  'LeftPial', ReadDiskItem('AimsPial', 'Aims mesh formats',
                            requiredAttributes = {'side' : 'left'}),
-  'RightPial', ReadDiskItem('AimsPial', 'MESH mesh',
+  'RightPial', ReadDiskItem('AimsPial', 'Aims mesh formats',
                             requiredAttributes = {'side' : 'right'}),
-  'LeftInflatedWhite', ReadDiskItem('AimsInflatedWhite', 'MESH mesh',
+  'LeftInflatedWhite', ReadDiskItem('AimsInflatedWhite', 'Aims mesh formats',
                                     requiredAttributes = {'side' : 'left'}),
-  'RightInflatedWhite', ReadDiskItem('AimsInflatedWhite', 'MESH mesh',
+  'RightInflatedWhite', ReadDiskItem('AimsInflatedWhite', 'Aims mesh formats',
                                      requiredAttributes = {'side' : 'right'}),
 
-  'BothWhite', WriteDiskItem('AimsBothWhite', 'MESH mesh'),
-  'BothPial', WriteDiskItem('AimsBothPial', 'MESH mesh'),
-  'BothInflated', WriteDiskItem('AimsBothInflatedWhite', 'MESH mesh'),
+  'BothWhite', WriteDiskItem('AimsBothWhite', 'Aims mesh formats'),
+  'BothPial', WriteDiskItem('AimsBothPial', 'Aims mesh formats'),
+  'BothInflated', WriteDiskItem('AimsBothInflatedWhite', 'Aims mesh formats'),
   )
 
 def initialization(self):

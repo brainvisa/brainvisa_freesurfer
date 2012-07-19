@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
@@ -5,12 +6,12 @@ name = '11 Resample label textures.'
 userlevel = 2
 
 signature = Signature(
-  'WhiteMesh', ReadDiskItem('White', 'MESH mesh', enableConversion=0),
+  'WhiteMesh', ReadDiskItem('White', 'Aims mesh formats', enableConversion=0),
   'Isin', ReadDiskItem('BaseFreesurferType', 'FreesurferIsin'),
-  'Gyri', ReadDiskItem('FreesurferGyri', 'Texture'),
-  'SulciGyri', ReadDiskItem('FreesurferSulciGyri', 'Texture'),
-  'ResampledGyri', WriteDiskItem('ResampledGyri', 'Texture'),
-  'ResampledSulciGyri', WriteDiskItem('ResampledSulciGyri', 'Texture'),
+  'Gyri', ReadDiskItem('FreesurferGyri', 'Aims Texture formats'),
+  'SulciGyri', ReadDiskItem('FreesurferSulciGyri', 'Aims Texture formats'),
+  'ResampledGyri', WriteDiskItem('ResampledGyri', 'Aims Texture formats'),
+  'ResampledSulciGyri', WriteDiskItem('ResampledSulciGyri', 'Aims Texture formats'),
   )
 
 def initialization(self):

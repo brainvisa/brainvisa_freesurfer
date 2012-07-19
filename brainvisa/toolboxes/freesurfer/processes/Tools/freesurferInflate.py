@@ -1,12 +1,13 @@
+# -*- coding: utf-8 -*-
 from brainvisa.processes import *
 
 name = '15 Meshes inflate'
 userlevel = 2
 
 signature = Signature(
-  'White', ReadDiskItem('AimsWhite', 'MESH mesh'),
-  'InflatedWhite', WriteDiskItem('AimsInflatedWhite', 'MESH mesh'),
-  'InflatedWhiteCurvTex', WriteDiskItem('AimsInflatedWhiteCurvTex', 'Texture'),
+  'White', ReadDiskItem('AimsWhite', 'Aims mesh formats'),
+  'InflatedWhite', WriteDiskItem('AimsInflatedWhite', 'Aims mesh formats'),
+  'InflatedWhiteCurvTex', WriteDiskItem('AimsInflatedWhiteCurvTex', 'Aims Texture formats'),
   )
 
 def initialization(self):

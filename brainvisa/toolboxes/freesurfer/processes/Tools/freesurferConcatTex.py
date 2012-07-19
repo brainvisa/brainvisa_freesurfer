@@ -1,21 +1,22 @@
+# -*- coding: utf-8 -*-
 from brainvisa.processes import *
 
 name = '17 Concatenate textures'
 userlevel = 2
 
 signature = Signature(
-  'LeftGyri', ReadDiskItem('ResampledGyri', 'Texture',
+  'LeftGyri', ReadDiskItem('ResampledGyri', 'Aims Texture formats',
                             requiredAttributes = {'side' : 'left'}),
-  'RightGyri', ReadDiskItem('ResampledGyri', 'Texture',
+  'RightGyri', ReadDiskItem('ResampledGyri', 'Aims Texture formats',
                             requiredAttributes = {'side' : 'right'}),
 
-  'LeftSulciGyri', ReadDiskItem('ResampledSulciGyri', 'Texture',
+  'LeftSulciGyri', ReadDiskItem('ResampledSulciGyri', 'Aims Texture formats',
                                  requiredAttributes = {'side' : 'left'}),
-  'RightSulciGyri', ReadDiskItem('ResampledSulciGyri', 'Texture',
+  'RightSulciGyri', ReadDiskItem('ResampledSulciGyri', 'Aims Texture formats',
                                   requiredAttributes = {'side' : 'right'}),
 
-  'Gyri', WriteDiskItem('BothResampledGyri', 'Texture'),
-  'SulciGyri', WriteDiskItem('BothResampledSulciGyri', 'Texture'),
+  'Gyri', WriteDiskItem('BothResampledGyri', 'Aims Texture formats'),
+  'SulciGyri', WriteDiskItem('BothResampledSulciGyri', 'Aims Texture formats'),
   )
 
 def initialization(self):
