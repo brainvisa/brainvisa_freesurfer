@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
@@ -9,7 +10,7 @@ signature = Signature(
   'RawT1Image', ReadDiskItem('Raw T1 MRI', getAllFormats()),
   'subjectName', String(),
   'database', Choice(),
-  'AnatImage', WriteDiskItem( 'FreesurferAnat', 'FreesurferMGZ' )
+  'AnatImage', WriteDiskItem( 'RawFreesurferAnat', 'FreesurferMGZ' )
   )
 
 def initialization(self):

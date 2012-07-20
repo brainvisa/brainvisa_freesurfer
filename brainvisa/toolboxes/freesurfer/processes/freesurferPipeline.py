@@ -7,7 +7,7 @@ name = "02 Launch Freesurfer full pipeline TEST-VERSION"
 userLevel = 2
 
 signature = Signature(
-  'AnatImage', ReadDiskItem('FreesurferAnat', 'FreesurferMGZ'),
+  'AnatImage', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
   
   #liens non visible:
   'leftPial', WriteDiskItem('BaseFreesurferType', 'FreesurferPial',
