@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from brainvisa.processes import *
 import shfjGlobals
 from brainvisa import anatomist
@@ -10,8 +11,9 @@ def validation():
   anatomist.validation()
 
 signature = Signature(
-  'Gyri', ReadDiskItem('FreesurferResampledBothParcellationType', 'Texture'),
-  'BrainMesh', ReadDiskItem('AimsBothWhite', 'MESH mesh', enableConversion=0),
+  'Gyri', ReadDiskItem('FreesurferResampledBothParcellationType',
+    'anatomist Texture formats'),
+  'BrainMesh', ReadDiskItem('AimsBothWhite', 'anatomist mesh formats'),
 )
 
 def initialization( self ):
