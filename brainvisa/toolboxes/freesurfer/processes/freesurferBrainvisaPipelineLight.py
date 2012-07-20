@@ -4,144 +4,43 @@ from brainvisa.processes import *
 name = 'Brainvisa Freesurfer Pipeline Light'
 userlevel = 2
 
-signature = Signature(
-  'anat', ReadDiskItem('FreesurferAnat', 'FreesurferMGZ'),
+try:
+  p = getProcessInstance( 'freesurferBrainvisaPipeline' )
 
-  'leftPial', ReadDiskItem('FreesurferType', 'FreesurferPial',
-         requiredAttributes = {'side': 'left'}),
-  'leftWhite', ReadDiskItem('FreesurferType', 'FreesurferWhite',
-         requiredAttributes = {'side': 'left'}),
-  'leftSphereReg', ReadDiskItem('FreesurferType', 'FreesurferSphereReg',
-         requiredAttributes = {'side': 'left'}),
-  'leftThickness', ReadDiskItem('FreesurferType', 'FreesurferThickness',
-         requiredAttributes = {'side': 'left'}),
-  'leftCurv', ReadDiskItem('FreesurferType', 'FreesurferCurv',
-         requiredAttributes = {'side': 'left'}),
-  'leftAvgCurv', ReadDiskItem('FreesurferType', 'FreesurferAvgCurv',
-         requiredAttributes = {'side': 'left'}),
-  'leftCurvPial', ReadDiskItem('FreesurferType', 'FreesurferCurvPial',
-         requiredAttributes = {'side': 'left'}),
-  'leftGyri', ReadDiskItem('FreesurferGyriTexture', 'FreesurferParcellation',
-         requiredAttributes = {'side': 'left'}),
-  
-  'rightPial', ReadDiskItem('FreesurferType', 'FreesurferPial',
-         requiredAttributes = {'side': 'right'}),
-  'rightWhite', ReadDiskItem('FreesurferType', 'FreesurferWhite',
-         requiredAttributes = {'side': 'right'}),
-  'rightSphereReg', ReadDiskItem('FreesurferType', 'FreesurferSphereReg',
-         requiredAttributes = {'side': 'right'}),
-  'rightThickness', ReadDiskItem('FreesurferType', 'FreesurferThickness',
-         requiredAttributes = {'side': 'right'}),
-  'rightCurv', ReadDiskItem('FreesurferType', 'FreesurferCurv',
-         requiredAttributes = {'side': 'right'}),
-  'rightAvgCurv', ReadDiskItem('FreesurferType', 'FreesurferAvgCurv',
-         requiredAttributes = {'side': 'right'}),
-  'rightCurvPial', ReadDiskItem('FreesurferType', 'FreesurferCurvPial',
-         requiredAttributes = {'side': 'right'}),
-  'rightGyri', ReadDiskItem('FreesurferGyriTexture', 'FreesurferParcellation',
-         requiredAttributes = {'side': 'right'}),
-  
-  #'bv_anat', ReadDiskItem('Raw T1 MRI', 'NIFTI-1 image')
-  )
+  s = []
+  for n in p.signature.sortedKeys:
+    s += [ n, p.signature[n] ]
+  signature = Signature( *s )
+  del s, n, p
+except:
+  pass
 
 def initialization( self ):
-  self.linkParameters( 'leftPial', 'anat' )
-  self.linkParameters( 'leftWhite', 'anat' )
-  self.linkParameters( 'leftSphereReg', 'anat' )
-  self.linkParameters( 'leftThickness', 'anat' )
-  self.linkParameters( 'leftCurv', 'anat' )
-  self.linkParameters( 'leftAvgCurv', 'anat' )
-  self.linkParameters( 'leftCurvPial', 'anat' )
-  self.linkParameters( 'leftGyri', 'anat' )
+  print self.__class__.signature
+  if len( self.__class__.signature ) == 0:
+    p = getProcessInstance( 'freesurferBrainvisaPipeline' )
 
-  self.linkParameters( 'rightPial', 'anat' )
-  self.linkParameters( 'rightWhite', 'anat' )
-  self.linkParameters( 'rightSphereReg', 'anat' )
-  self.linkParameters( 'rightThickness', 'anat' )
-  self.linkParameters( 'rightCurv', 'anat' )
-  self.linkParameters( 'rightAvgCurv', 'anat' )
-  self.linkParameters( 'rightCurvPial', 'anat' )
-  self.linkParameters( 'rightGyri', 'anat' )
-
-  #self.linkParameters( 'bv_anat', 'leftPial' )
-  #self.linkParameters( 'bv_anat', 'rightPial' )
-
-  eNode = SerialExecutionNode( self.name, parameterized=self )
-  # 3b
-  eNode.addChild('BfreesurferAnatToNii',
-                 ProcessExecutionNode('freesurferAnatToNii',
-                                      optional=1))
-  eNode.addLink('BfreesurferAnatToNii.AnatImage', 'anat')
-  # 4
-  eNode.addChild('LfreesurferConversionMeshToGii',
-                 ProcessExecutionNode('freesurferConversionMeshToGii',
-                                      optional=1))
-  eNode.addLink('LfreesurferConversionMeshToGii.Pial', 'leftPial')
-  eNode.addChild('RfreesurferConversionMeshToGii',
-                 ProcessExecutionNode('freesurferConversionMeshToGii',
-                                      optional=1))
-  eNode.addLink('RfreesurferConversionMeshToGii.Pial', 'rightPial')
-  # 5
-  eNode.addChild('LfreesurferConversionGiiMeshToAims',
-                ProcessExecutionNode('freesurferConversionGiiMeshToAims',
-                                     optional=1))
-  eNode.addLink('LfreesurferConversionGiiMeshToAims.PialGifti',
-                'LfreesurferConversionMeshToGii.PialGifti')
-  eNode.addChild('RfreesurferConversionGiiMeshToAims',
-                ProcessExecutionNode('freesurferConversionGiiMeshToAims',
-                                     optional=1))
-  eNode.addLink('RfreesurferConversionGiiMeshToAims.PialGifti',
-                'RfreesurferConversionMeshToGii.PialGifti')
-  # 6
-  eNode.addChild('LfreesurferIsinComputing',
-                 ProcessExecutionNode('freesurferIsinComputing',
-                                      optional=1))
-  eNode.addLink('LfreesurferIsinComputing.SphereRegMesh',
-                 'LfreesurferConversionMeshToGii.SphereRegGifti')
-  eNode.addChild('RfreesurferIsinComputing',
-                 ProcessExecutionNode('freesurferIsinComputing',
-                                      optional=1))
-  eNode.addLink('RfreesurferIsinComputing.SphereRegMesh',
-                 'RfreesurferConversionMeshToGii.SphereRegGifti')
-  # 7
-  eNode.addChild('LfreesurferMeshResampling',
-                 ProcessExecutionNode('freesurferMeshResampling',
-                                      optional=1))
-  eNode.addLink('LfreesurferMeshResampling.PialMesh',
-                'LfreesurferConversionGiiMeshToAims.PialMesh')
-  eNode.addLink('LfreesurferMeshResampling.Isin',
-                'LfreesurferIsinComputing.Isin')
-
-  eNode.addChild('RfreesurferMeshResampling',
-                 ProcessExecutionNode('freesurferMeshResampling',
-                                      optional=1))
-  eNode.addLink('RfreesurferMeshResampling.PialMesh',
-                'RfreesurferConversionGiiMeshToAims.PialMesh')
-  eNode.addLink('RfreesurferMeshResampling.Isin',
-                'RfreesurferIsinComputing.Isin')
-  # 8
-  eNode.addChild('LfreesurferMeshToAimsRef',
-                 ProcessExecutionNode('freesurferMeshToAimsRef',
-                                      optional=1))
-  eNode.addLink('LfreesurferMeshToAimsRef.ResampledPialMesh',
-                'LfreesurferMeshResampling.ResampledPialMesh')
-  eNode.addChild('RfreesurferMeshToAimsRef',
-                 ProcessExecutionNode('freesurferMeshToAimsRef',
-                                      optional=1))
-  eNode.addLink('RfreesurferMeshToAimsRef.ResampledPialMesh',
-                'RfreesurferMeshResampling.ResampledPialMesh')
-  # 15
-  eNode.addChild('LfreesurferInflate',
-                 ProcessExecutionNode('freesurferInflate',
-                                      optional=1))
-  eNode.addLink('LfreesurferInflate.White',
-                'LfreesurferMeshToAimsRef.AimsWhite')
-  eNode.addChild('RfreesurferInflate',
-                 ProcessExecutionNode('freesurferInflate',
-                                      optional=1))
-  eNode.addLink('RfreesurferInflate.White',
-                'RfreesurferMeshToAimsRef.AimsWhite')
-  # 18
-  self.setExecutionNode( eNode )
-
+    s = []
+    for n in p.signature.sortedKeys:
+      s += [ n, p.signature[n] ]
+    self.__class__.signature = Signature( *s )
+    self.changeSignature( self.__class__.signature )
+    del s, n
+  p = getProcessInstance( 'freesurferBrainvisaPipeline' )
+  if not hasattr( self.__class__, 'initParent' ):
+    self.__class__.initParent = p.__class__.initialization.im_func
+  self.initParent()
+  self.setOptional( 'leftSulciGyri' )
+  self.setOptional( 'rightSulciGyri' )
+  eNode = self.executionNode()
+  eNode.LfreesurferLabelToAimsTexture.setSelected( False )
+  eNode.RfreesurferLabelToAimsTexture.setSelected( False )
+  eNode.LfreesurferResampleLabels.setSelected( False )
+  eNode.RfreesurferResampleLabels.setSelected( False )
+  eNode.LfreesurferTexturesToGii.setSelected( False )
+  eNode.RfreesurferTexturesToGii.setSelected( False )
+  eNode.LfreesurferResamplingDataTextures.setSelected( False )
+  eNode.RfreesurferResamplingDataTextures.setSelected( False )
+  eNode.freesurferConcatenate.setSelected( False )
+  eNode.freesurferConcatTex.setSelected( False )
 
