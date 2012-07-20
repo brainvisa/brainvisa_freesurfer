@@ -91,7 +91,7 @@ def validation():
   
 
 signature=Signature(
-  'T1_orig', ReadDiskItem( 'T1 FreesurferAnat',  'FreesurferMGZ' ),
+  'T1_orig', ReadDiskItem( 'T1 FreesurferAnat',  'FreesurferMGZ', exactType=True ),
   #seems no mandatory ?
   #'nu_image', ReadDiskItem( 'Nu FreesurferAnat', 'FreesurferMGZ' ),
   'ribbon_image', ReadDiskItem( 'Ribbon Freesurfer', 'FreesurferMGZ' ),
