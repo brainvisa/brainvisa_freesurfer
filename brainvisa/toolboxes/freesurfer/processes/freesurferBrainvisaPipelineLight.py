@@ -16,7 +16,6 @@ except:
   pass
 
 def initialization( self ):
-  print self.__class__.signature
   if len( self.__class__.signature ) == 0:
     p = getProcessInstance( 'freesurferBrainvisaPipeline' )
 
