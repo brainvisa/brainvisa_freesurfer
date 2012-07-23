@@ -7,7 +7,7 @@
     
 </xhtml>
     <d name="parameters">
-      <xhtml name="Voronoi_output">Output for brainvisa ontology</xhtml>
+      <xhtml name="Voronoi_output">OUPUT for brainvisa ontology</xhtml>
       <xhtml name="normalization_transformation">Output for brainvisa ontology</xhtml>
       <xhtml name="T1_output">Output for brainvisa ontology</xhtml>
       <xhtml name="use_t1pipeline">Here you can choose if you want run the Morphologist pipeline now and how you want to use it. You can run it with the graphical interface or not (in batch mode). Please, note that <b>the version of cortical graph is set to 3.1 by default</b>. You can change it when the graphical interface of the Morphologist pipeline is launched.</xhtml>
