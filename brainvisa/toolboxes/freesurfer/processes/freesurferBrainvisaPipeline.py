@@ -181,9 +181,9 @@ def initialization( self ):
   eNode.addDoubleLink('LfreesurferResampleLabels.Isin',
                 'LfreesurferIsinComputing.Isin')
   eNode.addDoubleLink('LfreesurferResampleLabels.Gyri',
-                'LfreesurferLabelToAimsTexture.Gyri')
+                'LfreesurferLabelToAimsTexture.GyriTexture')
   eNode.addDoubleLink('LfreesurferResampleLabels.SulciGyri',
-                'LfreesurferLabelToAimsTexture.SulciGyri')
+                'LfreesurferLabelToAimsTexture.SulciGyriTexture')
 
   eNode.addChild('RfreesurferResampleLabels',
                  ProcessExecutionNode('freesurferResampleLabels',
@@ -196,9 +196,9 @@ def initialization( self ):
   eNode.addDoubleLink('RfreesurferResampleLabels.Isin',
                 'RfreesurferIsinComputing.Isin')
   eNode.addDoubleLink('RfreesurferResampleLabels.Gyri',
-                'RfreesurferLabelToAimsTexture.Gyri')
+                'RfreesurferLabelToAimsTexture.GyriTexture')
   eNode.addDoubleLink('RfreesurferResampleLabels.SulciGyri',
-                'RfreesurferLabelToAimsTexture.SulciGyri')
+                'RfreesurferLabelToAimsTexture.SulciGyriTexture')
 
   # 12
   eNode.addChild('LfreesurferTexturesToGii',
