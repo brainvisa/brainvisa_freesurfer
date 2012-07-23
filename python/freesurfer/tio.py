@@ -143,83 +143,90 @@ class Texture:
     
     
     def write(self,filename=None):
-        #car aims n'ouvre pas les float64 :
+        if filename==None:
+            filename = self.filename
+        # anatomist desn't currently reaf float64 textrues :
+        # FIXME after it is allowed in Anatomist...
         if self.data.dtype == _np.float64:
             self.data = self.data.astype(_np.float32)
-        try:
-            test = self.data.shape[1]
-            nb_t = _np.uint32(self.data.shape[0])
-        except:
-            nb_t = _np.uint32(1)
+        aims.write( aims.TimeTexture( self.data ), filename )
+        ##car aims n'ouvre pas les float64 :
+        #if self.data.dtype == _np.float64:
+            #self.data = self.data.astype(_np.float32)
+        #try:
+            #test = self.data.shape[1]
+            #nb_t = _np.uint32(self.data.shape[0])
+        #except:
+            #nb_t = _np.uint32(1)
 
             
-        if filename==None:
-            print '2'
-            filename = self.filename
+        #if filename==None:
+            #print '2'
+            #filename = self.filename
 
-        zip = False
-        if os.path.splitext(filename)[1] == '.gz':
-            filename = os.path.splitext(filename)[0]
-            zip = True
+        #zip = False
+        #if os.path.splitext(filename)[1] == '.gz':
+            #filename = os.path.splitext(filename)[0]
+            #zip = True
             
-        f_out = open(filename, 'w')
+        #f_out = open(filename, 'w')
 
-        # si ascii :
-        if self.textype == textypes[0]:
-            f_out.write(self.textype+'\n')
-            f_out.write([k for k, v in datatypes.items() 
-                         if v == self.data.dtype][0]+'\n')
-            f_out.write(str(nb_t)+'\n')
+        ## si ascii :
+        #if self.textype == textypes[0]:
+            #f_out.write(self.textype+'\n')
+            #f_out.write([k for k, v in datatypes.items() 
+                         #if v == self.data.dtype][0]+'\n')
+            #f_out.write(str(nb_t)+'\n')
 
-            # ecrit les donnees en gerant la dimension t
-            if nb_t>1 :
-                for t in range(nb_t):
-                    e = self.data[t]
-                    f_out.write(str(t)+' '+str(len(e))+' ')
-                    e.tofile(f_out, sep=' ')
-                    f_out.write(' ')
-            else:
-                f_out.write('0 '+str(len(self.data))+' ')
-                self.data.tofile(f_out, sep=' ')
-                f_out.write(' ')
+            ## ecrit les donnees en gerant la dimension t
+            #if nb_t>1 :
+                #for t in range(nb_t):
+                    #e = self.data[t]
+                    #f_out.write(str(t)+' '+str(len(e))+' ')
+                    #e.tofile(f_out, sep=' ')
+                    #f_out.write(' ')
+            #else:
+                #f_out.write('0 '+str(len(self.data))+' ')
+                #self.data.tofile(f_out, sep=' ')
+                #f_out.write(' ')
         
-        # si binaire
-        else:
-            print '8'
-            self.convertToBinary()
-            f_out.write(self.textype)
-            print 'textype', self.textype
-            f_out.write([k for k, v in byteordertypes.items()
-                         if v == self.byteorder][0])
-            print 'byte orders', self.byteorder
-            print 'datatype.items', datatypes.items()            
-            datatype = [k for k, v in datatypes.items()
-                        if v == self.data.dtype][0]
-            print 'datatype', datatype
-            datatypesize = _np.uint32(len(datatype))
-            print 'datatypesize'; datatypesize
-            f_out.write(datatypesize.tostring())
-            print '01', datatypesize.tostring()
-            f_out.write(datatype)
-            print '02', datatype
-            f_out.write(nb_t.tostring())
-            print '03', nb_t.tostring()
+        ## si binaire
+        #else:
+            #print '8'
+            #self.convertToBinary()
+            #f_out.write(self.textype)
+            #print 'textype', self.textype
+            #f_out.write([k for k, v in byteordertypes.items()
+                         #if v == self.byteorder][0])
+            #print 'byte orders', self.byteorder
+            #print 'datatype.items', datatypes.items()            
+            #datatype = [k for k, v in datatypes.items()
+                        #if v == self.data.dtype][0]
+            #print 'datatype', datatype
+            #datatypesize = _np.uint32(len(datatype))
+            #print 'datatypesize'; datatypesize
+            #f_out.write(datatypesize.tostring())
+            #print '01', datatypesize.tostring()
+            #f_out.write(datatype)
+            #print '02', datatype
+            #f_out.write(nb_t.tostring())
+            #print '03', nb_t.tostring()
             
-            # ecrit les donnees en gerant la dimension t
-            if nb_t==1 :
-                print '9'
-                f_out.write('\x00\x00\x00\x00')
-                f_out.write(_np.uint32(len(self.data)).tostring())
-                f_out.write(self.data.tostring())
-                print 'data.tostring', self.data.tostring()
-            else:
-                for t in range(nb_t): 
-                    f_out.write(_np.uint32(t).tostring())
-                    e = self.data[t]                   
-                    f_out.write(_np.uint32(len(e)).tostring())
-                    f_out.write(e.tostring())
+            ## ecrit les donnees en gerant la dimension t
+            #if nb_t==1 :
+                #print '9'
+                #f_out.write('\x00\x00\x00\x00')
+                #f_out.write(_np.uint32(len(self.data)).tostring())
+                #f_out.write(self.data.tostring())
+                #print 'data.tostring', self.data.tostring()
+            #else:
+                #for t in range(nb_t): 
+                    #f_out.write(_np.uint32(t).tostring())
+                    #e = self.data[t]                   
+                    #f_out.write(_np.uint32(len(e)).tostring())
+                    #f_out.write(e.tostring())
 
-        f_out.close()
-        if zip: # not optimal, should be done directly when writing texture.
-            gzip_file(filename)
-            os.remove(filename)
+        #f_out.close()
+        #if zip: # not optimal, should be done directly when writing texture.
+            #gzip_file(filename)
+            ##os.remove(filename)
