@@ -3,11 +3,12 @@ import os
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
-name = "02 Launch Freesurfer full pipeline TEST-VERSION"
-userLevel = 2
+name = "02 Launch Freesurfer full pipeline recon-all"
+userLevel = 1
 
 signature = Signature(
   'AnatImage', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
+  'Add_options', String(), 
   
   #liens non visible:
   'leftPial', WriteDiskItem('BaseFreesurferType', 'FreesurferPial',
@@ -55,6 +56,9 @@ signature = Signature(
 def initialization(self):
   #databases=[(h.name, h) for h in reversed(neuroHierarchy.hierarchies())]# reverse order of hierarchies to have brainvisa shared hierarchy at the end of the list
   #self.database=databases[0][1]
+
+  self.setOptional('Add_options')  
+  
   self.linkParameters( 'leftPial', 'AnatImage' )
   self.linkParameters( 'leftWhite', 'AnatImage' )
   self.linkParameters( 'leftSphereReg', 'AnatImage' )
@@ -103,8 +107,21 @@ def execution(self, context):
   database = self.AnatImage.get('_database')
   if not database:
     database = os.path.dirname( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImage.fullPath() ) ) ) )
+  
+  
   context.write('recon-all -autorecon-all -subjid %s'%subject)
-  launchFreesurferCommand(context, database, 'recon-all',
-    '-autorecon-all', '-subjid', subject )
+  
+  #launchFreesurferCommand(context, database, args)
+  kwargs={}
+  args = ['recon-all', '-autorecon-all', '-subjid', subject]
+  if self.Add_options is not None :
+    liste_option = string.split(self.Add_options)
+    for option in liste_option :
+      args.append(option)
+
+  launchFreesurferCommand(context, database, *args, **kwargs)
+  #launchFreesurferCommand(context, database, 'recon-all', '-autorecon-all', '-subjid', subject, **kwargs )
+  #launchFreesurferCommand(context, database, 'recon-all', '-autorecon-all', '-subjid', subject )
+    
   neuroHierarchy.databases.update( [ os.path.join( database, subject ) ] )
 

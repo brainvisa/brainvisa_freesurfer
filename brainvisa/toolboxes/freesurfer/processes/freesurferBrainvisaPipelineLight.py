@@ -2,7 +2,7 @@
 from brainvisa.processes import *
 
 name = 'Brainvisa Freesurfer Pipeline Light'
-userlevel = 2
+userlevel = 1
 
 try:
   p = getProcessInstance( 'freesurferBrainvisaPipeline' )

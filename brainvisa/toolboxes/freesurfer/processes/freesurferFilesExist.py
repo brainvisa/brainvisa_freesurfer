@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 import os
 from brainvisa.processes import *
 
 name = '03 Check Freesurfer files'
-userlevel = 2
+userlevel = 1
 
 signature = Signature(
   'leftPial', ReadDiskItem('FreesurferType', 'FreesurferPial',

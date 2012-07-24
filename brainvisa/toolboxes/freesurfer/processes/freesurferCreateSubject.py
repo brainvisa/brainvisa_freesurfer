@@ -4,7 +4,7 @@ from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
 name = "01 Create Freesurfer subject from T1 anatomical image"
-userLevel = 2
+userLevel = 1
 
 signature = Signature(
   'RawT1Image', ReadDiskItem('Raw T1 MRI', getAllFormats()),

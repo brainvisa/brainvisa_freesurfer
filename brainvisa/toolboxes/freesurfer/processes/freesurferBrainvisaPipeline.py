@@ -2,7 +2,7 @@
 from brainvisa.processes import *
 
 name = 'Brainvisa Freesurfer Pipeline'
-userlevel = 2
+userlevel = 1
 
 signature = Signature(
   'anat', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
