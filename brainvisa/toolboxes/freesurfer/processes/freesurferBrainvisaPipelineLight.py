@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from brainvisa.processes import *
 
-name = 'Brainvisa Freesurfer Pipeline Light'
+name = 'Freesurfer outputs To BrainVisa conversion pipeline, Light version'
 userlevel = 1
 
 try:
