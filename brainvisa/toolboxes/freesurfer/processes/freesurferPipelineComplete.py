@@ -31,7 +31,8 @@ def initialization( self ):
   
   #Brainvisa Freesurfer pipeline
   eNode.addChild( 'FreeSurferPipeline',
-                  ProcessExecutionNode( 'freesurferBrainvisaPipeline',
+                  ProcessExecutionNode( \
+                  'freesurferToBrainvisaConversionPipeline',
                   optional = 1 ) )
                   
   eNode.addDoubleLink( 'FreeSurferPipeline.anat',

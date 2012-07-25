@@ -17,7 +17,7 @@ except:
 
 def initialization( self ):
   if len( self.__class__.signature ) == 0:
-    p = getProcessInstance( 'freesurferBrainvisaPipeline' )
+    p = getProcessInstance( 'freesurferToBrainvisaConversionPipeline' )
 
     s = []
     for n in p.signature.sortedKeys:
@@ -25,7 +25,7 @@ def initialization( self ):
     self.__class__.signature = Signature( *s )
     self.changeSignature( self.__class__.signature )
     del s, n
-  p = getProcessInstance( 'freesurferBrainvisaPipeline' )
+  p = getProcessInstance( 'freesurferToBrainvisaConversionPipeline' )
   if not hasattr( self.__class__, 'initParent' ):
     self.__class__.initParent = p.__class__.initialization.im_func
   self.initParent()
