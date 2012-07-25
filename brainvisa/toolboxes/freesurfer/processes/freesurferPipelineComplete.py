@@ -2,7 +2,7 @@
 from brainvisa.processes import *
 
 name = 'Freesurfer / BrainVisa full pipeline'
-userlevel = 1
+userLevel = 1
 
 signature = Signature(
   'RawT1Image', ReadDiskItem('Raw T1 MRI', getAllFormats()),

@@ -2,7 +2,7 @@
 from brainvisa.processes import *
 
 name = 'Freesurfer outputs To BrainVisa conversion pipeline, Light version'
-userlevel = 1
+userLevel = 1
 
 try:
   p = getProcessInstance( 'freesurferBrainvisaPipeline' )

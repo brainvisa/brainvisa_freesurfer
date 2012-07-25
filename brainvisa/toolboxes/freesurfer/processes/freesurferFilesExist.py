@@ -3,7 +3,7 @@ import os
 from brainvisa.processes import *
 
 name = '03 Check Freesurfer files'
-userlevel = 1
+userLevel = 1
 
 signature = Signature(
   'leftPial', ReadDiskItem('FreesurferType', 'FreesurferPial',
