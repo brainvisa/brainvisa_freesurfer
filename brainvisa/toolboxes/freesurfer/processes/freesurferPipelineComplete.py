@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from brainvisa.processes import *
 
-name = 'Pipeline freesurfer'
+name = 'Freesurfer / BrainVisa full pipeline'
 userlevel = 1
 
 signature = Signature(
