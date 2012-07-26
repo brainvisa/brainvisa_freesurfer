@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="minf_2.0">
+<d>
+  <d name="en">
+    <xhtml name="short">This pipeline performs the following steps:
+<ul>
+<li>Pipeline to import data into a freesurfer database. Please read more information at  <a href="freesurferCreateSubject.html">01 Create Freesurfer subject from T1 anatomical image</a> process.</li> <br/>
+<li>Launch the <b>recon-all</b> freesurfer command line.</li>
+<br/>
+<li>Launch the <b>Freesurfer / Brainvisa</b> to convert to Nifti format, to normalize meshes by using an icosphere and to use the coordinates system of aims.</li>  
+</ul></xhtml>
+    <d name="parameters">
+      <xhtml name="RawT1Image"/>
+    </d>
+    <xhtml name="long"/>
+  </d>
+</d>
+</minf>

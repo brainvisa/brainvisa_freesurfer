@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="minf_2.0">
+<d>
+  <d name="en">
+    <xhtml name="short">Please to refer to the following documentation: 
+ <a href="freesurferToBrainvisaConversionPipeline.html">Freesurfer outputs To BrainVISA conversion pipeline</a></xhtml>
+    <d name="parameters">
+      <xhtml name="rightGyri"/>
+      <xhtml name="rightPial"/>
+      <xhtml name="anat"/>
+      <xhtml name="rightSulciGyri"/>
+      <xhtml name="rightCurv"/>
+      <xhtml name="rightAvgCurv"/>
+      <xhtml name="leftThickness"/>
+      <xhtml name="leftGyri"/>
+      <xhtml name="rightSphereReg"/>
+      <xhtml name="leftSulciGyri"/>
+      <xhtml name="leftAvgCurv"/>
+      <xhtml name="leftCurv"/>
+      <xhtml name="rightCurvPial"/>
+      <xhtml name="leftCurvPial"/>
+      <xhtml name="leftPial"/>
+      <xhtml name="leftWhite"/>
+      <xhtml name="rightWhite"/>
+      <xhtml name="rightThickness"/>
+      <xhtml name="leftSphereReg"/>
+    </d>
+    <xhtml name="long"/>
+  </d>
+</d>
+</minf>

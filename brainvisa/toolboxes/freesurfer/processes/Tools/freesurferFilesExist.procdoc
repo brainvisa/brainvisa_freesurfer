@@ -2,7 +2,7 @@
 <minf expander="minf_2.0">
 <d>
   <d name="en">
-    <xhtml name="short">Before to launch the <a href="freesurferToBrainvisaConversionPipeline.html">Freesurfer outputs To BrainVISA conversion pipeline, Light version</a> or <a href="freesurferToBrainvisaConversionPipelineLight.html">Freesurfer outputs To BrainVISA conversion pipeline</a> , you can check if all files have been generated. This process is not mandatory to run pipelines.
+    <xhtml name="short">Before to launch the <a href="freesurferToBrainvisaConversionPipeline.html">Freesurfer outputs To BrainVISA conversion pipeline</a> or <a href="freesurferToBrainvisaConversionPipelineLight.html">Freesurfer outputs To BrainVISA conversion pipeline, Light version</a> , you can check if all files have been generated. This process is not mandatory to run pipelines.
 
 </xhtml>
     <d name="parameters">

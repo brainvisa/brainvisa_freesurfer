@@ -45,12 +45,57 @@
 
 <tr>
 <td>06 Computation of resampling parameters</td>
-<td>
+<td>Create the <i>isin file</i>: 
 <ul>
     <li>Extraction of information about the inflated (right/left) hemisphere to sphere and the registration to (right/left) spherical surfaces with surface-based atlas (?h.sphere.reg.gii file).</li>
-    <li>Projection onto a icosphere (the ico100_7.mesh file) in order to normalize the number of nodes and their indexation. It will better to compare meshed between them.</li>
+    <li>Projection onto an icosphere (the ico100_7.mesh file) in order to normalize the number of nodes and their indexation. This way allows to compare meshes nodes by nodes across subjects.</li>
 </ul>	
  </td>
+</tr>
+
+<tr>
+<td>07 Mesh resampling</td>
+<td>Resample ?h.pial.gii and ?h.white.gii with the ?h.isin file. </td>
+</tr>
+
+<tr>
+<td>08 Conversion of meshes to aims referential</td>
+<td>Resample ?h.r.pial.gii and ?h.r.white.gii to use the aims coordinate system. Otherwise data are displayed upside down.</td>
+</tr>
+
+<tr>
+<td>09/10 Converting freesurfer unreadable labels to aims textures</td>
+<td>Conversion ?h.aparc.annot and ?h.aparc.annot.</td>
+</tr>
+
+<tr>
+<td>11 Resample label textures</td>
+<td>Resample label textures ?h.aparc.annot.gii and ?h.aparc.a2009s.annot.gii with the ?h.isin file.</td>
+</tr>
+
+<tr>
+<td>12 Converting freesurfer textures to Gifti format</td>
+<td>Conversion ?h.curv, ?h.avg_curv, ?h.curv.pial and ?h.thickness to Nifti format.</td>
+</tr>
+
+<tr>
+<td>14 Resampling freesurfer data textures</td>
+<td>Resample ?h.curv.gii, ?h.avg_curv.gii, ?h.curv.pial.gii and ?h.thickness.gii with the ?h.isin file.</td>
+</tr>
+
+<tr>
+<td>15 Meshes inflate</td>
+<td>Inflate ?h.r.aims.white.gii.</td>
+</tr>
+
+<tr>
+<td>16 Concatenate meshes</td>
+<td>Concatenate white, pial and inflated meshes.</td>
+</tr>
+
+<tr>
+<td>17 Concatenate textures</td>
+<td>Concatenate right and left textures to bh.r.aparc.annot.gii and bh.r.aparc.a2009s.annot.gii.</td>
 </tr>
 
 </table></xhtml>
