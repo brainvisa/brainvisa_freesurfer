@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="minf_2.0">
+<d>
+  <d name="en">
+    <xhtml name="short">Process to interface freesurfer command lines: here you launch the <i>recon-all</i> command with or without option just by selecting the subject with the <b>AnatImage</b> parameter.</xhtml>
+    <d name="parameters">
+      <xhtml name="rightGyri">Hidden parameter.</xhtml>
+      <xhtml name="rightPial">Hidden parameter.</xhtml>
+      <xhtml name="rightSulciGyri">Hidden parameter.</xhtml>
+      <xhtml name="AnatImage">Select a T1 MRI.</xhtml>
+      <xhtml name="Add_options">Add option if needed. For instance, sometimes it is necessary to add the <i>-cw256</i> option if images have a FOV is more than 256.
+If the freesurfer command is failed, the output message can propose to use specific options. To read this kind of information, please refer to the "BrainVISA then Show Log" menu.</xhtml>
+      <xhtml name="leftThickness">Hidden parameter.</xhtml>
+      <xhtml name="leftGyri">Hidden parameter.</xhtml>
+      <xhtml name="rightSphereReg">Hidden parameter.</xhtml>
+      <xhtml name="leftSulciGyri">Hidden parameter.</xhtml>
+      <xhtml name="leftAvgCurv">Hidden parameter.</xhtml>
+      <xhtml name="leftWhite">Hidden parameter.</xhtml>
+      <xhtml name="rightCurv">Hidden parameter.</xhtml>
+      <xhtml name="rightCurvPial">Hidden parameter.</xhtml>
+      <xhtml name="leftCurvPial">Hidden parameter.</xhtml>
+      <xhtml name="leftPial">Hidden parameter.</xhtml>
+      <xhtml name="rightAvgCurv">Hidden parameter.</xhtml>
+      <xhtml name="leftCurv">Hidden parameter.</xhtml>
+      <xhtml name="rightWhite">Hidden parameter.</xhtml>
+      <xhtml name="rightThickness">Hidden parameter.</xhtml>
+      <xhtml name="leftSphereReg">Hidden parameter.</xhtml>
+    </d>
+    <xhtml name="long"/>
+  </d>
+</d>
+</minf>

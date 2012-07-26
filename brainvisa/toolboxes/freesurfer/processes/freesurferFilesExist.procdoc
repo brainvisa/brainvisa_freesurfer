@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="minf_2.0">
+<d>
+  <d name="en">
+    <xhtml name="short">Before to launch the <a href="freesurferToBrainvisaConversionPipeline.html">Freesurfer outputs To BrainVISA conversion pipeline, Light version</a> or <a href="freesurferToBrainvisaConversionPipelineLight.html">Freesurfer outputs To BrainVISA conversion pipeline</a> , you can check if all files have been generated. This process is not mandatory to run pipelines.
+
+</xhtml>
+    <d name="parameters">
+      <xhtml name="rightGyri">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="rightPial">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="rightSulciGyri">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="rightCurv">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="rightAvgCurv">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="leftThickness">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="leftGyri">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="rightSphereReg">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="leftSulciGyri">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="leftAvgCurv">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="leftCurv">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="rightCurvPial">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="leftCurvPial">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="leftPial">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="leftWhite">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="rightWhite">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="rightThickness">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+      <xhtml name="leftSphereReg">Data computed either the "02 Launch Freesurfer full pipeline recon-all" process or directly by FreeSurfer.</xhtml>
+    </d>
+    <xhtml name="long"/>
+  </d>
+</d>
+</minf>

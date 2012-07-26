@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="minf_2.0">
+<d>
+  <d name="en">
+    <xhtml name="short"/>
+    <d name="parameters">
+      <xhtml name="rightGyri"/>
+      <xhtml name="rightPial"/>
+      <xhtml name="anat"/>
+      <xhtml name="rightSulciGyri"/>
+      <xhtml name="rightCurv"/>
+      <xhtml name="rightAvgCurv"/>
+      <xhtml name="leftThickness"/>
+      <xhtml name="leftGyri"/>
+      <xhtml name="rightSphereReg"/>
+      <xhtml name="leftSulciGyri"/>
+      <xhtml name="leftAvgCurv"/>
+      <xhtml name="leftCurv"/>
+      <xhtml name="rightCurvPial"/>
+      <xhtml name="leftCurvPial"/>
+      <xhtml name="leftPial"/>
+      <xhtml name="leftWhite"/>
+      <xhtml name="rightWhite"/>
+      <xhtml name="rightThickness"/>
+      <xhtml name="leftSphereReg"/>
+    </d>
+    <xhtml name="long">
+
+<table cellpadding="10" border="1" cellspacing="0">
+
+<tr>
+<td>STEP</td>
+<td>DESCRIPTION</td>
+</tr>
+
+<tr>
+<td>03b Convert FreeSurfer anatomical image to Nifti format</td>
+<td>Data managed by FreeSurfer are in MGZ format, which is not used in BrainVISA. This step just performs a conversion from MGZ to Nifti format.</td>
+</tr>
+
+<tr>
+<td>04 Conversion of FreeSurfer meshes to Gitti format</td>
+<td>Data managed by FreeSurfer are in MGZ format, which is not used in BrainVISA. This step just performs a conversion from MGZ to Nifti format.</td>
+</tr>
+
+<tr>
+<td>06 Computation of resampling parameters</td>
+<td>
+<ul>
+    <li>Extraction of information about the inflated (right/left) hemisphere to sphere and the registration to (right/left) spherical surfaces with surface-based atlas (?h.sphere.reg.gii file).</li>
+    <li>Projection onto a icosphere (the ico100_7.mesh file) in order to normalize the number of nodes and their indexation. It will better to compare meshed between them.</li>
+</ul>	
+ </td>
+</tr>
+
+</table></xhtml>
+  </d>
+</d>
+</minf>

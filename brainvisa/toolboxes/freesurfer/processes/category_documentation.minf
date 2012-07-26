@@ -10,7 +10,7 @@
   <p>Since the 4.2 release of BrainVISA, we propose a new toolbox which allows making some bridges with the FreeSurfer software.  
   For the moment, the toolbox will contain two separate parts:</p>
   <p>
-  <ul><li>The first part is an import process (visible in advanced user level (or level 1), please see in the preferences of BrainVISA), to import some data computed by FreeSurfer which can be used to run the Morphologist Pipeline. In few words, from the following files orig.mgz, ribbon.mgz and talairach.auto, it is possible to complete the Morphologist Pipeline by using the segmentated brain created with FreeSufer instead of the ones computed by Morphologist. In this way, the same segmentations are preserved to complete the analysis by launching Morphologist Pipeline in order to extract cortical sulci graphs and perform an idenfication of the sulci.<p></p></li>
+  <ul><li>The first part is an import process (visible in advanced user level (or level 1), please see in the preferences of BrainVISA), to import some data computed by FreeSurfer which can be used to run the Morphologist Pipeline. In few words, from the following files orig.mgz, ribbon.mgz and talairach.auto, it is possible to complete the Morphologist Pipeline by using the segmentated brain created with FreeSurfer instead of the ones computed by Morphologist. In this way, the same segmentations are preserved to complete the analysis by launching Morphologist Pipeline in order to extract cortical sulci graphs and perform an idenfication of the sulci.<p></p></li>
   <li>The second part is composed of a set of processes/pipelines to run FreeSufer from within BrainVisa, and make its outputs (meshes, gyri and sulci textures, cortical thickness maps, etc) available in BrainVisa world, and viewable using Anatomist.</li></ul></p>
 
 
@@ -44,7 +44,7 @@
  <li>Select the <em>Databases</em> panel.</li>
  <li>Click on <em>Add</em> button.</li>
  <li>Select a directory which will be your database.</li>
- <li>By default, the ontology is set to <em>brainvisa-3.1.0</em>. So you don't nned to bother about <em>expert_settings</em>.</li>
+ <li>By default, the ontology is set to <em>brainvisa-3.1.0</em>. So you don't need to bother about <em>expert_settings</em>.</li>
  <li>Click on OK.</li>
   <li>BrainVISA should open the "Update database process" with the new selected database. Click OK.</li>
  </ul>
