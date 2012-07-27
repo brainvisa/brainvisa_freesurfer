@@ -63,8 +63,8 @@ hierarchy = (
         'ribbon', SetType( 'Ribbon Freesurfer' ),
         'transforms', SetContent(
           'talairach.auto', SetType('Talairach Auto Freesurfer'),
-        '<subject>_<acquisition>_TO_Scanner_Based', SetType( 'Transformation to Scanner Based Referential' ),
-        '<subject>_<acquisition>_Scanner_Based', SetType( 'Scanner Based Referential' ), 
+        'orig_<subject>_TO_Scanner_Based', SetType( 'Transformation to Scanner Based Referential' ),
+        'orig_<subject>_Scanner_Based', SetType( 'Scanner Based Referential' ), 
         ),
         'orig', SetContent(
           '001', SetType('RawFreesurferAnat'),
