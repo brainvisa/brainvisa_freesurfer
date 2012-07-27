@@ -104,7 +104,7 @@ signature=Signature(
   'histo_analysis', WriteDiskItem( 'Histo Analysis', 'Histo Analysis' ),
   #'hfiltered', WriteDiskItem( "T1 MRI Filtered For Histo", shfjGlobals.aimsWriteVolumeFormats ),
   #'white_ridges', WriteDiskItem( "T1 MRI White Matter Ridges",  shfjGlobals.aimsWriteVolumeFormats ),
-  'Voronoi_output', WriteDiskItem( 'Voronoi Diagram', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
+  'Split_brain_output', WriteDiskItem( 'Split Brain Mask', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
   'Rgrey_white_output', WriteDiskItem( 'Right Grey White Mask', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
   'Lgrey_white_output', WriteDiskItem( 'Left Grey White Mask', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
   # 'input_spm_orientation', Choice( '0', '1', ), 
@@ -126,7 +126,7 @@ def initialization( self ):
   self.linkParameters( 'Biais_corrected_output', 'T1_output' )
   #self.linkParameters( 'white_ridges', 'T1_output' )
   #self.linkParameters( 'hfiltered', 'T1_output' )
-  self.linkParameters( 'Voronoi_output', 'T1_output' )
+  self.linkParameters( 'Split_brain_output', 'T1_output' )
   self.linkParameters( 'normalization_transformation', 'T1_output' )
   self.linkParameters( 'Talairach_transform', 'T1_output' )
   self.linkParameters( 'histo_analysis', 'Biais_corrected_output' )
@@ -149,7 +149,7 @@ def execution( self, context ):
   #Temporary files
   tmp_ori = context.temporary( 'NIFTI-1 image', 'Raw T1 MRI'  )
   #tmp_nu = context.temporary( 'NIFTI-1 image', 'T1 MRI Bias Corrected'  )
-  tmp_ribbon = context.temporary( 'NIFTI-1 image', 'Voronoi Diagram'  )
+  tmp_ribbon = context.temporary( 'NIFTI-1 image', 'Split Brain Mask'  )
   database = self.T1_orig.get('_database')
   
   #Convert the three volumes from .mgz to .nii with Freesurfer
@@ -176,9 +176,9 @@ def execution( self, context ):
   #context.runProcess( 'ImportData', tmp_nu , self.Biais_corrected_output)
   #context.system( 'AimsFileConvert', '-i',  self.Biais_corrected_output, '-o', self.Biais_corrected_output, '-t', 'S16')
   
-  #context.runProcess( 'ImportGenericVolume', tmp_ribbon , self.Voronoi_output)
-  context.runProcess( 'ImportData', tmp_ribbon , self.Voronoi_output)
-  context.system( 'AimsFileConvert', '-i',  self.Voronoi_output, '-o', self.Voronoi_output, '-t', 'S16')
+  #context.runProcess( 'ImportGenericVolume', tmp_ribbon , self.Split_brain_output)
+  context.runProcess( 'ImportData', tmp_ribbon , self.Split_brain_output)
+  context.system( 'AimsFileConvert', '-i',  self.Split_brain_output, '-o', self.Split_brain_output, '-t', 'S16')
   
   
   ##Convert .xfm and create ACPC file
@@ -240,20 +240,20 @@ def execution( self, context ):
       context.runProcess( 'TalairachTransformationFromNormalization', self.normalization_transformation,  self.T1_output, self.Talairach_transform, self.T1_output, self.T1_output)
 
 
-  #VipGreyStatClassif  = self.Voronoi_output
-  #change labels for Voronoi
+  #VipGreyStatClassif  = self.Split_brain_output
+  #change labels for Split Brain
   context.write("Create R/L-Grey white files from ribbon freesurfer data")
   VipGreyStatClassif = context.temporary( 'NIFTI-1 image' )
-  context.system( 'AimsReplaceLevel',    '-i',  self.Voronoi_output,    '-o', VipGreyStatClassif ,    '-g', '42', '41', '2', '3', '-n', '100' ,'200', '200', '100' )
-  context.system( 'AimsReplaceLevel',    '-i',  self.Voronoi_output,    '-o', self.Rgrey_white_output,    '-g', '42', '41', '2', '3', '-n', '100' ,'200', '0', '0' )
-  context.system( 'AimsReplaceLevel',    '-i',  self.Voronoi_output,    '-o', self.Lgrey_white_output,    '-g', '42', '41', '2', '3', '-n', '0' ,'0', '200', '100' )
+  context.system( 'AimsReplaceLevel',    '-i',  self.Split_brain_output,    '-o', VipGreyStatClassif ,    '-g', '42', '41', '2', '3', '-n', '100' ,'200', '200', '100' )
+  context.system( 'AimsReplaceLevel',    '-i',  self.Split_brain_output,    '-o', self.Rgrey_white_output,    '-g', '42', '41', '2', '3', '-n', '100' ,'200', '0', '0' )
+  context.system( 'AimsReplaceLevel',    '-i',  self.Split_brain_output,    '-o', self.Lgrey_white_output,    '-g', '42', '41', '2', '3', '-n', '0' ,'0', '200', '100' )
   
-  context.write("Create Voronoi file from ribbon freesurfer data")
-  context.system( 'AimsReplaceLevel',    '-i',  self.Voronoi_output,    '-o', self.Voronoi_output,    '-g', '42', '41', '2', '3', '-n', '1' ,'1', '2', '2' )
+  context.write("Create Split Brain file from ribbon freesurfer data")
+  context.system( 'AimsReplaceLevel',    '-i',  self.Split_brain_output,    '-o', self.Split_brain_output,    '-g', '42', '41', '2', '3', '-n', '1' ,'1', '2', '2' )
 
   #Copy referential
   trManager = registration.getTransformationManager()
-  trManager.copyReferential( self.T1_output, self.Voronoi_output )
+  trManager.copyReferential( self.T1_output, self.Split_brain_output )
   trManager.copyReferential( self.T1_output, self.Lgrey_white_output )
   trManager.copyReferential( self.T1_output, self.Rgrey_white_output )
 
@@ -285,7 +285,7 @@ def execution( self, context ):
   ##Segmentation du cortex : Lcortex_subject
   #Lbraing = context.temporary( 'GIS Image' )
   #context.system( 'VipMask', '-i', self.Lgrey_white_output, "-m",
-                  #self.Voronoi_output, "-o", Lbraing, "-w",
+                  #self.Split_brain_output, "-o", Lbraing, "-w",
                   #"t", "-l", "2" )
   #context.system( "VipHomotopicSnake", "-i", Lbraing, "-h",
                   #han, "-o", self.left_hemi_cortex, "-w", "t" )
@@ -295,7 +295,7 @@ def execution( self, context ):
   ##Segmentation du cortex : Rcortex_subject
   #Rbraing = context.temporary( 'GIS Image' )
   #context.system( "VipMask", "-i", self.Rgrey_white_output, "-m",
-                  #self.Voronoi_output, "-o", Rbraing,
+                  #self.Split_brain_output, "-o", Rbraing,
                   #"-w", "t", "-l", "1" )
   #context.system( "VipHomotopicSnake", "-i", Rbraing, "-h",
                   #han, "-o", self.right_hemi_cortex, "-w", "t" )
@@ -309,7 +309,7 @@ def execution( self, context ):
   self.normalization_transformation.lockData()
   self.Talairach_transform.lockData() 
   self.histo_analysis.lockData()
-  self.Voronoi_output.lockData()
+  self.Split_brain_output.lockData()
   self.Rgrey_white_output.lockData()
   self.Lgrey_white_output.lockData()
   #Obsolete with Morphologist 2012
