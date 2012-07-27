@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="minf_2.0">
+<d>
+  <d name="en">
+    <xhtml name="short">Create average brain meshes from <a href="freesurferCreateGroup.html">a group of subject</a>.</xhtml>
+    <d name="parameters">
+      <xhtml name="RightAverageMesh"/>
+      <xhtml name="LeftAverageMesh"/>
+      <xhtml name="group"/>
+      <xhtml name="BothAverageMesh"/>
+    </d>
+    <xhtml name="long"/>
+  </d>
+</d>
+</minf>

@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 from brainvisa.processes import *
 from brainvisa.group_utils import Subject
 from soma.minf.api import registerClass, readMinf
 
 name = '2 Average brain mesh'
-userlevel = 2
+userLevel = 1
 
 signature = Signature(
   'group', ReadDiskItem('Freesurfer Group definition', 'XML' ),

@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 from brainvisa.processes import *
 from brainvisa.group_utils import Subject
 from soma.minf.api import registerClass, writeMinf
 
 name = '1 Creation of a group of subject'
-userlevel = 2
+userLevel = 1
 
 signature = Signature(
   'list_of_subjects',ListOf ( ReadDiskItem("Subject", 'Directory') ),

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="minf_2.0">
+<d>
+  <d name="en">
+    <xhtml name="short">Select many subjects by selecting of multiple choices (Ctrl key + left mouse button) in the BrainVISA database and create a group. 
+Then <a href="freesurferMeanMesh.html">average brain mesh</a>.</xhtml>
+    <d name="parameters">
+      <xhtml name="list_of_subjects"/>
+      <xhtml name="group_definition"/>
+    </d>
+    <xhtml name="long"/>
+  </d>
+</d>
+</minf>
