@@ -71,6 +71,10 @@ FileType( 'Ribbon Freesurfer', 'FreesurferType' )
 FileType( 'Talairach Auto Freesurfer', 'MINC transformation matrix' )
 
 
+#mri / transforms
+FileType( 'Referential of Raw T1 MRI', 'Referential' )
+
+
 # Surf
 FileType( 'SphereReg', 'FreesurferMesh')
 FileType( 'BaseFreesurferType', 'FreesurferType')

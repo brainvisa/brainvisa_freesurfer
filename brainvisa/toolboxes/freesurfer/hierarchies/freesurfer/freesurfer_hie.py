@@ -65,9 +65,11 @@ hierarchy = (
           'talairach.auto', SetType('Talairach Auto Freesurfer'),
           'orig_<subject>_TO_Scanner_Based', SetType( 'Transformation to Scanner Based Referential' ),
           'orig_<subject>_Scanner_Based', SetType( 'Scanner Based Referential' ), 
-        ),
+          #'orig_<subject>', SetType( 'Referential of FreesurferAnat' ), 
+       ),
         'orig', SetContent(
           '001', SetType('RawFreesurferAnat'),
+          '001', SetType( 'Referential of Raw T1 MRI' ), 
         ),
       ),
       'surf', SetContent(
