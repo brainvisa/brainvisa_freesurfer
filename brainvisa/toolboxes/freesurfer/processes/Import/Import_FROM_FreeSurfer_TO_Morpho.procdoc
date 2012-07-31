@@ -7,8 +7,8 @@
     
 </xhtml>
     <d name="parameters">
-      <xhtml name="Voronoi_output">OUPUT for brainvisa ontology</xhtml>
       <xhtml name="normalization_transformation">Output for brainvisa ontology</xhtml>
+      <xhtml name="Lgrey_white_output">Output for brainvisa ontology</xhtml>
       <xhtml name="T1_output">Output for brainvisa ontology</xhtml>
       <xhtml name="use_t1pipeline">Here you can choose if you want run the Morphologist pipeline now and how you want to use it. You can run it with the graphical interface or not (in batch mode). Please, note that <b>the version of cortical graph is set to 3.1 by default</b>. You can change it when the graphical interface of the Morphologist pipeline is launched.</xhtml>
       <xhtml name="ribbon_image">Input comes from freesurfer ontology, which corresponds to {directory_data_fressurfer}/{subject}/mri/ribbon.mgz</xhtml>
@@ -16,18 +16,18 @@
 </xhtml>
       <xhtml name="Rgrey_white_output">Output for brainvisa ontology</xhtml>
       <xhtml name="Biais_corrected_output">Output for brainvisa ontology</xhtml>
-      <xhtml name="Lgrey_white_output">Output for brainvisa ontology</xhtml>
+      <xhtml name="Split_brain_output"/>
       <xhtml name="Talairach_transform">Output for brainvisa ontology</xhtml>
       <xhtml name="Talairach_Auto">Input comes from freesurfer ontology, which corresponds to {directory_data_fressurfer}/{subject}/mri/transforms/talairach.auto</xhtml>
       <xhtml name="histo_analysis">Output for brainvisa ontologie. </xhtml>
     </d>
-    <xhtml name="long"><p>By using this process, you can import some data processed with FreeSurfer and use mainly the computed  segmentation and perhaps handly corrected. In fact, this segmentation can be computed with Morphologist pipeline but if you are already processed this kind of step with FreeSurfer, this process import your freesurfer segmentation and do not rewrite the file by Morphologist. So that, the Morphologist pipeline will be launched with some unselected steps. To be more accurate, the pipeline will start to "GreyWhite Surface" step. After that the pipeline will compute some meshes, and especially extract cortical fold graph to drive an idenfication of sulci at the end.</p>
+    <xhtml name="long"><p>By using this process, you can import some data processed with FreeSurfer and use mainly the computed  segmentation and perhaps handly corrected. In fact, this segmentation can be computed with Morphologist pipeline but if you are already processed this kind of step with FreeSurfer, this process import your freesurfer segmentation and does not rewrite the file by Morphologist. So that, the Morphologist pipeline will be launched with some unselected steps. To be more accurate, the pipeline will start to "GreyWhite Surface" step. After that the pipeline will compute some meshes, and especially extract cortical fold graph to drive an idenfication of sulci at the end.</p>
 
 <p>Note that if you run the Morphologist pipeline with the "Import From FreeSurfer to T1 pipeline", <b>the version of cortical fold graph is set to 3.1</b>. By default, this value is set to 3.0 in the Morphologist pipeline. So it's a debatable choice ... if you prefer the 3.0 version, you can change it when the Morphologist pipeline will be launched (if the <em>use_t1pipeline</em> parameter is set to graphically option).
 </p>
 
 <p>
-Note that outputs are computed by this process will be locked before using Morphologist pipeline (parameters with a padlock icon). These parameters correspond to the first steps of the Morphologist pipeline. So that, you can't rewrite the files. After running the Morphologist pipeline, you can unlock files by clicking on the contextual menu of parameter. This means that you can rewrite files if you run processes with those parameters, but it can be your choice.
+Note that outputs, which are computed by this process, will be locked before using Morphologist pipeline (parameters with a padlock icon). These parameters correspond to the first steps of the Morphologist pipeline. So that, you can't rewrite the files. After running the Morphologist pipeline, you can unlock files by clicking on the contextual menu of parameter. This means that you can rewrite files if you run processes with those parameters, but it can be your choice.
 </p>
 
 <p>

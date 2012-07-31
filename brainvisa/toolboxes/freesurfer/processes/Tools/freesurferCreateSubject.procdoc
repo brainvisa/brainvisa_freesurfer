@@ -8,7 +8,7 @@
 </xhtml>
     <d name="parameters">
       <xhtml name="AnatImage">Hidden parameter.</xhtml>
-      <xhtml name="subjectName">{subject} which corresponds to the following organization in Freesurfer: 
+      <xhtml name="subjectName">{subject} which corresponds to the following organization in FreeSurfer: 
 {database}/{subjectName}/mri/ori.mgz</xhtml>
       <xhtml name="RawT1Image">Select a T1 MRI on your disk by using the directory or in a brainvisa database by using the green icon.
 </xhtml>
@@ -17,7 +17,8 @@
     <xhtml name="long">Here is the first step to import a new subject into a freesurfer database.
 This process do exactly the same thing that a copy of one data, but it avoids command lines and can manage automatically database.<br/><br/>
 Please refere to the description of paramaters below for more information.<br/><br/>
-In order to launch the recon-all analysis, let's go to the "02 Launch Freesurfer full pipeline recon-all".</xhtml>
+In order to launch the recon-all analysis, let's go to the 
+ <a href="freesurferPipeline.html">02 Launch Freesurfer full pipeline recon-all</a>.</xhtml>
   </d>
 </d>
 </minf>

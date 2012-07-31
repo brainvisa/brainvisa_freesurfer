@@ -8,19 +8,20 @@
 <h2>PRESENTATION</h2>
 
   <p>Since the 4.2 release of BrainVISA, we propose a new toolbox which allows making some bridges with the FreeSurfer software.  
-  For the moment, the toolbox will contain two separate parts:</p>
+  The toolbox will contain two separate parts:</p>
   <p>
-  <ul><li>One is an <a href="../../Import_FROM_FreeSurfer_TO_Morpho.html">import process</a> (available in <b>Import:Import From FreeSurfer to T1 pipeline</b> in advanced user level), to import some data computed by FreeSurfer which can be used to run the Morphologist Pipeline. In few words, from the following files orig.mgz, ribbon.mgz and talairach.auto, it is possible to complete the Morphologist Pipeline by using the segmented brain created with FreeSurfer instead of the ones computed by Morphologist. In this way, the same segmentations are preserved to complete the analysis by launching Morphologist Pipeline in order to extract cortical sulci graphs and perform an idenfication of the sulci.<p></p></li>
+  <ul><li>One is an <a href="../../Import_FROM_FreeSurfer_TO_Morpho.html">import process</a> (available in <b>Import:Import From FreeSurfer to T1 pipeline</b> in advanced user level), to import some data computed by FreeSurfer which can be used to run the Morphologist Pipeline. In a few words, from the following files orig.mgz, ribbon.mgz and talairach.auto, it is possible to complete the Morphologist Pipeline by using the segmented brain created with FreeSurfer instead of the ones computed by Morphologist. In this way, the same segmentations are preserved to complete the analysis by launching Morphologist Pipeline in order to extract cortical sulci graphs and perform an idenfication of sulci.<p></p></li>
   <li>The other is composed of a set of <a href="../../freesurferPipelineComplete.html">processes/pipelines</a> (available in <b>Freesurfer / BrainVisa full pipeline</b> process) to run FreeSufer from within BrainVisa, and make its outputs (meshes, gyri and sulci textures, cortical thickness maps, etc) available in BrainVisa world, and viewable using Anatomist.</li></ul></p>
 
 
 
     <h2>DATABASE</h2>
 <h3>Introduction</h3>  
-<p>This toolbox is a little unusual because you need to use 2 databases: one with a specific ontology for FreeSurfer and the other one with a brainvisa / Morphologist ontology. If you work with FreeSurfer, you know that data are organised with a specific order, looking like the following:</p>
+<p>This toolbox is a little bit unusual because you need to use database with an ontology for FreeSurfer. If you work with FreeSurfer, you know that data are organised with a specific order, looking like the following:</p>
 <p><img src="bvimage://org_database_freesurfer.png" /></p>
+<p>In order to use FreeSurfer within BrainVISA, the above description of files has written in the freesurfer ontology.</p>
 
-<p>In the same way, BrainVISA has a specific organization to manage data which is described by an ontology, the "brainvisa-3.1.0" ontology. By default, datasets are always organized with it. But in the case of an interface between FreeSurfer/BrainVISA, you need to know the organization both software. For this, to use this toolbox, you need at least one database for FreeSurfer and one database for BrainVISA / Morphologist.</p>
+<p>In the same way, BrainVISA has a specific organization to manage data which is described by an ontology, the "brainvisa-3.1.0" ontology. By default, datasets are always organized with it. But in the case of an interface between FreeSurfer/BrainVISA, you need to know the organization both software. For this, if you use the <a href="../../Import_FROM_FreeSurfer_TO_Morpho.html">import process</a>, you will need to set two databases with distinct ontologies one with a specific ontology for FreeSurfer and the other one for the Morphologist pipeline.</p>
 
 <p>For more details about databases, please refer to <a href="bvcategory://data management"><_t_>data management</_t_></a> section.</p>
 

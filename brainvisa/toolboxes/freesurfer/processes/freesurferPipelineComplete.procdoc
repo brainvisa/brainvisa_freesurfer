@@ -22,7 +22,7 @@ One of interest in a BrainVISA using is the ability to interface many software d
 <br/><br/>
 Thanks to this pipeline, the following freesurfer outputs can be used in the BrainVISA environment (aims coordinate system): ?h.pial, ?h.white, ?h.sphere.reg, ?h.aparc.annot, ?h.aparc.a2009s.annot, ?h.avg_curv, ?h.curv, ?h.curv.pial ?h.thickness. Furthermore, a normalization of the number of nodes and their indexation is performed in order to compare meshes nodes by nodes across subjects.
 <br/><br/>
-By using these processes the organization of freesurfer database is automatically taken into account and it is completed with new brainvisa outputs. 
+By using these processes, the organization of freesurfer database is automatically taken into account and it is completed with new brainvisa outputs. 
 <br/><br/>
 <b>References:</b><br/>
 <ul>

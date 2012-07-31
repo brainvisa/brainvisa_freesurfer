@@ -39,15 +39,15 @@
 </tr>
 
 <tr>
-<td>04 Conversion of FreeSurfer meshes to Gitti format</td>
-<td>Data managed by FreeSurfer are in MGZ format, which is not used in BrainVISA. This step just performs a conversion from MGZ to Nifti format.</td>
+<td>04 Conversion of FreeSurfer meshes to Gifti format</td>
+<td>Data managed by FreeSurfer are in MGZ format, which is not used in BrainVISA. This step just performs a conversion from MGZ to Gifti format.</td>
 </tr>
 
 <tr>
 <td>06 Computation of resampling parameters</td>
 <td>Create the <i>isin file</i>: 
 <ul>
-    <li>Extraction of information about the inflated (right/left) hemisphere to sphere and the registration to (right/left) spherical surfaces with surface-based atlas (?h.sphere.reg.gii file).</li>
+    <li>Extraction of projection information about the inflated (right/left) hemisphere to sphere and the registration to (right/left) spherical surfaces with surface-based atlas (?h.sphere.reg.gii file).</li>
     <li>Projection onto an icosphere (the ico100_7.mesh file) in order to normalize the number of nodes and their indexation. This way allows to compare meshes nodes by nodes across subjects.</li>
 </ul>	
  </td>
@@ -65,7 +65,7 @@
 
 <tr>
 <td>09/10 Converting freesurfer unreadable labels to aims textures</td>
-<td>Conversion ?h.aparc.annot and ?h.aparc.annot.</td>
+<td>Conversion ?h.aparc.annot and ?h.aparc.a2009s.annot.</td>
 </tr>
 
 <tr>
@@ -75,7 +75,7 @@
 
 <tr>
 <td>12 Converting freesurfer textures to Gifti format</td>
-<td>Conversion ?h.curv, ?h.avg_curv, ?h.curv.pial and ?h.thickness to Nifti format.</td>
+<td>Conversion ?h.curv, ?h.avg_curv, ?h.curv.pial and ?h.thickness to Gifti format.</td>
 </tr>
 
 <tr>
