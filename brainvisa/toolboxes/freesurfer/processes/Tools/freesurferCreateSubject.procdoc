@@ -2,7 +2,7 @@
 <minf expander="minf_2.0">
 <d>
   <d name="en">
-    <xhtml name="short">Process to interface freesurfer command lines: here you can add a subject into a freesurfer database.
+    <xhtml name="short">Process to interface freesurfer command lines: here you can add a subject into a freesurfer database, also visible in BrainVisa.
    
 
 </xhtml>
@@ -15,8 +15,8 @@
       <xhtml name="database">Select a freesurfer database. Only database with a freesurfer ontology are available.</xhtml>
     </d>
     <xhtml name="long">Here is the first step to import a new subject into a freesurfer database.
-This process do exactly the same thing that a copy of one data, but it avoids command lines and can manage automatically database.<br/><br/>
-Please refere to the description of paramaters below for more information.<br/><br/>
+This process merely copies one input T1 data, but it avoids command lines and can manage automatically the database in both FreeSurfer and BrainVisa.<br/><br/>
+Please refer to the description of paramaters below for more information.<br/><br/>
 In order to launch the recon-all analysis, let's go to the 
  <a href="freesurferPipeline.html">02 Launch Freesurfer full pipeline recon-all</a>.</xhtml>
   </d>

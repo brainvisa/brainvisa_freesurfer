@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <minf expander="minf_2.0">
 <d>
+  <d name="fr">
+    <xhtml name="short"/>
+    <d name="parameters">
+      <xhtml name="RawT1Image"/>
+    </d>
+    <xhtml name="long"/>
+  </d>
   <d name="en">
     <xhtml name="short">This pipeline performs the following steps:
 <ul>
 <li>Pipeline to import data into a freesurfer database. Please read more information at  <a href="freesurferCreateSubject.html">01 Create Freesurfer subject from T1 anatomical image</a> process.</li> <br/>
 <li>Launch the <b>recon-all</b> freesurfer command line. Please read more information at  <a href="freesurferPipeline.html">02 Launch Freesurfer full pipeline recon-all</a> process.</li>
 <br/>
-<li>Launch the <b>Freesurfer / Brainvisa</b> to convert to Nifti format, to normalize meshes by using an icosphere and to use the coordinates system of aims. Please read more information at  <a href="freesurferToBrainvisaConversionPipeline.html">Freesurfer outputs To BrainVisa conversion pipeline</a> process.</li>  
+<li>Launch the <b>Freesurfer / Brainvisa</b> process to convert to image formats used in BrainVisa (typically, Nifti), to obtain meshes with inter-subjects correspondance, and to use the coordinates system of aims. Please read more information at  <a href="freesurferToBrainvisaConversionPipeline.html">Freesurfer outputs To BrainVisa conversion pipeline</a> process.</li>  
 </ul>
-After analysis of many subjects, you could:
+After analysis of many subjects, you can also do:
 <ul>
-<li><a href="freesurferCreateGroup.html">1 Creation of a group of subject</a>.</li> <br/>
+<li><a href="freesurferCreateGroup.html">1 Creation of a group of subjects</a>.</li> <br/>
 <li><a href="freesurferMeanMesh.html">2 Average brain mesh</a>.</li> <br/>
 </ul></xhtml>
     <d name="parameters">
       <xhtml name="RawT1Image"/>
     </d>
     <xhtml name="long">
-One of interest in a BrainVISA using is the ability to interface many software dedicated in neuroimaging (actually, BrainVISA can be extended in many ways). In this pipeline, an interface is proposed from very interesting analysis available in Freesurfer (grey/white matter segmentation, cortical parcellation, cortical thickness ...) to the BrainVISA environment (database manager, aims coordinate system, visualization in Anatomist ...).
+One of interests in BrainVISA use is the ability to interface many software dedicated in neuroimaging (actually, BrainVISA can be extended in many ways). In this pipeline, an interface is proposed from very interesting analysis available in Freesurfer (grey/white matter segmentation, cortical parcellation, cortical thickness...) to the BrainVISA environment (database manager, aims coordinate system, visualization in Anatomist...).
 <br/><br/>
 Thanks to this pipeline, the following freesurfer outputs can be used in the BrainVISA environment (aims coordinate system): ?h.pial, ?h.white, ?h.sphere.reg, ?h.aparc.annot, ?h.aparc.a2009s.annot, ?h.avg_curv, ?h.curv, ?h.curv.pial ?h.thickness. Furthermore, a normalization of the number of nodes and their indexation is performed in order to compare meshes nodes by nodes across subjects.
 <br/><br/>
