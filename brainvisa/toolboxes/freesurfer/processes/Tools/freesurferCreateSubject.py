@@ -7,7 +7,7 @@ name = "01 Create Freesurfer subject from T1 anatomical image"
 userLevel = 1
 
 signature = Signature(
-  'RawT1Image', ReadDiskItem('Raw T1 MRI', getAllFormats()),
+  'RawT1Image', ReadDiskItem('Raw T1 MRI', 'NIFTI-1 image'),
   'subjectName', String(),
   'database', Choice(),
   'AnatImage', WriteDiskItem( 'RawFreesurferAnat', 'FreesurferMGZ' )
@@ -28,15 +28,13 @@ def initialization(self):
     if proc.subjectName is not None and proc.database is not None:
       subject = proc.subjectName
       dirname = proc.database
-      print 'subject:', subject
-      print 'dirname:', dirname
       filename = os.path.join( dirname, subject, 'mri/orig/001.mgz' )
       return filename
   self.linkParameters( 'AnatImage', ( 'subjectName', 'database' ), linkAnatImage )
   self.signature['AnatImage'].userLevel = 3
   
 def execution(self, context):
-  context.write('Create subject hierarchy and convert image to mgz format.')
+  context.write('Create subject hierarchy and convert image to mgz format.') 
   launchFreesurferCommand( context, self.database, 'mri_convert', self.RawT1Image, self.AnatImage )
   createdDir = self.database+'/'+self.subjectName
   context.write("Updating database, path = " + createdDir)

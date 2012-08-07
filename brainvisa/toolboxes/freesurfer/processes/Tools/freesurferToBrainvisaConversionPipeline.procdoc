@@ -65,7 +65,7 @@
 
 <tr>
 <td>09/10 Converting freesurfer unreadable labels to aims textures</td>
-<td>Conversion ?h.aparc.annot and ?h.aparc.a2009s.annot.</td>
+<td>Conversion ?h.aparc.annot and ?h.aparc.a2009s.annot.<a href="https://surfer.nmr.mgh.harvard.edu/fswiki/CorticalParcellation">More information about ?h.aparc.annot and ?h.aparc.a2009s.annot</a> .</td>
 </tr>
 
 <tr>
@@ -75,7 +75,7 @@
 
 <tr>
 <td>12 Converting freesurfer textures to Gifti format</td>
-<td>Conversion ?h.curv, ?h.avg_curv, ?h.curv.pial and ?h.thickness to Gifti format.</td>
+<td>Conversion ?h.curv, ?h.avg_curv, ?h.curv.pial and ?h.thickness to Gifti format.<br/>?h.avg.curv corresponds to the resample of the average curvature from the atlas to the subject.</td>
 </tr>
 
 <tr>
