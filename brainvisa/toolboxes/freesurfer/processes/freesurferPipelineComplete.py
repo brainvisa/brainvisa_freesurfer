@@ -5,7 +5,7 @@ name = 'Freesurfer / BrainVisa full pipeline'
 userLevel = 1
 
 signature = Signature(
-  'RawT1Image', ReadDiskItem('Raw T1 MRI', getAllFormats()),
+  'RawT1Image', ReadDiskItem('Raw T1 MRI', 'NIFTI-1 image'),
 )
 
 
