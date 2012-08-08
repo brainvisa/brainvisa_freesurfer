@@ -33,17 +33,15 @@
 
 from brainvisa.processes import *
 import distutils.spawn
-from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
+from freesurfer.brainvisaFreesurfer \
+  import launchFreesurferCommand, testFreesurferCommand
 
 name = 'FreeSurfer to MGZ Converter'
 roles = ('converter',)
 userLevel = 0
 
 def validation():
-  try:
-    launchFreesurferCommand( defaultContext(), None, 'mri_convert', '-h' )
-  except:
-    raise ValidationError( 'FreeSurfer "mri_convert" program not found' )
+  testFreesurferCommand()
 
 signature = Signature(
   'read', ReadDiskItem( '4D Volume', ( 'NIFTI-1 image', 'DICOM image' ),

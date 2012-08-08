@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 import os
 from brainvisa.processes import *
-from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
+from freesurfer.brainvisaFreesurfer \
+  import launchFreesurferCommand, testFreesurferCommand
 
 name = "02 Launch Freesurfer full pipeline recon-all"
 userLevel = 1
+
+def validation():
+  testFreesurferCommand()
 
 signature = Signature(
   'AnatImage', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
