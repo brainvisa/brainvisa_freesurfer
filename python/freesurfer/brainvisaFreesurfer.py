@@ -11,11 +11,19 @@ configuration = Application().configuration
 
 #print "Module brainvisafreesurfer.py"
 
+__freeSurferOK__ = None
 
-def testFreesurferCommand( *args, **kwargs ):
-  #print " -- Function testFreesurferCommand -- "
-  context = brainvisa.processes.defaultContext()
-  launchFreesurferCommand(context, None, 'mri_convert', '-h')
+def testFreesurferCommand( force_retest=False ):
+  global __freeSurferOK__
+  if force_retest or __freeSurferOK__ is None:
+    #print " -- Function testFreesurferCommand -- "
+    context = brainvisa.processes.defaultContext()
+    try:
+      launchFreesurferCommand(context, None, 'mri_convert', '-h')
+      __freeSurferOK__ = True
+    except:
+      __freeSurferOK__ = False
+      raise
 
 
 def launchFreesurferCommand( context, database=None, *args, **kwargs ):
