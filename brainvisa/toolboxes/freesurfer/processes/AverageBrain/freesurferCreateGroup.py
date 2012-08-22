@@ -15,15 +15,8 @@ def initialization(self):
   pass
 
 
-  
+
 def execution(self, context):
-  groupOfSubjects = list()
-
-  for subject in self.list_of_subjects:
-    groupOfSubjects.append(Subject(subject))
-
-  registerClass('minf_2.0', Subject, 'Subject')
-
-  writeMinf(self.group_definition.fullPath(), groupOfSubjects,
-            reducer='minf_2.0')
+  context.runProcess( 'createGroup', self.list_of_subjects,
+    self.group_definition )
 
