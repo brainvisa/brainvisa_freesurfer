@@ -54,7 +54,7 @@ FileType( 'FreesurferMesh', 'Mesh')
 #FileType( 'FreesurferAnaT', 'FreesurferMGZ')
 
 # Group
-FileType( 'Freesurfer Group definition', 'XML parameters', 'XML')
+FileType( 'Freesurfer Group definition', 'Group definition', 'XML')
 FileType( 'AverageBrainWhite', 'FreesurferMesh')
 FileType( 'BothAverageBrainWhite', 'FreesurferMesh')
 
