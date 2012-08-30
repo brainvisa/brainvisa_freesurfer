@@ -262,7 +262,7 @@ def execution( self, context ):
   
 
   #On doit indiquer les valeurs de write_hfiltered et write_wridges à no maintenant ?
-  context.runProcess( 'T1BiasCorrection', mri=self.T1_output, mri_corrected=self.Biais_corrected_output, Commissure_coordinates=self.Talairach_transform)
+  context.runProcess( 'T1BiasCorrection', mri=self.T1_output, mri_corrected=self.Biais_corrected_output, commissure_coordinates=self.Talairach_transform)
 
   #Launch VipGreyStatFromClassif to generate a histo analysis file
   context.write("Launch VipGreyStatFromClassif to generate a histo analysis file")
