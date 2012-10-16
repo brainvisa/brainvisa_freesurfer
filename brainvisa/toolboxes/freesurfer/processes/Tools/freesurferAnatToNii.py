@@ -20,5 +20,5 @@ def execution(self, context):
                            self.AnatImage.fullPath(),
                            self.NiiAnatImage.fullPath() )
   
-  context.system('python', '-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiAnatImage.fullPath()))
+  #context.system('python', '-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiAnatImage.fullPath()))
 
