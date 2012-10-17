@@ -5,7 +5,7 @@ name = 'Freesurfer outputs To BrainVisa conversion pipeline, Light version'
 userLevel = 1
 
 try:
-  p = getProcessInstance( 'freesurferBrainvisaPipeline' )
+  p = getProcessInstance( 'freesurferToBrainvisaConversionPipeline' )
 
   s = []
   for n in p.signature.sortedKeys:

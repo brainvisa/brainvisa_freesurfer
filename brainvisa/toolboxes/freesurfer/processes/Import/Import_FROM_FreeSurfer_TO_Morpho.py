@@ -211,15 +211,13 @@ def execution( self, context ):
     context.write("Convert Talairach_Auto into AC-PC File")
     m = []
     i = 0
-    rl = False 
+    rl = False
     for l in open( self.Talairach_Auto.fullPath() ).xreadlines():
-      print l
       if l.startswith( 'Linear_Transform =' ):
         rl = True
       elif rl:
         if l.endswith( ';\n' ):
           l = l[:-2]
-          print l
         m.append( [ float(x) for x in l.split() ] )
         i += 1
         if i == 3:

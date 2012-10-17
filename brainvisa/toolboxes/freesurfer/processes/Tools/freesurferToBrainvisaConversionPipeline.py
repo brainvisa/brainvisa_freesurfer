@@ -5,7 +5,8 @@ name = 'Freesurfer outputs To BrainVisa conversion pipeline'
 userLevel = 1
 
 signature = Signature(
-  'anat', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
+  'anat', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ',
+    enableConversion=False ),
 
   'leftPial', ReadDiskItem('FreesurferType', 'FreesurferPial',
          requiredAttributes = {'side': 'left'}),

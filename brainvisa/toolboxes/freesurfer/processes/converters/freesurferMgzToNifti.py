@@ -52,6 +52,12 @@ def initialization( self ):
   self.linkParameters( 'write', 'read' )
 
 def execution( self, context ):
-    launchFreesurferCommand( context, None, 'mri_convert', self.read,
-      self.write )
+  # mri_convert will not write a .minf, so we have to take care if it
+  # already exists from a previous data
+  if os.path.exists( self.write.minfFileName() ):
+    self.write.clearMinf( saveMinf=True )
+  launchFreesurferCommand( context, None, 'mri_convert', self.read,
+    self.write )
+  self.write.readAndUpdateMinf()
+  self.write.saveMinf()
 
