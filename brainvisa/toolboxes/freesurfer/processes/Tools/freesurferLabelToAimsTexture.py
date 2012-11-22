@@ -14,39 +14,53 @@ signature = Signature(
 #  'SulciGyri', ReadDiskItem('FreesurferReadableSulciGyriTexture', 'Series of FreesurferLabel'),
   'GyriTexture', WriteDiskItem('FreesurferGyri', 'Aims Texture formats'),
   'SulciGyriTexture', WriteDiskItem('FreesurferSulciGyri', 'Aims Texture formats'),
+  'side', Choice( ( 'left', 'lh' ), ( 'right', 'rh' ), None ),
+  'database', ReadDiskItem( 'Directory', 'Directory' ),
+  'subject', String(),
   )
 
 def initialization(self):
+  def linkside( self, dummy ):
+    if self.Gyri is not None:
+      return self.Gyri.get( 'side' )
+  def linkDB( self, dummy ):
+    if self.Gyri:
+      return self.Gyri.get('_database')
+  def linkSubject( self, dummy ):
+    if self.Gyri:
+      return self.Gyri.get('subject')
+
   self.linkParameters('Gyri', 'WhiteMesh')
   self.linkParameters('SulciGyri', 'WhiteMesh')
   self.linkParameters('GyriTexture', 'WhiteMesh')
   self.linkParameters('SulciGyriTexture', 'WhiteMesh')
+  self.linkParameters('side', 'Gyri', linkside )
+  self.linkParameters('database', 'Gyri', linkDB )
+  self.linkParameters('subject', 'Gyri', linkSubject )
+  self.signature[ 'side' ].userLevel = 2
+  self.signature[ 'database' ].userLevel = 2
+  self.signature[ 'subject' ].userLevel = 2
 
 
 def execution(self, context):
   context.write('Conversion of freesurfer labels to aims labels.')
 
-  if self.Gyri.get('side')=='left':
-    side = 'lh'
-  elif self.Gyri.get('side')=='right':
-    side = 'rh'
-  else:
-    context.write('Error in side')
-    return
-
+  side = self.side
+  print 'side:', side
+  print 'subject:', self.subject
 
   launchFreesurferCommand(context,
-                          self.Gyri.get('_database'),
+                          self.database.fullPath(),
                           'mri_annotation2label',
-                          '--subject', self.Gyri.get('subject'),
+                          '--subject', self.subject,
                           '--hemi', side,
                           '--annotation', self.Gyri.fullName()[self.Gyri.fullName().rfind('/')+4:],
                           '--labelbase', self.Gyri.fullPath()[self.Gyri.fullPath().rfind('/')+1:])
   gyriFiles = sorted( glob( self.Gyri.fullPath() + '-*.label' ) )
   launchFreesurferCommand(context,
-                          self.SulciGyri.get('_database'),
+                          self.database.fullPath(),
                           'mri_annotation2label',
-                          '--subject', self.SulciGyri.get('subject'),
+                          '--subject', self.subject,
                           '--hemi', side,
                           '--annotation', self.SulciGyri.fullName()[self.SulciGyri.fullName().rfind('/')+4:],
                           '--labelbase', self.SulciGyri.fullPath()[self.SulciGyri.fullPath().rfind('/')+1:])
