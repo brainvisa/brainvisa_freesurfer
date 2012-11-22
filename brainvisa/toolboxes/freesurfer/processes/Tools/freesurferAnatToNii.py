@@ -16,11 +16,7 @@ def initialization(self):
   self.linkParameters('NiiAnatImage', 'AnatImage')
   
 def execution(self, context):
-  # mri_convert will not write a .minf, so we have to take care if it
-  # already exists from a previous data
-  if os.path.exists( self.NiiAnatImage.minfFileName() ):
-    self.NiiAnatImage.clearMinf( saveMinf=True )
-  launchFreesurferCommand( context, self.AnatImage.get('_database'),
+  launchFreesurferCommand( context, '',
                            'mri_convert',
                            self.AnatImage.fullPath(),
                            self.NiiAnatImage.fullPath() )
