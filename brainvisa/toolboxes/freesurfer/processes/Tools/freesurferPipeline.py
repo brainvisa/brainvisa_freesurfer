@@ -12,7 +12,9 @@ def validation():
 
 signature = Signature(
   'AnatImage', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
-  'Add_options', String(), 
+  'Add_options', String(),
+  'database', ReadDiskItem( 'Directory', 'Directory' ),
+  'subject', String(),
   
   #liens non visible:
   'leftPial', WriteDiskItem('BaseFreesurferType', 'FreesurferPial',
@@ -58,11 +60,22 @@ signature = Signature(
   )
 
 def initialization(self):
+  def linkDB( self, dummy ):
+    if self.AnatImage:
+      return self.AnatImage.get('_database')
+  def linkSubject( self, dummy ):
+    if self.AnatImage:
+      return self.AnatImage.get('subject')
+
   #databases=[(h.name, h) for h in reversed(neuroHierarchy.hierarchies())]# reverse order of hierarchies to have brainvisa shared hierarchy at the end of the list
   #self.database=databases[0][1]
 
-  self.setOptional('Add_options')  
-  
+  self.setOptional('Add_options')
+  self.linkParameters('database', 'AnatImage', linkDB )
+  self.linkParameters( 'subject', 'AnatImage', linkSubject )
+  self.signature[ 'database' ].userLevel = 2
+  self.signature[ 'subject' ].userLevel = 2
+
   self.linkParameters( 'leftPial', 'AnatImage' )
   self.linkParameters( 'leftWhite', 'AnatImage' )
   self.linkParameters( 'leftSphereReg', 'AnatImage' )
@@ -104,11 +117,11 @@ def initialization(self):
   self.signature['rightSulciGyri'].userLevel = 3
   
 def execution(self, context):
-  subject = self.AnatImage.get('subject')
+  subject = self.subject
   if subject is None:
     subject = os.path.basename( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImage.fullPath() ) ) ) )
   context.write('Launch the Freesurfer pipeline on subject ' + subject )
-  database = self.AnatImage.get('_database')
+  database = self.database.fullPath()
   if not database:
     database = os.path.dirname( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImage.fullPath() ) ) ) )
   
