@@ -46,8 +46,6 @@ def execution(self, context):
   context.write('Conversion of freesurfer labels to aims labels.')
 
   side = self.side
-  print 'side:', side
-  print 'subject:', self.subject
 
   launchFreesurferCommand(context,
                           self.database.fullPath(),

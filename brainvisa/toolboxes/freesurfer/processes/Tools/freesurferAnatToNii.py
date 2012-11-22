@@ -9,18 +9,13 @@ userLevel = 2
 signature = Signature(
   'AnatImage', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
   'NiiAnatImage', WriteDiskItem('RawFreesurferAnat', 'NIFTI-1 image'),
-  'database', ReadDiskItem( 'Directory', 'Directory' ),
   )
 
 def initialization(self):
-  def linkDB( self, dummy ):
-    if self.AnatImage:
-      return self.AnatImage.get('_database')
   self.linkParameters('NiiAnatImage', 'AnatImage')
-  self.linkParameters('database', 'AnatImage', linkDB)
   
 def execution(self, context):
-  launchFreesurferCommand( context, self.database.fullPath(),
+  launchFreesurferCommand( context, '',
                            'mri_convert',
                            self.AnatImage.fullPath(),
                            self.NiiAnatImage.fullPath() )

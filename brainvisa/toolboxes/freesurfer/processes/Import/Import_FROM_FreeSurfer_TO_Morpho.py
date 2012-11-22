@@ -113,11 +113,16 @@ signature=Signature(
   #    'Aims writable volume formats' ),
   #'right_hemi_cortex', WriteDiskItem( 'Right CSF+GREY Mask',
   #    'Aims writable volume formats' ), 
-  'use_t1pipeline', Choice( ( 'graphically', 0 ), ( 'in batch', 1 ), ( 'don\'t use it', 2 ) )   
+  'use_t1pipeline', Choice( ( 'graphically', 0 ), ( 'in batch', 1 ), ( 'don\'t use it', 2 ) ),
+  #'database', ReadDiskItem( 'Directory', 'Directory' ),
 )
 
 
 def initialization( self ):
+  #def linkDB( self, dummy ):
+    #if self.T1_orig:
+      #return self.T1_orig.get('_database')
+
   #self.signature[ 'output' ].browseUserLevel = 3
   #self.signature[ 'nu input' ].databaseUserLevel = 2
   #self.linkParameters( 'nu_image', 'T1_orig' )
@@ -136,8 +141,8 @@ def initialization( self ):
   #Obsolete with Morphologist 2012
   #self.linkParameters( 'left_hemi_cortex', 'Biais_corrected_output' )
   #self.linkParameters( 'right_hemi_cortex', 'Biais_corrected_output' )
-  
-
+  #self.linkParameters('database', 'T1_orig', linkDB )
+  #self.signature[ 'database' ].userLevel = 2
 
 
 def execution( self, context ):
@@ -150,7 +155,7 @@ def execution( self, context ):
   tmp_ori = context.temporary( 'NIFTI-1 image', 'Raw T1 MRI'  )
   #tmp_nu = context.temporary( 'NIFTI-1 image', 'T1 MRI Bias Corrected'  )
   tmp_ribbon = context.temporary( 'NIFTI-1 image', 'Split Brain Mask'  )
-  database = self.T1_orig.get('_database')
+  database = ''
   
   #Convert the three volumes from .mgz to .nii with Freesurfer
   context.write("Convert .mgz to .nii with FreeSurfer")

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
@@ -27,19 +28,19 @@ def initialization(self):
   self.linkParameters('GiftiCurvPial', 'Curv')
   self.linkParameters('GiftiThickness', 'Curv')
 
-  
+
 def execution(self, context):
   context.write('Resample brain mesh.')
-  
-  launchFreesurferCommand(context, self.Curv.get('_database'),
+  database = ''
+  launchFreesurferCommand(context, database,
                           'mri_convert', self.Curv.fullPath(),
                           self.GiftiCurv.fullPath())
-  launchFreesurferCommand(context, self.AvgCurv.get('_database'),
+  launchFreesurferCommand(context, database,
                           'mri_convert', self.AvgCurv.fullPath(),
                           self.GiftiAvgCurv.fullPath())
-  launchFreesurferCommand(context, self.CurvPial.get('_database'),
+  launchFreesurferCommand(context, database,
                           'mri_convert', self.CurvPial.fullPath(),
                           self.GiftiCurvPial.fullPath())
-  launchFreesurferCommand(context, self.Thickness.get('_database'),
+  launchFreesurferCommand(context, database,
                           'mri_convert', self.Thickness.fullPath(),
                           self.GiftiThickness.fullPath())

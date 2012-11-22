@@ -121,10 +121,11 @@ def execution(self, context):
   if subject is None:
     subject = os.path.basename( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImage.fullPath() ) ) ) )
   context.write('Launch the Freesurfer pipeline on subject ' + subject )
-  database = self.database.fullPath()
+  database = self.database
   if not database:
     database = os.path.dirname( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImage.fullPath() ) ) ) )
-  
+  else:
+    database = database.fullPath()
   
   context.write('recon-all -autorecon-all -subjid %s'%subject)
   
