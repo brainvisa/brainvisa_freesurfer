@@ -35,7 +35,7 @@ def initialization(self):
   
 def execution(self, context):
   context.write('Create subject hierarchy and convert image to mgz format.') 
-  launchFreesurferCommand( context, self.database.fullPath(), 'mri_convert', self.RawT1Image, self.AnatImage )
+  launchFreesurferCommand( context, self.database, 'mri_convert', self.RawT1Image, self.AnatImage )
   createdDir = self.database+'/'+self.subjectName
   context.write("Updating database, path = " + createdDir)
   neuroHierarchy.databases.update([createdDir])
