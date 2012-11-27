@@ -67,7 +67,7 @@ FileType( 'RawFreesurferAnat', 'FreesurferAnat' )
 #Mri
 FileType( 'T1 FreesurferAnat', 'FreesurferAnat')
 FileType( 'Nu FreesurferAnat', 'T1 FreesurferAnat' )
-FileType( 'Ribbon Freesurfer', 'Label volume' )
+FileType( 'Ribbon Freesurfer', 'Label volume', aimsGlobals.aimsVolumeFormats + [ 'FreesurferMGZ' ] )
 FileType( 'Talairach Auto Freesurfer', 'MINC transformation matrix' )
 
 
