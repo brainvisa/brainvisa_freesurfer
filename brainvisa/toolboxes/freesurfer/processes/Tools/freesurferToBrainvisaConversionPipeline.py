@@ -231,7 +231,7 @@ def initialization( self ):
   eNode.LfreesurferResamplingDataTextures.removeLink( 'Thickness',
     'OriginalMesh' )
   eNode.addDoubleLink('LfreesurferResamplingDataTextures.OriginalMesh',
-                'LfreesurferMeshToAimsRef.AimsWhite')
+                'LfreesurferMeshResampling.WhiteMesh')
   eNode.addDoubleLink('LfreesurferResamplingDataTextures.Isin',
                 'LfreesurferIsinComputing.Isin')
   eNode.addDoubleLink('LfreesurferResamplingDataTextures.Curv',
@@ -255,7 +255,7 @@ def initialization( self ):
   eNode.RfreesurferResamplingDataTextures.removeLink( 'Thickness',
     'OriginalMesh' )
   eNode.addDoubleLink('RfreesurferResamplingDataTextures.OriginalMesh',
-                'RfreesurferMeshToAimsRef.AimsWhite')
+                'RfreesurferMeshResampling.WhiteMesh')
   eNode.addDoubleLink('RfreesurferResamplingDataTextures.Isin',
                 'RfreesurferIsinComputing.Isin')
   eNode.addDoubleLink('RfreesurferResamplingDataTextures.Curv',
