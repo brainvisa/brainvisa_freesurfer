@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from brainvisa.processes import *
+from freesurfer.brainvisaFreesurfer import testFreesurferCommand
 
 name = 'Freesurfer / BrainVisa full pipeline'
 userLevel = 1
+
+def validation():
+  testFreesurferCommand()
 
 signature = Signature(
   'RawT1Image', ReadDiskItem('Raw T1 MRI', 'NIFTI-1 image'),
