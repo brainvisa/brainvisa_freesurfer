@@ -22,11 +22,13 @@ def testFreesurferCommand( force_retest=False ):
       __freeSurferOK__ = True
     except:
       __freeSurferOK__ = False
-      raise ValidationError( 'FreeSurfer not available.' )
+  if not __freeSurferOK__:
+    raise ValidationError( 'FreeSurfer not available.' )
 
 
 def launchFreesurferCommand( context, database=None, *args, **kwargs ):
-  #print " -- Function launchFreesurferCommand -- "
+  #print " -- Function launchFreesurferCommand -- ", args
+  #print 'kwargs:', kwargs
   
   #INI PATH SCRIPT TO RUN FREESURFER
   path_basename = os.path.dirname(mainPath)
@@ -61,11 +63,17 @@ def launchFreesurferCommand( context, database=None, *args, **kwargs ):
   if distutils.spawn.find_executable("mri_convert") :
     context.system ( * args,  **kwargs )
   else:
-    setupShell.append(configuration.freesurfer.freesurfer_home_path + "/FreeSurferEnv.sh")
+    if configuration.freesurfer.freesurfer_home_path:
+      setupShell.append( os.path.join( configuration.freesurfer.freesurfer_home_path + "/FreeSurferEnv.sh" ) )
+    else:
+      # hope FreeSurferEnv.sh is in the path, but few chances...
+      setupShell.append( "FreeSurferEnv.sh" )
     argShell = tuple(setupShell) + args
 
     try :
-      context.system ( *( (runFreesurferCommandSh, ) + argShell ),  **kwargs )
-    except:
+      ret = context.system ( *( (runFreesurferCommandSh, ) + argShell ),  **kwargs )
+    except Exception, e:
+      ret = 2
+    if ret != 0:
       raise ValidationError( 'FreeSurfer not available or one freesurfer command line has failed. Please see the log file in the main menu of BrainVISA for more information.' )
 
