@@ -59,12 +59,26 @@ def initialization( self ):
   self.linkParameters( 'rightCurv', 'anat' )
 
   eNode = SerialExecutionNode( self.name, parameterized=self )
+
+  eNode.addChild( 'CreateReferential',
+    ProcessExecutionNode( 'newreferential', optional=1 ) )
+  eNode.addDoubleLink('CreateReferential.data', 'anat')
+
   # 3b
   eNode.addChild('BfreesurferAnatToNii',
                  ProcessExecutionNode('freesurferAnatToNii',
                                       optional=1))
   eNode.addDoubleLink('BfreesurferAnatToNii.AnatImage', 'anat')
-  
+
+  # referential
+  eNode.addChild( 'CreateReferentials',
+    ProcessExecutionNode( 'AddScannerBasedReferential', optional=1 ) )
+  eNode.CreateReferentials.removeLink( 'referential_volume_input', 'volume_input' )
+  eNode.addDoubleLink('CreateReferentials.volume_input',
+    'BfreesurferAnatToNii.NiiAnatImage')
+  eNode.addDoubleLink('CreateReferentials.referential_volume_input',
+    'CreateReferential.referential')
+
   
   # 4
   eNode.addChild('LfreesurferConversionMeshToGii',
