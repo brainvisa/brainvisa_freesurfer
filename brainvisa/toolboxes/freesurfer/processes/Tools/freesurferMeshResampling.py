@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from brainvisa.processes import *
+from brainvisa import registration
 
 name = '07 Mesh resampling'
 userlevel = 2
@@ -30,4 +31,11 @@ def execution(self, context):
   context.write('python -c \"from freesurfer.regularizeMeshFromIsin import regularizeMesh as f; f(\"%s\", \"%s\", \"%s\", \"%s\");\#'%(self.WhiteMesh.fullPath(), self.Isin.fullPath(), self.ResampledWhiteMesh.fullPath(), self.destination.fullPath()))
   context.system('python', '-c', 'from freesurfer.regularizeMeshFromIsin import regularizeMeshAims as f; f(\"%s\", \"%s\", \"%s\", \"%s\")'%(self.WhiteMesh.fullPath(), self.Isin.fullPath(), self.ResampledWhiteMesh.fullPath(), self.destination.fullPath()))
 
-  
+  self.ResampledPialMesh.setMinf( 'material',
+    { 'front_face': 'counterclockwise' }, saveMinf=True )
+  self.ResampledWhiteMesh.setMinf( 'material',
+    { 'front_face': 'counterclockwise' }, saveMinf=True )
+  tm = registration.getTransformationManager()
+  tm.copyReferential( self.PialMesh, self.ResampledPialMesh )
+  tm.copyReferential( self.WhiteMesh, self.ResampledWhiteMesh )
+

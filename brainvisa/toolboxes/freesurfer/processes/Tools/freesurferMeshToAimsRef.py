@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from brainvisa.processes import *
+from brainvisa import registration
 
 name = '08 Conversion of meshes to aims referential'
 userlevel = 2
@@ -30,3 +31,12 @@ def execution(self, context):
 
   context.write('python -c '+cmd+' f(\"%s\", \"%s\", \"%s\");'%(self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
   context.system('python', '-c', cmd+'f(\"%s\", \"%s\", \"%s\");'%(self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
+
+  context.write( 'material:', self.AimsPial.get( 'material' ) )
+  if self.AimsPial.get( 'material' ):
+    self.AimsPial.removeMinf( 'material', saveMinf=True )
+  if self.AimsWhite.get( 'material' ):
+    self.AimsWhite.removeMinf( 'material', saveMinf=True )
+  tm = registration.getTransformationManager()
+  tm.copyReferential( self.bv_anat, self.AimsPial )
+  tm.copyReferential( self.bv_anat, self.AimsWhite )

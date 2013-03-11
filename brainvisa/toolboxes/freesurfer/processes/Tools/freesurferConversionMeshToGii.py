@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
+from brainvisa import registration
 
 name = '04 Conversion of Freesurfer meshes to Gifti format'
 userlevel = 2
@@ -13,7 +14,7 @@ signature = Signature(
   'PialGifti', WriteDiskItem('Pial', 'GIFTI File'),
   'WhiteGifti', WriteDiskItem('White', 'GIFTI File'),
   'SphereRegGifti', WriteDiskItem('SphereReg', 'GIFTI File'),
-  'anat', ReadDiskItem( 'RawFreesurferAnat', 'FreesurferMGZ' ),
+  'scanner_based_referential', ReadDiskItem( 'Scanner Based Referential', 'Referential' ),
   )
 
 def initialization(self):
@@ -22,7 +23,8 @@ def initialization(self):
   self.linkParameters('PialGifti', 'Pial')
   self.linkParameters('WhiteGifti', 'Pial')
   self.linkParameters('SphereRegGifti', 'Pial')
-  self.setOptional( 'anat' )
+  self.linkParameters('scanner_based_referential', 'Pial')
+  self.setOptional( 'scanner_based_referential' )
   
 def execution(self, context):
   context.write('Convert meshes in Freesurfer fromat to Gifti format.')
@@ -33,11 +35,15 @@ def execution(self, context):
   launchFreesurferCommand( context, database,  'mris_convert', self.White.fullPath(), self.WhiteGifti.fullPath())
   context.write('mris_convert %s %s'%(self.SphereReg.fullPath(),self.SphereRegGifti.fullPath()))
   launchFreesurferCommand( context, database,  'mris_convert', self.SphereReg.fullPath(), self.SphereRegGifti.fullPath())
+  self.PialGifti.setMinf( 'material',
+    { 'front_face': 'counterclockwise' }, saveMinf=True )
+  self.WhiteGifti.setMinf( 'material',
+    { 'front_face': 'counterclockwise' }, saveMinf=True )
 
-  if self.anat is not None:
+  if self.scanner_based_referential is not None:
     tm = registration.getTransformationManager()
-    tm.copyReferential( self.anat, self.PialGifti )
-    tm.copyReferential( self.anat, self.WhiteGifti )
+    tm.copyReferential( self.scanner_based_referential, self.PialGifti )
+    tm.copyReferential( self.scanner_based_referential, self.WhiteGifti )
 
 
 

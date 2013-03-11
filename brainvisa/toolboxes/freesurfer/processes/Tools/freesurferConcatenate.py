@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from brainvisa.processes import *
+from brainvisa import registration
 
 name = '16 Concatenate meshes'
 userlevel = 2
@@ -50,3 +51,8 @@ def execution(self, context):
   context.system( 'AimsZCat', '-i', self.LeftInflatedWhite.fullPath(),
                   self.RightInflatedWhite.fullPath(), '-o',
                   self.BothInflated.fullPath())
+
+  tm = registration.getTransformationManager()
+  tm.copyReferential( self.LeftWhite, self.BothWhite )
+  tm.copyReferential( self.LeftPial, self.BothPial )
+  tm.copyReferential( self.LeftInflatedWhite, self.BothInflated )
