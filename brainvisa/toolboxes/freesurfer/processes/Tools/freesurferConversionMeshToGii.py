@@ -13,6 +13,7 @@ signature = Signature(
   'PialGifti', WriteDiskItem('Pial', 'GIFTI File'),
   'WhiteGifti', WriteDiskItem('White', 'GIFTI File'),
   'SphereRegGifti', WriteDiskItem('SphereReg', 'GIFTI File'),
+  'anat', ReadDiskItem( 'RawFreesurferAnat', 'FreesurferMGZ' ),
   )
 
 def initialization(self):
@@ -21,7 +22,7 @@ def initialization(self):
   self.linkParameters('PialGifti', 'Pial')
   self.linkParameters('WhiteGifti', 'Pial')
   self.linkParameters('SphereRegGifti', 'Pial')
-
+  self.setOptional( 'anat' )
   
 def execution(self, context):
   context.write('Convert meshes in Freesurfer fromat to Gifti format.')
@@ -32,7 +33,11 @@ def execution(self, context):
   launchFreesurferCommand( context, database,  'mris_convert', self.White.fullPath(), self.WhiteGifti.fullPath())
   context.write('mris_convert %s %s'%(self.SphereReg.fullPath(),self.SphereRegGifti.fullPath()))
   launchFreesurferCommand( context, database,  'mris_convert', self.SphereReg.fullPath(), self.SphereRegGifti.fullPath())
-  
+
+  if self.anat is not None:
+    tm = registration.getTransformationManager()
+    tm.copyReferential( self.anat, self.PialGifti )
+    tm.copyReferential( self.anat, self.WhiteGifti )
 
 
 
