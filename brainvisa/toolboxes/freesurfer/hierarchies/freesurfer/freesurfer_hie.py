@@ -64,7 +64,9 @@ hierarchy = (
         'transforms', SetContent(
           'talairach.auto', SetType('Talairach Auto Freesurfer'),
           'orig_<subject>_TO_Scanner_Based', SetType( 'Transformation to Scanner Based Referential' ),
-          'orig_<subject>_Scanner_Based', SetType( 'Scanner Based Referential' ), 
+          'orig_<subject>_Scanner_Based', SetType( 'Scanner Based Referential' ),
+          '<subject>_meshes', SetType( 'Referential of Pial' ),
+          '<subject>_scanner_TO_meshes', SetType( 'Freesurfer Scanner To Meshes Transformation' ),
           #'orig_<subject>', SetType( 'Referential of FreesurferAnat' ), 
        ),
         'orig', SetContent(

@@ -3,18 +3,28 @@ from soma import aims
 import sys
 
 def freesurferMeshToAimsMesh(meshfile, anatfile, outputmeshfile):
-    anat = aims.read(anatfile)
-    z = array(anat.header()['transformations'][0]).reshape(4, 4)
-    
+    finder = aims.Finder()
+    if not finder.check( anatfile ):
+      raise IOError( 'File not recognized: %s' % anatfile )
+    header = finder.header()
+    a_to_s = aims.AffineTransformation3d( header['transformations'][0] )
+    vs = header[ 'voxel_size' ]
+    m_to_s = aims.AffineTransformation3d()
+    # add translation of 1/2 voxel
+    m_to_s.setTranslation( [ vs[0]/2., vs[1]/2., vs[2]/2. ] )
+    tr = a_to_s.inverse() * m_to_s
+
     mesh = aims.read(meshfile)
+    aims.SurfaceManip.meshTransform( mesh, tr )
 
-    for i in range(len(mesh.vertex())):
-        mesh.vertex()[i] = dot(z,hstack((mesh.vertex()[i], [1])))[:3]
+    #for p in mesh.polygon():
+        #p[0],p[2] = p[2],p[0]
 
-    for p in mesh.polygon():
-        p[0],p[2] = p[2],p[0]
+    #mesh.updateNormals()
 
-    mesh.updateNormals()
+    # or:
+    #aims.SurfaceManip.invertSurfacePolygons( mesh )
+
     aims.write(mesh, outputmeshfile)
 
 

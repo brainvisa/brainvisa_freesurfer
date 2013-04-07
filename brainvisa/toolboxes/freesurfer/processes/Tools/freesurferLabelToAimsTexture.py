@@ -3,7 +3,7 @@ from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 from glob import glob
 
-name = '09/10 Converting freesurfer unreadable labels to aims textures.'
+name = '09/10 Converting freesurfer labels to aims textures.'
 userlevel = 2
 
 signature = Signature(

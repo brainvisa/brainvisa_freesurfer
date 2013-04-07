@@ -14,7 +14,7 @@ signature = Signature(
   'PialGifti', WriteDiskItem('Pial', 'GIFTI File'),
   'WhiteGifti', WriteDiskItem('White', 'GIFTI File'),
   'SphereRegGifti', WriteDiskItem('SphereReg', 'GIFTI File'),
-  'scanner_based_referential', ReadDiskItem( 'Scanner Based Referential', 'Referential' ),
+  'meshes_referential', ReadDiskItem( 'Referential of Pial', 'Referential' ),
   )
 
 def initialization(self):
@@ -23,9 +23,9 @@ def initialization(self):
   self.linkParameters('PialGifti', 'Pial')
   self.linkParameters('WhiteGifti', 'Pial')
   self.linkParameters('SphereRegGifti', 'Pial')
-  self.linkParameters('scanner_based_referential', 'Pial')
-  self.setOptional( 'scanner_based_referential' )
-  
+  self.linkParameters('meshes_referential', 'PialGifti')
+  self.setOptional( 'meshes_referential' )
+
 def execution(self, context):
   context.write('Convert meshes in Freesurfer fromat to Gifti format.')
   context.write('mris_convert %s %s'%(self.Pial.fullPath(),self.PialGifti.fullPath()))
@@ -42,8 +42,8 @@ def execution(self, context):
 
   if self.scanner_based_referential is not None:
     tm = registration.getTransformationManager()
-    tm.copyReferential( self.scanner_based_referential, self.PialGifti )
-    tm.copyReferential( self.scanner_based_referential, self.WhiteGifti )
+    tm.copyReferential( self.meshes_referential, self.PialGifti )
+    tm.copyReferential( self.meshes_referential, self.WhiteGifti )
 
 
 

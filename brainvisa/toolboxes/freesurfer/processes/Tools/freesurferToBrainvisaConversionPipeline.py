@@ -79,27 +79,57 @@ def initialization( self ):
   eNode.addDoubleLink('CreateReferentials.referential_volume_input',
     'CreateReferential.referential')
 
-  
+  # meshes referential
+  eNode.addChild( 'CreateMeshesReferential',
+    ProcessExecutionNode( 'newreferential', optional=1 ) )
+  eNode.addDoubleLink('CreateMeshesReferential.data',
+    'BfreesurferAnatToNii.AnatImage')
+  eNode.CreateMeshesReferential.referential_type = 'Referential of Pial'
+
+  eNode.addChild( 'CreateMeshesTransformation',
+    ProcessExecutionNode( 'freesurferMeshesToScannerBasedTransformation', optional=1 ) )
+  eNode.CreateMeshesTransformation.removeLink( 'freesurfer_meshes_referential',
+    'anat' )
+  eNode.CreateMeshesTransformation.removeLink( 'scanner_based_referential',
+    'anat' )
+  eNode.addDoubleLink( 'BfreesurferAnatToNii.AnatImage',
+    'CreateMeshesTransformation.anat' )
+  eNode.addDoubleLink( 'CreateMeshesReferential.referential',
+    'CreateMeshesTransformation.freesurfer_meshes_referential' )
+  eNode.addDoubleLink( 'CreateReferentials.new_referential',
+    'CreateMeshesTransformation.scanner_based_referential' )
+
   # 4
   eNode.addChild('LfreesurferConversionMeshToGii',
                  ProcessExecutionNode('freesurferConversionMeshToGii',
                                       optional=1))
   #eNode.LfreesurferConversionMeshToGii.removeLink( 'White', 'Pial' )
   #eNode.LfreesurferConversionMeshToGii.removeLink( 'SphereReg', 'Pial' )
+  eNode.LfreesurferConversionMeshToGii.removeLink( 'meshes_referential',
+    'PialGifti' )
 
   eNode.addDoubleLink('LfreesurferConversionMeshToGii.Pial', 'leftPial')
   eNode.addDoubleLink('LfreesurferConversionMeshToGii.White', 'leftWhite')
   eNode.addDoubleLink('LfreesurferConversionMeshToGii.SphereReg', 'leftSphereReg')
+  eNode.addDoubleLink('LfreesurferConversionMeshToGii.meshes_referential',
+    'CreateMeshesReferential.referential')
+
   eNode.addChild('RfreesurferConversionMeshToGii',
                  ProcessExecutionNode('freesurferConversionMeshToGii',
                                       optional=1))
 
   #eNode.RfreesurferConversionMeshToGii.removeLink( 'White', 'Pial' )
   #eNode.RfreesurferConversionMeshToGii.removeLink( 'SphereReg', 'Pial' )
-                                      
+  eNode.RfreesurferConversionMeshToGii.removeLink( 'meshes_referential',
+    'PialGifti' )
+
   eNode.addDoubleLink('RfreesurferConversionMeshToGii.Pial', 'rightPial')
   eNode.addDoubleLink('RfreesurferConversionMeshToGii.White', 'rightWhite')
   eNode.addDoubleLink('RfreesurferConversionMeshToGii.SphereReg', 'rightSphereReg')
+  eNode.addDoubleLink('RfreesurferConversionMeshToGii.meshes_referential',
+    'CreateMeshesReferential.referential')
+
+
   # 6
   eNode.addChild('LfreesurferIsinComputing',
                  ProcessExecutionNode('freesurferIsinComputing',
