@@ -66,8 +66,7 @@ hierarchy = (
           'orig_<subject>_TO_Scanner_Based', SetType( 'Transformation to Scanner Based Referential' ),
           'orig_<subject>_Scanner_Based', SetType( 'Scanner Based Referential' ),
           '<subject>_meshes', SetType( 'Referential of Pial' ),
-          '<subject>_scanner_TO_meshes', SetType( 'Freesurfer Scanner To Meshes Transformation' ),
-          #'orig_<subject>', SetType( 'Referential of FreesurferAnat' ), 
+          '<subject>_orig_TO_meshes', SetType( 'Freesurfer Anat To Meshes Transformation' ),
        ),
         'orig', SetContent(
           '001', SetType('RawFreesurferAnat'),

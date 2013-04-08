@@ -4,9 +4,13 @@ from numpy import array
 
 def setAnatTransformation(anatFile):
     a = aims.read(anatFile)
-    v = array(a.header()['voxel_size'])
-    s = array(a.header()['volume_dimension']) - 1
+    v = a.header()['voxel_size'][:3]
+    s = array( a.header()['volume_dimension'][:3] ) - 1
     n = s*v/2.0
+    s2m = a.header()[ 'storage_to_memory' ]
+    s2m = aims.AffineTransformation3d( s2m )
+    vs2 = ( s2m.transform( v ) - s2m.transform( [ 0,0,0 ] ) ) / 2.
+    n += vs2
     a.header()['transformations'][0][3] = n[0]
     a.header()['transformations'][0][7] = n[1]
     a.header()['transformations'][0][11] = n[2]

@@ -68,7 +68,9 @@ def initialization( self ):
   eNode.addChild('BfreesurferAnatToNii',
                  ProcessExecutionNode('freesurferAnatToNii',
                                       optional=1))
+  eNode.BfreesurferAnatToNii.removeLink( 'referential', 'AnatImage' )
   eNode.addDoubleLink('BfreesurferAnatToNii.AnatImage', 'anat')
+  eNode.addDoubleLink('BfreesurferAnatToNii.referential', 'CreateReferential.referential')
 
   # referential
   eNode.addChild( 'CreateReferentials',
@@ -81,23 +83,22 @@ def initialization( self ):
 
   # meshes referential
   eNode.addChild( 'CreateMeshesReferential',
-    ProcessExecutionNode( 'newreferential', optional=1 ) )
-  eNode.addDoubleLink('CreateMeshesReferential.data',
-    'BfreesurferAnatToNii.AnatImage')
-  eNode.CreateMeshesReferential.referential_type = 'Referential of Pial'
+    ProcessExecutionNode( 'createmeshesreferential', optional=1 ) )
+  eNode.addDoubleLink('CreateMeshesReferential.anat',
+    'BfreesurferAnatToNii.NiiAnatImage')
 
   eNode.addChild( 'CreateMeshesTransformation',
-    ProcessExecutionNode( 'freesurferMeshesToScannerBasedTransformation', optional=1 ) )
+    ProcessExecutionNode( 'freesurferAnatToMeshesTransformation', optional=1 ) )
   eNode.CreateMeshesTransformation.removeLink( 'freesurfer_meshes_referential',
     'anat' )
-  eNode.CreateMeshesTransformation.removeLink( 'scanner_based_referential',
+  eNode.CreateMeshesTransformation.removeLink( 'anat_referential',
     'anat' )
-  eNode.addDoubleLink( 'BfreesurferAnatToNii.AnatImage',
+  eNode.addDoubleLink( 'BfreesurferAnatToNii.NiiAnatImage',
     'CreateMeshesTransformation.anat' )
-  eNode.addDoubleLink( 'CreateMeshesReferential.referential',
+  eNode.addDoubleLink( 'CreateMeshesReferential.meshes_referential',
     'CreateMeshesTransformation.freesurfer_meshes_referential' )
-  eNode.addDoubleLink( 'CreateReferentials.new_referential',
-    'CreateMeshesTransformation.scanner_based_referential' )
+  eNode.addDoubleLink( 'CreateReferential.referential',
+    'CreateMeshesTransformation.anat_referential' )
 
   # 4
   eNode.addChild('LfreesurferConversionMeshToGii',
@@ -112,7 +113,7 @@ def initialization( self ):
   eNode.addDoubleLink('LfreesurferConversionMeshToGii.White', 'leftWhite')
   eNode.addDoubleLink('LfreesurferConversionMeshToGii.SphereReg', 'leftSphereReg')
   eNode.addDoubleLink('LfreesurferConversionMeshToGii.meshes_referential',
-    'CreateMeshesReferential.referential')
+    'CreateMeshesReferential.meshes_referential')
 
   eNode.addChild('RfreesurferConversionMeshToGii',
                  ProcessExecutionNode('freesurferConversionMeshToGii',
@@ -127,7 +128,7 @@ def initialization( self ):
   eNode.addDoubleLink('RfreesurferConversionMeshToGii.White', 'rightWhite')
   eNode.addDoubleLink('RfreesurferConversionMeshToGii.SphereReg', 'rightSphereReg')
   eNode.addDoubleLink('RfreesurferConversionMeshToGii.meshes_referential',
-    'CreateMeshesReferential.referential')
+    'CreateMeshesReferential.meshes_referential')
 
 
   # 6
