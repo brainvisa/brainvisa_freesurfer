@@ -25,10 +25,17 @@ def initialization( self ):
 
 
 def execution( self, context ):
-  vs = aimsGlobals.aimsVolumeAttributes( self.anat ).get( 'voxel_size' )
+  atts = aimsGlobals.aimsVolumeAttributes( self.anat )
+  vs = atts.get( 'voxel_size' )
+  s2m = atts.get( 'storage_to_memory' )
+  if s2m is None:
+    s2m = aims.AffineTransformation3d()
+  else:
+    s2m = aims.AffineTransformation3d( s2m )
   if vs:
+    vs2 = ( s2m.transform( vs[:3] ) - s2m.transform( [ 0,0,0 ] ) ) / 2.
     tr = aims.AffineTransformation3d()
-    tr.setTranslation( [ -vs[0]/2., -vs[1]/2., -vs[2]/2. ] )
+    tr.setTranslation( vs2 )
     aims.write( tr, self.scanner_based_to_meshes_transform.fullPath() )
     self.scanner_based_to_meshes_transform.setMinf( 'source_referential',
       self.scanner_based_referential.uuid(), saveMinf=False )

@@ -9,7 +9,6 @@ userlevel = 2
 signature = Signature(
     'ResampledPialMesh', ReadDiskItem('ResampledPial', 'Aims mesh formats'),
     'ResampledWhiteMesh', ReadDiskItem('ResampledWhite', 'Aims mesh formats'),
-#    'bv_anat', ReadDiskItem('Raw T1 MRI', 'NIFTI-1 image'),
     'bv_anat', ReadDiskItem('FreesurferAnat', 'Aims readable volume formats'),
     'AimsPial', WriteDiskItem('AimsPial', 'Aims mesh formats'),
     'AimsWhite', WriteDiskItem('AimsWhite', 'Aims mesh formats'),

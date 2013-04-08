@@ -9,10 +9,12 @@ def freesurferMeshToAimsMesh(meshfile, anatfile, outputmeshfile):
     header = finder.header()
     a_to_s = aims.AffineTransformation3d( header['transformations'][0] )
     vs = header[ 'voxel_size' ]
-    m_to_s = aims.AffineTransformation3d()
-    # add translation of 1/2 voxel
-    m_to_s.setTranslation( [ vs[0]/2., vs[1]/2., vs[2]/2. ] )
-    tr = a_to_s.inverse() * m_to_s
+    mesh_to_s = aims.AffineTransformation3d()
+    s2m = aims.AffineTransformation3d( header[ 'storage_to_memory' ] )
+    # add translation of 1/2 voxel, transformed by s2m
+    vs2 = ( s2m.transform( vs[:3] ) - s2m.transform( [ 0,0,0 ] ) ) / 2.
+    mesh_to_s.setTranslation( -vs2 )
+    tr = a_to_s.inverse() * mesh_to_s
 
     mesh = aims.read(meshfile)
     aims.SurfaceManip.meshTransform( mesh, tr )
