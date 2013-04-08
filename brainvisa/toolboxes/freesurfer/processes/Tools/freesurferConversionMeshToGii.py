@@ -40,7 +40,7 @@ def execution(self, context):
   self.WhiteGifti.setMinf( 'material',
     { 'front_face': 'counterclockwise' }, saveMinf=True )
 
-  if self.scanner_based_referential is not None:
+  if self.meshes_referential is not None:
     tm = registration.getTransformationManager()
     tm.copyReferential( self.meshes_referential, self.PialGifti )
     tm.copyReferential( self.meshes_referential, self.WhiteGifti )
