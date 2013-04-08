@@ -33,7 +33,8 @@
 from brainvisa.processes import *
 from brainvisa import shelltools
 from brainvisa.validation import ValidationError
-import shfjGlobals, stat
+from brainvisa.tools import aimsGlobals
+import stat
 from soma import aims
 import numpy
 from brainvisa import registration
@@ -64,9 +65,11 @@ signature=Signature(
   'T1_orig', ReadDiskItem( 'T1 FreesurferAnat',  'FreesurferMGZ', exactType=True ),
   #seems no mandatory ?
   'ribbon_image', ReadDiskItem( 'Ribbon Freesurfer', 'FreesurferMGZ' ),
+  'scanner_based_referential', ReadDiskItem( 'Scanner Based Referential', 'Referential' ),
   'Talairach_Auto', ReadDiskItem( 'Talairach Auto Freesurfer', 'MINC transformation matrix' ), 
   'T1_output', WriteDiskItem( 'Raw T1 MRI', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
   'T1_referential', WriteDiskItem( 'Referential of Raw T1 MRI', 'Referential' ),
+  'transform_to_scanner_based', WriteDiskItem( 'Transformation to Scanner Based Referential', 'Transformation matrix' ),
   'Biais_corrected_output', WriteDiskItem( 'T1 MRI Bias Corrected', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
   'normalization_transformation',  WriteDiskItem( 'Transform Raw T1 MRI to Talairach-MNI template-SPM', 'Transformation matrix' ), 
   'Talairach_transform',  WriteDiskItem( 'Transform Raw T1 MRI to Talairach-AC/PC-Anatomist', 'Transformation matrix' ),
@@ -107,7 +110,9 @@ def initialization( self ):
   #self.signature[ 'output' ].browseUserLevel = 3
   #self.signature[ 'nu input' ].databaseUserLevel = 2
   self.linkParameters( 'ribbon_image', 'T1_orig' )
+  self.linkParameters( 'scanner_based_referential', 'T1_orig' )
   self.linkParameters( 'Talairach_Auto', 'T1_orig' )
+  self.linkParameters( 'transform_to_scanner_based', 'T1_output' )
   self.linkParameters( 'Biais_corrected_output', 'T1_output' )
   self.linkParameters( 'Split_brain_output', 'T1_output' )
   self.linkParameters( 'normalization_transformation', 'T1_output' )
@@ -130,6 +135,7 @@ def initialization( self ):
   self.linkParameters( 'mean_curvature', 'T1_output' )
   self.linkParameters( 'variance', 'T1_output' )
   self.linkParameters( 'edges', 'T1_output' )
+  self.setOptional( 'scanner_based_referential', 'transform_to_scanner_based' )
   self.signature['mni_referential'].userLevel = 2
   self.signature['transform_chain_ACPC_to_Normalized'].userLevel = 2
   self.signature['acpc_referential'].userLevel = 2
@@ -167,6 +173,16 @@ def execution( self, context ):
   context.write(database)
   context.runProcess( 'ImportT1MRI', input=tmp_ori, output=self.T1_output)
 
+  if self.transform_to_scanner_based is not None:
+    t1h = aimsGlobals.aimsVolumeAttributes( self.T1_output )
+    tr = aims.AffineTransformation3d( t1h[ 'transformations' ][-1] )
+    tr.header()[ 'source_referential' ] = str( self.T1_referential.uuid() )
+    if self.scanner_based_referential is not None:
+      tr.header()[ 'destination_referential' ] \
+        = str( self.scanner_based_referential.uuid() )
+    aims.write( tr, self.transform_to_scanner_based.fullPath() )
+    self.transform_to_scanner_based.readAndUpdateMinf()
+
   context.runProcess( 'ImportData', tmp_ribbon , self.Split_brain_output)
   context.system( 'AimsFileConvert', '-i',  self.Split_brain_output,
     '-o', self.Split_brain_output, '-t', 'S16')
@@ -191,7 +207,7 @@ def execution( self, context ):
 
     talairach_freesrufer = aims.AffineTransformation3d(
       numpy.array( m  + [[ 0., 0., 0., 1. ]] ) )
-    header_nifti =  aims.AffineTransformation3d(shfjGlobals.aimsVolumeAttributes(tmp_ori)[ 'transformations' ][-1] )
+    header_nifti =  aims.AffineTransformation3d(aimsGlobals.aimsVolumeAttributes(tmp_ori)[ 'transformations' ][-1] )
     t1aims2mni = talairach_freesrufer * header_nifti
     aims.write( t1aims2mni, self.normalization_transformation.fullPath() )
 
