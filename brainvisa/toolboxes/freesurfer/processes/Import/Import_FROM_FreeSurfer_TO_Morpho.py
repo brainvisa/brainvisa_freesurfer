@@ -70,7 +70,7 @@ signature=Signature(
   'T1_output', WriteDiskItem( 'Raw T1 MRI', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
   'T1_referential', WriteDiskItem( 'Referential of Raw T1 MRI', 'Referential' ),
   'transform_to_scanner_based', WriteDiskItem( 'Transformation to Scanner Based Referential', 'Transformation matrix' ),
-  'Biais_corrected_output', WriteDiskItem( 'T1 MRI Bias Corrected', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
+  'Bias_corrected_output', WriteDiskItem( 'T1 MRI Bias Corrected', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
   'normalization_transformation',  WriteDiskItem( 'Transform Raw T1 MRI to Talairach-MNI template-SPM', 'Transformation matrix' ), 
   'Talairach_transform',  WriteDiskItem( 'Transform Raw T1 MRI to Talairach-AC/PC-Anatomist', 'Transformation matrix' ),
   'commissure_coordinates', WriteDiskItem( 'Commissure Coordinates', 'Commissure coordinates' ),
@@ -113,11 +113,11 @@ def initialization( self ):
   self.linkParameters( 'scanner_based_referential', 'T1_orig' )
   self.linkParameters( 'Talairach_Auto', 'T1_orig' )
   self.linkParameters( 'transform_to_scanner_based', 'T1_output' )
-  self.linkParameters( 'Biais_corrected_output', 'T1_output' )
+  self.linkParameters( 'Bias_corrected_output', 'T1_output' )
   self.linkParameters( 'Split_brain_output', 'T1_output' )
   self.linkParameters( 'normalization_transformation', 'T1_output' )
   self.linkParameters( 'Talairach_transform', 'T1_output' )
-  self.linkParameters( 'histo_analysis', 'Biais_corrected_output' )
+  self.linkParameters( 'histo_analysis', 'Bias_corrected_output' )
   self.linkParameters( 'Rgrey_white_output', 'T1_output' )
   self.linkParameters( 'Lgrey_white_output', 'T1_output' )
   self.linkParameters( 'T1_referential', 'T1_output' )
@@ -129,6 +129,7 @@ def initialization( self ):
     registration.talairachMNIReferentialId )
   self.acpc_referential = trManager.referential(
     registration.talairachACPCReferentialId )
+  self.use_t1pipeline = 1
   self.linkParameters( 'bias_field', 'T1_output' )
   self.linkParameters( 'hfiltered', 'T1_output' )
   self.linkParameters( 'white_ridges', 'T1_output' )
@@ -210,6 +211,10 @@ def execution( self, context ):
     header_nifti =  aims.AffineTransformation3d(aimsGlobals.aimsVolumeAttributes(tmp_ori)[ 'transformations' ][-1] )
     t1aims2mni = talairach_freesrufer * header_nifti
     aims.write( t1aims2mni, self.normalization_transformation.fullPath() )
+    self.normalization_transformation.setMinf( 'source_referential',
+      str( self.T1_referential.uuid() ), saveMinf=True )
+    self.normalization_transformation.setMinf( 'destination_referential',
+      str( registration.talairachMNIReferentialId ), saveMinf=True )
 
     if self.Talairach_transform is not None:
       trm = context.temporary( 'Transformation matrix' )
@@ -245,7 +250,7 @@ def execution( self, context ):
   context.write("Launch T1BiasCorrection")
 
   context.runProcess( 'T1BiasCorrection', mri=self.T1_output,
-    mri_corrected=self.Biais_corrected_output,
+    mri_corrected=self.Bias_corrected_output,
     field=self.bias_field,
     hfiltered=self.hfiltered,
     white_ridges=self.white_ridges,
@@ -256,11 +261,11 @@ def execution( self, context ):
 
   #Launch VipGreyStatFromClassif to generate a histo analysis file
   context.write("Launch VipGreyStatFromClassif to generate a histo analysis file")
-  context.system( 'VipGreyStatFromClassif', '-i',  self.Biais_corrected_output, '-c', VipGreyStatClassif, '-a', self.histo_analysis, '-g', '100', '-w','200')
+  context.system( 'VipGreyStatFromClassif', '-i',  self.Bias_corrected_output, '-c', VipGreyStatClassif, '-a', self.histo_analysis, '-g', '100', '-w','200')
 
   #Lock Data
   self.T1_output.lockData()
-  self.Biais_corrected_output.lockData()
+  self.Bias_corrected_output.lockData()
   self.normalization_transformation.lockData()
   self.Talairach_transform.lockData() 
   self.histo_analysis.lockData()
@@ -275,7 +280,7 @@ def execution( self, context ):
     t1pipeline = getProcessInstance( 'morphologist' )
     t1pipeline.mri = self.T1_output
 
-    t1pipeline.mri_corrected = self.Biais_corrected_output
+    t1pipeline.mri_corrected = self.Bias_corrected_output
 
     enode = t1pipeline.executionNode()
 

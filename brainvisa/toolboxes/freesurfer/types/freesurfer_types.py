@@ -75,7 +75,7 @@ FileType( 'Talairach Auto Freesurfer', 'MINC transformation matrix' )
 FileType( 'Referential of Raw T1 MRI', 'Referential' )
 FileType( 'Referential of Pial', 'Referential' )
 FileType( 'Freesurfer Anat To Meshes Transformation', 'Transformation' )
-
+FileType( 'Freesurfer Scanner To MNI Transformation', 'Transformation' )
 
 # Surf
 FileType( 'SphereReg', 'FreesurferMesh')

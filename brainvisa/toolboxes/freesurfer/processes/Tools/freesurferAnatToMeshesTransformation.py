@@ -32,5 +32,9 @@ def execution( self, context ):
     self.anat_referential.uuid(), saveMinf=False )
   self.anat_to_meshes_transform.setMinf( 'destination_referential',
     self.freesurfer_meshes_referential.uuid(), saveMinf=True )
+  tm = registration.getTransformationManager()
+  tm.setNewTransformationInfo( self.anat_to_meshes_transform,
+    source_referential=self.anat_referential,
+    destination_referential=self.freesurfer_meshes_referential )
 
 

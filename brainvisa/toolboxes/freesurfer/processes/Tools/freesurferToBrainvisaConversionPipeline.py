@@ -81,6 +81,12 @@ def initialization( self ):
   eNode.addDoubleLink('CreateReferentials.referential_volume_input',
     'CreateReferential.referential')
 
+  # MNI transform
+  eNode.addChild( 'MNI_transformation',
+    ProcessExecutionNode( 'freesurferAnatToTalairachTransform', optional=1 ) )
+  eNode.addDoubleLink( 'MNI_transformation.scanner_based_referential',
+    'CreateReferentials.new_referential' )
+
   # meshes referential
   eNode.addChild( 'CreateMeshesReferential',
     ProcessExecutionNode( 'createmeshesreferential', optional=1 ) )
