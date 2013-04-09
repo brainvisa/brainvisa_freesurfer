@@ -19,4 +19,8 @@ def execution( self, context ):
     referentialType='Referential of Pial',
     assign=False, output_diskitem=self.meshes_referential )
   self.meshes_referential.setMinf( 'direct_referential', 1, saveMinf=True )
+  # warning writes anat header, which may be read-only
+  refs = self.anat[ 'referentials' ]
+  refs[-1] = self.meshes_referential.uuid()
+  self.anat.setMinf( 'referentials', refs, saveMinf=True )
 
