@@ -4,7 +4,7 @@ from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 from brainvisa import registration
 
-name = "03b Convert Freesurfer anatomical image to Nifti format"
+name = "Convert Freesurfer anatomical image to Nifti format"
 userLevel = 2
 
 signature = Signature(

@@ -2,7 +2,7 @@
 from brainvisa.processes import *
 from brainvisa import registration
 
-name = '07 Mesh resampling'
+name = 'Mesh resampling'
 userlevel = 2
 
 signature = Signature(

@@ -2,7 +2,7 @@
 from brainvisa.processes import *
 from brainvisa import registration
 
-name = '16 Concatenate meshes'
+name = 'Concatenate meshes'
 userlevel = 2
 
 signature = Signature(

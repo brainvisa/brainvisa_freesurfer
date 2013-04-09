@@ -2,7 +2,7 @@
 import os
 from brainvisa.processes import *
 
-name = '03 Check Freesurfer files'
+name = 'Check Freesurfer files'
 userLevel = 1
 
 signature = Signature(

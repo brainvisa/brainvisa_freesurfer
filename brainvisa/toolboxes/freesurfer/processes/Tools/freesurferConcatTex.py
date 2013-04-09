@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from brainvisa.processes import *
 
-name = '17 Concatenate textures'
+name = 'Concatenate textures'
 userlevel = 2
 
 signature = Signature(

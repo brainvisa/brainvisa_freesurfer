@@ -3,7 +3,7 @@ import os
 from brainvisa.processes import *
 from brainvisa import registration
 
-name = '08 Conversion of meshes to aims referential'
+name = 'Conversion of meshes to aims referential'
 userlevel = 2
 
 signature = Signature(

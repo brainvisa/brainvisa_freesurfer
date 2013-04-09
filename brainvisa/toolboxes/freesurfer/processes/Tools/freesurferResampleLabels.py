@@ -2,7 +2,7 @@
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
-name = '11 Resample label textures.'
+name = 'Resample label textures.'
 userlevel = 2
 
 signature = Signature(

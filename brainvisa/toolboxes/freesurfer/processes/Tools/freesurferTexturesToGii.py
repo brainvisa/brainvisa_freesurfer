@@ -2,7 +2,7 @@
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
-name = '12 Converting freesurfer textures to Gifti format.'
+name = 'Converting freesurfer textures to Gifti format.'
 userlevel = 2
 
 signature = Signature(

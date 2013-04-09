@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from brainvisa.processes import *
 
-name = '14 Resampling freesurfer data textures.'
+name = 'Resampling freesurfer data textures.'
 userlevel = 2
 
 signature = Signature(

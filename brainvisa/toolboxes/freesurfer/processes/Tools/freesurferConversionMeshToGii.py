@@ -3,7 +3,7 @@ from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 from brainvisa import registration
 
-name = '04 Conversion of Freesurfer meshes to Gifti format'
+name = 'Conversion of Freesurfer meshes to Gifti format'
 userlevel = 2
 
 signature = Signature(
