@@ -93,7 +93,7 @@ def initialization(self):
         subject_tp1, timepoint1 = string.split(str(proc.subject_tp1), '_acquis_')
         subject_tp2, timepoint2 = string.split(str(proc.subject_tp2), '_acquis_')
         assert(subject_tp1 == subject_tp2)
-        subject_ave = subject_tp1 + '_template'
+        subject_ave = subject_tp1 + '_template_' + str(proc.subject_tp1) + '_versus_' + str(proc.subject_tp2)
         proc.template_name = subject_ave
         print proc.template_name
         return proc.template_name
