@@ -11,6 +11,9 @@ def freesurferMeshToAimsMesh(meshfile, anatfile, outputmeshfile):
 
     mesh = aims.read(meshfile)
     aims.SurfaceManip.meshTransform( mesh, a_to_s )
+    if mesh.header().has_key( 'material' ):
+      # remove any counter-clockwise polygons ordering
+      del mesh.header()[ 'material' ]
 
     aims.write(mesh, outputmeshfile)
 
