@@ -37,6 +37,7 @@ def initialization(self):
         return proc.db
 
   self.setOptional('Add_options')
+  self.setOptional('AnatImageTemplate')
   self.linkParameters('subject_tp', ('AnatImageTimepoint', 'AnatImageTemplate'), linkSubjectNames)
   self.linkParameters('db', 'AnatImageTimepoint', linkDB)
   self.signature['subject_tp'].userLevel = 3
