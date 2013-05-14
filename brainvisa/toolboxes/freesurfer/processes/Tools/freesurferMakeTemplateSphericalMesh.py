@@ -13,20 +13,36 @@ signature = Signature(
   'LeftTemplateMesh', WriteDiskItem('Ico Mesh', 'GIFTI File',
                                     requiredAttributes = {'side':'left'}),
   'RightTemplateMesh', WriteDiskItem('Ico Mesh', 'GIFTI File',
-                                     requiredAttributes = {'side':'right'}),
+                                    requiredAttributes = {'side':'right'}),
+  'initial_undecimated_icosphere', ReadDiskItem( 'Ico Mesh', 'GIFTI File' ),
   'initial_icosphere_triangles_number', Integer(),
   'undecimated_icosphere', WriteDiskItem( 'Ico Mesh', 'GIFTI File' ),
   'LeftDensityTexture', WriteDiskItem( 'Texture', 'GIFTI File' ),
   'RightDensityTexture', WriteDiskItem( 'Texture', 'GIFTI File' ),
 )
 
-def initialization(self):
+
+def initialIcoChanged( self, dummy ):
+  s = self.signature #getSignature()
+  if self.initial_undecimated_icosphere is None:
+    s[ 'initial_icosphere_triangles_number' ].userLevel = 0
+    s[ 'undecimated_icosphere' ].userLevel = 0
+  else:
+    s[ 'initial_icosphere_triangles_number' ].userLevel = 3
+    s[ 'undecimated_icosphere' ].userLevel = 3
+  self.changeSignature( s )
+
+
+  def initialization(self):
   self.triangles_number = 40000
   self.initial_icosphere_triangles_number = 200000
   self.linkParameters( 'RightTemplateMesh', 'LeftTemplateMesh' )
   self.setOptional( 'LeftDensityTexture', 'RightDensityTexture',
-    'undecimated_icosphere' )
+    'undecimated_icosphere', 'initial_undecimated_icosphere' )
   self.linkParameters('RightDensityTexture', 'LeftDensityTexture')
+  self.addLink( None,
+    'initial_undecimated_icosphere',
+    self.initialIcoChanged )
 
 
 def execution( self, context ):
@@ -37,17 +53,24 @@ def execution( self, context ):
   outtmeshes = ( self.LeftTemplateMesh, self.RightTemplateMesh )
   outdtex = ( self.LeftDensityTexture, self.RightDensityTexture )
 
-  icopolynum = self.initial_icosphere_triangles_number
-  undecimatedWritten = False
+  if self.initial_undecimated_icosphere is not None:
+    icosphere0 = aims.read( self.initial_undecimated_icosphere.fullPath() )
+    icopolynum = icosphere0.polygon().size()
+    undecimatedWritten = True
+  else:
+    icopolynum = self.initial_icosphere_triangles_number
+    icosphere0 = aims.SurfaceGenerator.icosphere( [ 0, 0, 0 ], 100.,
+      icopolynum )
+    icopolynum = icosphere0.polygon().size()
+    undecimatedWritten = False
+    if self.undecimated_icosphere is not None:
+      aims.write( icosphere0, self.undecimated_icosphere.fullPath() )
+  context.write( 'using an initial icosphere of', len( icosphere0.polygon() ),
+    'polygons, ', len( icosphere0.vertex() ), 'vertices.' )
 
   for side, outmesh, outtex in zip( sides, outtmeshes, outdtex ):
-    # get a full icosphere
-    icosphere = aims.SurfaceGenerator.icosphere( [ 0, 0, 0 ], 100., icopolynum )
-    if not undecimatedWritten and self.undecimated_icosphere is not None:
-      aims.write( icosphere, self.undecimated_icosphere.fullPath() )
-      undecimatedWritten = True
-    context.write( 'using an initial icosphere of', len( icosphere.polygon() ),
-      'polygons, ', len( icosphere.vertex() ), 'vertices.' )
+    # get a full icosphere copy
+    icosphere = aims.AimsSurfaceTriangle( icosphere0 )
     subjects = []
     rattrs = { 'side' : side }
     density = None # density sum texture
