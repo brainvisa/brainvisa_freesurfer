@@ -33,7 +33,7 @@ def initialIcoChanged( self, dummy ):
   self.changeSignature( s )
 
 
-  def initialization(self):
+def initialization(self):
   self.triangles_number = 40000
   self.initial_icosphere_triangles_number = 200000
   self.linkParameters( 'RightTemplateMesh', 'LeftTemplateMesh' )
