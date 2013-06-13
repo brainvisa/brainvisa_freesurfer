@@ -61,6 +61,7 @@ hierarchy = (
         'orig', SetType( 'T1 FreesurferAnat' ),
         'nu', SetType( 'Nu FreesurferAnat' ),
         'ribbon', SetType( 'Ribbon Freesurfer' ),
+        'aseg', SetType( 'Freesurfer aseg' ),
         'transforms', SetContent(
           'talairach.auto', SetType('Talairach Auto Freesurfer'),
           'orig_<subject>_TO_Scanner_Based', SetType( 'Transformation to Scanner Based Referential' ),

@@ -1,9 +1,9 @@
 from brainvisa.processes import *
 
-name = 'Get Cerebellum in split mask'
+name = 'Get FreeSurfer Cerebellum in split mask'
 
 signature = Signature(
-  'FS_aseg', ReadDiskItem( 'T1 MRI', 'aims readable volume formats' ),
+  'FS_aseg', ReadDiskItem( 'FreeSurfer aseg', 'aims readable volume formats' ),
   'split_mask', ReadDiskItem( 'Split brain mask', 'aims readable volume formats' ),
   'output_split_mask', WriteDiskItem( 'Split brain mask', 'aims writable volume formats' ),
 )
