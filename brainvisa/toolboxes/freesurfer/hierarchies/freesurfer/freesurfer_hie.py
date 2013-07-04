@@ -53,6 +53,7 @@ hierarchy = (
         'rh.averagebrain.white', SetType('AverageBrainWhite'),
                                  SetWeakAttr('side','right'),
         'averagebrain.white', SetType('BothAverageBrainWhite'),
+        'bh.annot.averagebrain', SetType('BothAverageResampledGyri'),
     ))),
 
     '{subject}', SetFileNameStrongAttribute('subject'), SetType('Subject'),

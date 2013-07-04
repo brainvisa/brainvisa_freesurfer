@@ -118,8 +118,10 @@ FileType( 'FreesurferGyri', 'FreesurferParcellationType')
 FileType( 'FreesurferSulciGyri', 'FreesurferParcellationType')
 FileType( 'ResampledGyri', 'FreesurferResampledParcellationType')
 FileType( 'ResampledSulciGyri', 'FreesurferResampledParcellationType')
+
 #
 FileType( 'FreesurferResampledBothParcellationType', 'Label Texture')
 FileType( 'BothResampledGyri', 'FreesurferResampledBothParcellationType')
 FileType( 'BothResampledSulciGyri', 'FreesurferResampledBothParcellationType')
+FileType( 'BothAverageResampledGyri', 'FreesurferResampledBothParcellationType' )
 
