@@ -206,10 +206,10 @@ def execution( self, context ):
         if i == 3:
           break
 
-    talairach_freesrufer = aims.AffineTransformation3d(
+    talairach_freesurfer = aims.AffineTransformation3d(
       numpy.array( m  + [[ 0., 0., 0., 1. ]] ) )
     header_nifti =  aims.AffineTransformation3d(aimsGlobals.aimsVolumeAttributes(tmp_ori)[ 'transformations' ][-1] )
-    t1aims2mni = talairach_freesrufer * header_nifti
+    t1aims2mni = talairach_freesurfer * header_nifti
     aims.write( t1aims2mni, self.normalization_transformation.fullPath() )
     self.normalization_transformation.setMinf( 'source_referential',
       str( self.T1_referential.uuid() ), saveMinf=True )
@@ -233,12 +233,28 @@ def execution( self, context ):
   #change labels for Split Brain
   context.write("Create R/L-Grey white files from ribbon freesurfer data")
   VipGreyStatClassif = context.temporary( 'NIFTI-1 image' )
-  context.system( 'AimsReplaceLevel',    '-i',  self.Split_brain_output,    '-o', VipGreyStatClassif ,    '-g', '42', '41', '2', '3', '-n', '100' ,'200', '200', '100' )
-  context.system( 'AimsReplaceLevel',    '-i',  self.Split_brain_output,    '-o', self.Rgrey_white_output,    '-g', '42', '41', '2', '3', '-n', '100' ,'200', '0', '0' )
-  context.system( 'AimsReplaceLevel',    '-i',  self.Split_brain_output,    '-o', self.Lgrey_white_output,    '-g', '42', '41', '2', '3', '-n', '0' ,'0', '200', '100' )
+  context.system( 'AimsReplaceLevel',
+                  '-i', self.Split_brain_output,
+                  '-o', VipGreyStatClassif ,
+                  '-g', '42', '41', '2', '3',
+                  '-n', '100', '200', '200', '100' )
+  context.system( 'AimsReplaceLevel',
+                  '-i', self.Split_brain_output,
+                  '-o', self.Rgrey_white_output,
+                  '-g', '42', '41', '2', '3',
+                  '-n', '100', '200', '0', '0' )
+  context.system( 'AimsReplaceLevel',
+                  '-i', self.Split_brain_output,
+                  '-o', self.Lgrey_white_output,
+                  '-g', '42', '41', '2', '3',
+                  '-n', '0', '0', '200', '100' )
   
   context.write("Create Split Brain file from ribbon freesurfer data")
-  context.system( 'AimsReplaceLevel',    '-i',  self.Split_brain_output,    '-o', self.Split_brain_output,    '-g', '42', '41', '2', '3', '-n', '1' ,'1', '2', '2' )
+  context.system( 'AimsReplaceLevel',
+                  '-i', self.Split_brain_output,
+                  '-o', self.Split_brain_output,
+                  '-g', '42', '41', '2', '3',
+                  '-n', '1', '1', '2', '2' )
 
   #Copy referential
   trManager = registration.getTransformationManager()
@@ -249,8 +265,8 @@ def execution( self, context ):
   #Launch VipT1BiaisCorrection
   context.write("Launch T1BiasCorrection")
 
-  context.runProcess( 'T1BiasCorrection', mri=self.T1_output,
-    mri_corrected=self.Bias_corrected_output,
+  context.runProcess( 'T1BiasCorrection', t1mri=self.T1_output,
+    t1mri_nobias=self.Bias_corrected_output,
     field=self.bias_field,
     hfiltered=self.hfiltered,
     white_ridges=self.white_ridges,
@@ -261,7 +277,11 @@ def execution( self, context ):
 
   #Launch VipGreyStatFromClassif to generate a histo analysis file
   context.write("Launch VipGreyStatFromClassif to generate a histo analysis file")
-  context.system( 'VipGreyStatFromClassif', '-i',  self.Bias_corrected_output, '-c', VipGreyStatClassif, '-a', self.histo_analysis, '-g', '100', '-w','200')
+  context.system( 'VipGreyStatFromClassif',
+                  '-i', self.Bias_corrected_output,
+                  '-c', VipGreyStatClassif,
+                  '-a', self.histo_analysis,
+                  '-g', '100', '-w','200')
 
   #Lock Data
   self.T1_output.lockData()
@@ -272,15 +292,16 @@ def execution( self, context ):
   self.Split_brain_output.lockData()
   self.Rgrey_white_output.lockData()
   self.Lgrey_white_output.lockData()
- 
 
 
   #Launch Morphologist
   if self.use_t1pipeline != 2:
     t1pipeline = getProcessInstance( 'morphologist' )
-    t1pipeline.mri = self.T1_output
-
-    t1pipeline.mri_corrected = self.Bias_corrected_output
+    
+    t1pipeline.t1mri = self.T1_output
+    t1pipeline.t1mri_nobias = self.Bias_corrected_output
+    t1pipeline.histo_analysis = self.histo_analysis
+    t1pipeline.split_brain = self.Split_brain_output
 
     enode = t1pipeline.executionNode()
 
@@ -293,15 +314,22 @@ def execution( self, context ):
     enode.BrainSegmentation.setSelected( False )
     enode.SplitBrain.setSelected( False )
     enode.TalairachTransformation.setSelected( False )
-    enode.GreyWhiteClassification.setSelected( False )
-    enode.GreyWhiteSurface.setSelected( True )
-    enode.HemispheresMesh.setSelected( True )
     enode.HeadMesh.setSelected( True )
-    enode.CorticalFoldsGraph.setSelected( True )
-    # we _must_ build 3.1 graphs because 3.0 overwrite cortex images
-    # now we could use 3.0 graph thanks to Morpho 2012 but it seems a good choice to keep
-    #3.1 even if it is not the default value in Mropho 2012
-    enode.CorticalFoldsGraph.CorticalFoldsGraph_3_1.setSelected( True )
+    enode.HemispheresProcessing.setSelected( True )
+    enode.HemispheresProcessing.LeftHemisphere.setSelected( True )
+    enode.HemispheresProcessing.LeftHemisphere.GreyWhiteClassification.setSelected( False )
+    enode.HemispheresProcessing.LeftHemisphere.GreyWhiteTopology.setSelected( True )
+    enode.HemispheresProcessing.LeftHemisphere.GreyWhiteMesh.setSelected( True )
+    enode.HemispheresProcessing.LeftHemisphere.SulciSkeleton.setSelected( True )
+    enode.HemispheresProcessing.LeftHemisphere.PialMesh.setSelected( True )
+    enode.HemispheresProcessing.LeftHemisphere.CorticalFoldsGraph.setSelected( True )
+    enode.HemispheresProcessing.RightHemisphere.setSelected( True )
+    enode.HemispheresProcessing.RightHemisphere.GreyWhiteClassification.setSelected( False )
+    enode.HemispheresProcessing.RightHemisphere.GreyWhiteTopology.setSelected( True )
+    enode.HemispheresProcessing.RightHemisphere.GreyWhiteMesh.setSelected( True )
+    enode.HemispheresProcessing.RightHemisphere.SulciSkeleton.setSelected( True )
+    enode.HemispheresProcessing.RightHemisphere.PialMesh.setSelected( True )
+    enode.HemispheresProcessing.RightHemisphere.CorticalFoldsGraph.setSelected( True )
 
   if self.use_t1pipeline == 0:
     pv = mainThreadActions().call( ProcessView, t1pipeline )
