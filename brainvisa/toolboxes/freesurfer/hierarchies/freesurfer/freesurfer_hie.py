@@ -92,6 +92,13 @@ hierarchy = (
         'rh.r.aims.pial', SetType('AimsPial'), SetWeakAttr('side','right'),
         'lh.r.aims.white', SetType('AimsWhite'), SetWeakAttr('side','left'),
         'rh.r.aims.white', SetType('AimsWhite'), SetWeakAttr('side','right'),
+        'lh.aims.pial', SetType('AimsNativePial'), SetWeakAttr('side','left'),
+        'rh.aims.pial', SetType('AimsNativePial'),
+          SetWeakAttr('side','right'),
+        'lh.aims.white', SetType('AimsNativeWhite'),
+          SetWeakAttr('side','left'),
+        'rh.aims.white', SetType('AimsNativeWhite'),
+          SetWeakAttr('side','right'),
         #
         'lh.r.aims.white.normalized', SetType('AimsNormalizedWhite'),
                                       SetWeakAttr('side','left'),
