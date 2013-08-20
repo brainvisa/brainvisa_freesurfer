@@ -34,13 +34,18 @@
 # knowledge of the CeCILL license version 2 and that you accept its terms.
 
 
+
 hierarchy = (
   SetWeakAttr( 'database', '%f' ),
   SetContent(
+    'history_book', SetContent(
+    'bvsession', SetType( 'Bvsession' ),
+    SetContent('*', SetType( 'BrainVISA session event' ),),
+    '*', SetContent('*', SetType( 'Process execution event' ),),
+    ),
     'database_fso', SetType( 'Database description page' ),
     'database_settings', SetType( 'Database settings' ),
     '*', SetType('Database Cache file'),
-    
         'group_analysis',
     SetContent(
     '{freesurfer_group_of_subjects}',
