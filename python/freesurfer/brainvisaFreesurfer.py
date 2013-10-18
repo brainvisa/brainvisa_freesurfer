@@ -37,14 +37,16 @@ def launchFreesurferCommand( context, database=None, *args, **kwargs ):
   if not os.path.exists( runFreesurferCommandSh ):
     #print "path don't exist"
     runFreesurferCommandSh = None
- 
- 
+
+
   #INI FREESURFER DATABASE  : it seems no mandatory to set SUBJECTS_DIR to run some of freesurfer commands, but some of them
   #require this variable
+  if not database:
+    database = configuration.freesurfer.subjects_dir_path
   if database:
     os.environ[ 'SUBJECTS_DIR' ] = database
-  else :  database = configuration.freesurfer.subjects_dir_path
- 
+  # else hope the environment variable SUBJECTS_DIR is already set.
+
 
   #Try with the freesurfer shell script otherwise the exec
   #shell freesurfer script
@@ -58,22 +60,31 @@ def launchFreesurferCommand( context, database=None, *args, **kwargs ):
   #elif configuration.freesurfer.executable_freesurfer : setupShell.append(configuration.freesurfer.executable_freesurfer)
   
 
-  #At first test a freesurfer command 
-  cmdFreeSurferSystem = distutils.spawn.find_executable("mri_convert")
-  if distutils.spawn.find_executable("mri_convert") :
-    context.system ( * args,  **kwargs )
+  # determine freesurfer commands path or environment script
+  if configuration.freesurfer.freesurfer_home_path \
+      and os.path.exists( os.path.join(
+        configuration.freesurfer.freesurfer_home_path, 'FreeSurferEnv.sh' ) ):
+    setupShell.append( os.path.join(
+      configuration.freesurfer.freesurfer_home_path, 'FreeSurferEnv.sh' ) )
   else:
-    if configuration.freesurfer.freesurfer_home_path:
-      setupShell.append( os.path.join( configuration.freesurfer.freesurfer_home_path + "/FreeSurferEnv.sh" ) )
+    # test a freesurfer command
+    cmdFreeSurferSystem = distutils.spawn.find_executable("mri_convert")
+    if cmdFreeSurferSystem:
+      # run directly without setting environment
+      context.system ( * args,  **kwargs )
     else:
       # hope FreeSurferEnv.sh is in the path, but few chances...
-      setupShell.append( "FreeSurferEnv.sh" )
-    argShell = tuple(setupShell) + args
+      cmdFreeSurferSystem = distutils.spawn.find_executable("FreeSurferEnv.sh")
+      if cmdFreeSurferSystem:
+        setupShell.append( "FreeSurferEnv.sh" )
 
-    try :
-      ret = context.system ( *( (runFreesurferCommandSh, ) + argShell ),  **kwargs )
-    except Exception, e:
-      ret = 2
-    if ret != 0:
-      raise ValidationError( 'FreeSurfer not available or one freesurfer command line has failed. Please see the log file in the main menu of BrainVISA for more information.' )
+  argShell = tuple(setupShell) + args
+
+  try :
+    ret = context.system ( *( (runFreesurferCommandSh, ) + argShell ),
+      **kwargs )
+  except Exception, e:
+    ret = 2
+  if ret != 0:
+    raise ValidationError( 'FreeSurfer not available or one freesurfer command line has failed. Please see the log file in the main menu of BrainVISA for more information.' )
 
