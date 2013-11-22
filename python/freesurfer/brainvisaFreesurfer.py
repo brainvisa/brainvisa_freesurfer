@@ -71,19 +71,25 @@ def launchFreesurferCommand( context, database=None, *args, **kwargs ):
     cmdFreeSurferSystem = distutils.spawn.find_executable("mri_convert")
     if cmdFreeSurferSystem:
       # run directly without setting environment
-      context.system ( * args,  **kwargs )
+      try :
+        context.system ( * args, **kwargs )
+      except:
+        ret = 2
     else:
       # hope FreeSurferEnv.sh is in the path, but few chances...
       cmdFreeSurferSystem = distutils.spawn.find_executable("FreeSurferEnv.sh")
       if cmdFreeSurferSystem:
         setupShell.append( "FreeSurferEnv.sh" )
+      else:
+        # FreeSurfer is really not found, here.
+        raise ValidationError( 'FreeSurfer is not available' )
 
   argShell = tuple(setupShell) + args
 
   try :
     ret = context.system ( *( (runFreesurferCommandSh, ) + argShell ),
       **kwargs )
-  except Exception, e:
+  except:
     ret = 2
   if ret != 0:
     raise ValidationError( 'FreeSurfer not available or one freesurfer command line has failed. Please see the log file in the main menu of BrainVISA for more information.' )
