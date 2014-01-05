@@ -3,9 +3,12 @@ find_package( brainvisa-cmake REQUIRED )
 BRAINVISA_PROJECT()
 
 BRAINVISA_FIND_PACKAGE( soma-base REQUIRED )
-find_package( PyQt${DESIRED_QT_VERSION} REQUIRED )
+BRAINVISA_FIND_PACKAGE( axon REQUIRED )
 
+find_package( PyQt${DESIRED_QT_VERSION} REQUIRED )
 find_package( python REQUIRED )
+
+BRAINVISA_DEPENDENCY( RUN DEPENDS "axon" RUN ">= ${axon_VERSION_MAJOR}.${axon_VERSION_MINOR}" )
 
 BRAINVISA_COPY_PYTHON_DIRECTORY( "${CMAKE_CURRENT_SOURCE_DIR}/python"
                                  ${PROJECT_NAME} )
