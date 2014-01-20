@@ -38,7 +38,7 @@ def execution ( self, context ):
   for tex in textures:
     cmd_args += [ '-i', tex ]
   cmd_args += [ '-o', self.avg_gyri_texture ]
-  context.system('python', find_in_path( 'constelAvgGyriTexture.py' ), *cmd_args )
+  context.system('python', find_in_path( 'freesurferAvgGyriTexture.py' ), *cmd_args )
 
   # Computing connected component:
   context.system('python', find_in_path( 'constelGyriTextureCleaningIsolatedVertices.py' ),
