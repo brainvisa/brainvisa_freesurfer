@@ -12,8 +12,8 @@ def validation():
 from brainvisa.group_utils import Subject
 from soma.minf.api import registerClass, readMinf
 
-name = 'Average Gyri Texture'
-userLevel = 2
+name = '3 Average Gyri Texture'
+userLevel = 1
 
 signature = Signature(
   'group_freesurfer', ReadDiskItem('Freesurfer Group definition', 'XML' ),

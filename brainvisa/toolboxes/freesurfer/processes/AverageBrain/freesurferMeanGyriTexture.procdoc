@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="minf_2.0">
+<d>
+  <d name="en">
+    <xhtml name="short">Create average gyri textures from  <a href="freesurferCreateGroup.html">a group of subject</a>.</xhtml>
+    <d name="parameters">
+      <xhtml name="avg_gyri_texture"/>
+      <xhtml name="mesh"/>
+      <xhtml name="group_freesurfer"/>
+    </d>
+    <xhtml name="long"/>
+  </d>
+</d>
+</minf>
