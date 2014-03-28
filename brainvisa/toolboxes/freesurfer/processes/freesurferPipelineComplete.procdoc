@@ -20,7 +20,7 @@ After analysis of many subjects, you can also do:
 <ul>
 <li><a href="freesurferCreateGroup.html">1 Creation of a group of subjects</a>.</li> <br/>
 <li><a href="freesurferMeanMesh.html">2 Average brain mesh</a>.</li> <br/>
-<li><a href="freesurferMeanMesh.html">2 Average Gyri Texture</a>.</li> <br/>
+<li><a href="freesurferMeanMesh.html">3 Average Gyri Texture</a>.</li> <br/>
 </ul></xhtml>
     <d name="parameters">
       <xhtml name="RawT1Image"/>
