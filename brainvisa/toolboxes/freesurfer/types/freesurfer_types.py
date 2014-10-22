@@ -34,6 +34,7 @@
 # knowledge of the CeCILL license version 2 and that you accept its terms.
 
 include('builtin')
+include('snapshots')
 
 from brainvisa.tools import aimsGlobals
 
@@ -126,4 +127,3 @@ FileType( 'FreesurferResampledBothParcellationType', 'Label Texture')
 FileType( 'BothResampledGyri', 'FreesurferResampledBothParcellationType')
 FileType( 'BothResampledSulciGyri', 'FreesurferResampledBothParcellationType')
 FileType( 'BothAverageResampledGyri', 'FreesurferResampledBothParcellationType' )
-

@@ -34,10 +34,44 @@
 # knowledge of the CeCILL license version 2 and that you accept its terms.
 
 
+#snapshots snapbase freesurfer
+snap_aimspial_content = (
+  "snapshot_freesurfer_left_aimspial_{subject}_{acquisition}", SetType( 'Snapshot Pial Mesh'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_right_aimspial_{subject}_{acquisition}", SetType( 'Snapshot Pial Mesh'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+)
+snap_aimswhite_content = (
+  "snapshot_freesurfer_left_aimswhite_{subject}_{acquisition}", SetType( 'Snapshot White Mesh'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_right_aimswhite_{subject}_{acquisition}", SetType( 'Snapshot White Mesh'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+)
+snap_thickness_content = (
+  "snapshot_freesurfer_left_thickness_{subject}_{acquisition}", SetType( 'Snapshot Thickness Map'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_right_thickness_{subject}_{acquisition}", SetType( 'Snapshot Thickness Map'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+)
+snap_gyri_content = (
+  "snapshot_freesurfer_left_gyri_{subject}_{acquisition}", SetType( 'Snapshot Gyral Parcellation'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_right_gyri_{subject}_{acquisition}", SetType( 'Snapshot Gyral Parcellation'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+)
+snap_curv_content = (
+  "snapshot_freesurfer_left_curv_{subject}_{acquisition}", SetType( 'Snapshot Curvature Map'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_right_curv_{subject}_{acquisition}", SetType( 'Snapshot Curvature Map'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+)      
 
 hierarchy = (
   SetWeakAttr( 'database', '%f' ),
   SetContent(
+    'snapshots',SetContent(
+      'freesurfer', SetContent(
+        'greywhite', SetContent(
+        "snapshot_freesurfer_greywhite_{subject}_{acquisition}", SetType( 'Snapshot Grey White'), SetWeakAttr('software', 'freesurfer'),
+        "qc_greywhite", SetType( 'Snapshots Grey White Quality Scores') , SetWeakAttr('software', 'freesurfer'), 
+         ),
+        'aimspial', apply(SetContent,snap_aimspial_content), 
+        'aimswhite', apply(SetContent, snap_aimswhite_content),
+        'thickness', apply(SetContent, snap_thickness_content),
+        'gyri', apply(SetContent, snap_gyri_content),
+        'curv', apply(SetContent, snap_curv_content),
+        ),
+      ),
     'history_book', SetContent(
     'bvsession', SetType( 'Bvsession' ),
     SetContent('*', SetType( 'BrainVISA session event' ),),
