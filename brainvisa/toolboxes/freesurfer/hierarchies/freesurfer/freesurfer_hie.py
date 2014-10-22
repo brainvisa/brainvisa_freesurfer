@@ -7,18 +7,18 @@
 #      91401 Orsay cedex
 #      France
 #
-# This software is governed by the CeCILL license version 2 under 
+# This software is governed by the CeCILL license version 2 under
 # French law and abiding by the rules of distribution of free software.
-# You can  use, modify and/or redistribute the software under the 
+# You can  use, modify and/or redistribute the software under the
 # terms of the CeCILL license version 2 as circulated by CEA, CNRS
-# and INRIA at the following URL "http://www.cecill.info". 
-# 
+# and INRIA at the following URL "http://www.cecill.info".
+#
 # As a counterpart to the access to the source code and  rights to copy,
 # modify and redistribute granted by the license, users are provided only
 # with a limited warranty  and the software's author,  the holder of the
 # economic rights,  and the successive licensors  have only  limited
-# liability. 
-# 
+# liability.
+#
 # In this respect, the user's attention is drawn to the risks associated
 # with loading,  using,  modifying and/or developing or reproducing the
 # software by the user in light of its specific status of free software,
@@ -26,35 +26,35 @@
 # therefore means  that it is reserved for developers  and  experienced
 # professionals having in-depth computer knowledge. Users are therefore
 # encouraged to load and test the software's suitability as regards their
-# requirements in conditions enabling the security of their systems and/or 
-# data to be ensured and,  more generally, to use and operate it in the 
-# same conditions as regards security. 
-# 
+# requirements in conditions enabling the security of their systems and/or
+# data to be ensured and,  more generally, to use and operate it in the
+# same conditions as regards security.
+#
 # The fact that you are presently reading this means that you have had
 # knowledge of the CeCILL license version 2 and that you accept its terms.
 
 
 #snapshots snapbase freesurfer
 snap_aimspial_content = (
-  "snapshot_freesurfer_left_aimspial_{subject}_{acquisition}", SetType( 'Snapshot Pial Mesh'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
-  "snapshot_freesurfer_right_aimspial_{subject}_{acquisition}", SetType( 'Snapshot Pial Mesh'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_left_aimspial_{subject}", SetType( 'Snapshot Pial Mesh'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_right_aimspial_{subject}", SetType( 'Snapshot Pial Mesh'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
 )
 snap_aimswhite_content = (
-  "snapshot_freesurfer_left_aimswhite_{subject}_{acquisition}", SetType( 'Snapshot White Mesh'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
-  "snapshot_freesurfer_right_aimswhite_{subject}_{acquisition}", SetType( 'Snapshot White Mesh'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_left_aimswhite_{subject}", SetType( 'Snapshot White Mesh'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_right_aimswhite_{subject}", SetType( 'Snapshot White Mesh'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
 )
 snap_thickness_content = (
-  "snapshot_freesurfer_left_thickness_{subject}_{acquisition}", SetType( 'Snapshot Thickness Map'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
-  "snapshot_freesurfer_right_thickness_{subject}_{acquisition}", SetType( 'Snapshot Thickness Map'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_left_thickness_{subject}", SetType( 'Snapshot Thickness Map'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_right_thickness_{subject}", SetType( 'Snapshot Thickness Map'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
 )
 snap_gyri_content = (
-  "snapshot_freesurfer_left_gyri_{subject}_{acquisition}", SetType( 'Snapshot Gyral Parcellation'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
-  "snapshot_freesurfer_right_gyri_{subject}_{acquisition}", SetType( 'Snapshot Gyral Parcellation'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_left_gyri_{subject}", SetType( 'Snapshot Gyral Parcellation'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_right_gyri_{subject}", SetType( 'Snapshot Gyral Parcellation'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
 )
 snap_curv_content = (
-  "snapshot_freesurfer_left_curv_{subject}_{acquisition}", SetType( 'Snapshot Curvature Map'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
-  "snapshot_freesurfer_right_curv_{subject}_{acquisition}", SetType( 'Snapshot Curvature Map'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
-)      
+  "snapshot_freesurfer_left_curv_{subject}", SetType( 'Snapshot Curvature Map'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_right_curv_{subject}", SetType( 'Snapshot Curvature Map'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+)
 
 hierarchy = (
   SetWeakAttr( 'database', '%f' ),
@@ -63,9 +63,9 @@ hierarchy = (
       'freesurfer', SetContent(
         'greywhite', SetContent(
         "snapshot_freesurfer_greywhite_{subject}_{acquisition}", SetType( 'Snapshot Grey White'), SetWeakAttr('software', 'freesurfer'),
-        "qc_greywhite", SetType( 'Snapshots Grey White Quality Scores') , SetWeakAttr('software', 'freesurfer'), 
+        "qc_greywhite", SetType( 'Snapshots Grey White Quality Scores') , SetWeakAttr('software', 'freesurfer'),
          ),
-        'aimspial', apply(SetContent,snap_aimspial_content), 
+        'aimspial', apply(SetContent,snap_aimspial_content),
         'aimswhite', apply(SetContent, snap_aimswhite_content),
         'thickness', apply(SetContent, snap_thickness_content),
         'gyri', apply(SetContent, snap_gyri_content),
@@ -79,6 +79,8 @@ hierarchy = (
     ),
     'database_fso', SetType( 'Database description page' ),
     'database_settings', SetType( 'Database settings' ),
+    'snapshots', SetType('Snapshots Dir'), SetContent(),
+
     '*', SetType('Database Cache file'),
         'group_analysis',
     SetContent(
@@ -94,7 +96,6 @@ hierarchy = (
         'averagebrain.white', SetType('BothAverageBrainWhite'),
         'bh.annot.averagebrain', SetType('BothAverageResampledGyri'),
     ))),
-
     '{subject}', SetFileNameStrongAttribute('subject'), SetType('Subject'),
     SetContent(
       'mri', SetContent(
@@ -112,7 +113,7 @@ hierarchy = (
        ),
         'orig', SetContent(
           '001', SetType('RawFreesurferAnat'),
-          '001', SetType( 'Referential of Raw T1 MRI' ), 
+          '001', SetType( 'Referential of Raw T1 MRI' ),
         ),
       ),
       'surf', SetContent(
