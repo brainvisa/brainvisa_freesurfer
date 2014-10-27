@@ -62,7 +62,7 @@ hierarchy = (
     'snapshots',SetContent(
       'freesurfer', SetContent(
         'greywhite', SetContent(
-        "snapshot_freesurfer_greywhite_{subject}_{acquisition}", SetType( 'Snapshot Grey White'), SetWeakAttr('software', 'freesurfer'),
+        "snapshot_freesurfer_greywhite_{subject}", SetType( 'Snapshot Grey White'), SetWeakAttr('software', 'freesurfer'),
         "qc_greywhite", SetType( 'Snapshots Grey White Quality Scores') , SetWeakAttr('software', 'freesurfer'),
          ),
         'aimspial', apply(SetContent,snap_aimspial_content),
