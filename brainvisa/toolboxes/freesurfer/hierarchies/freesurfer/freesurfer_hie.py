@@ -72,6 +72,9 @@ hierarchy = (
         'curv', apply(SetContent, snap_curv_content),
         ),
       ),
+    'tables',SetContent(
+        'thicknesses_freesurfer_{tableid}', SetType('Cortical Thicknesses Table'), SetWeakAttr('software', 'freesurfer'),
+      ),
     'history_book', SetContent(
     'bvsession', SetType( 'Bvsession' ),
     SetContent('*', SetType( 'BrainVISA session event' ),),
@@ -80,7 +83,7 @@ hierarchy = (
     'database_fso', SetType( 'Database description page' ),
     'database_settings', SetType( 'Database settings' ),
     'snapshots', SetType('Snapshots Dir'), SetContent(),
-
+    'tables', SetType('Tables Directory'), SetContent(),
     '*', SetType('Database Cache file'),
         'group_analysis',
     SetContent(
