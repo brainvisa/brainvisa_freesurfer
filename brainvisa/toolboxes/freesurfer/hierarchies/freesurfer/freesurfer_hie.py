@@ -73,7 +73,10 @@ hierarchy = (
         ),
       ),
     'tables',SetContent(
-        'thicknesses_freesurfer_{tableid}', SetType('Cortical Thicknesses Table'), SetWeakAttr('software', 'freesurfer'),
+        'thicknesses_freesurfer', SetType('Cortical Thicknesses Table'), SetWeakAttr('software', 'freesurfer'),
+        'tissues_volumes_freesurfer', SetType('Global Volumetry Table'), SetWeakAttr('software', 'freesurfer'),
+        'historical_thicknesses_freesurfer', SetType('Historical Cortical Thicknesses Table'), SetWeakAttr('software', 'freesurfer'),
+        'historical_tissues_volumes_freesurfer', SetType('Historical Global Volumetry Table'), SetWeakAttr('software', 'freesurfer'),                                      
       ),
     'history_book', SetContent(
     'bvsession', SetType( 'Bvsession' ),
