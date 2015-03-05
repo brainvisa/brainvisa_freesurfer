@@ -71,7 +71,8 @@ FileType( 'Nu FreesurferAnat', 'T1 FreesurferAnat' )
 FileType( 'Ribbon Freesurfer', 'Label volume', aimsGlobals.aimsVolumeFormats + [ 'FreesurferMGZ' ] )
 FileType( 'Talairach Auto Freesurfer', 'MINC transformation matrix' )
 FileType( 'Freesurfer aseg', 'Label volume', aimsGlobals.aimsVolumeFormats + [ 'FreesurferMGZ' ] )
-
+FileType( 'Freesurfer Brain Mask', 'Label volume', aimsGlobals.aimsVolumeFormats + [ 'FreesurferMGZ' ] )
+FileType( 'Freesurfer Cortical Parcellation using Destrieux Atlas', 'Label volume', aimsGlobals.aimsVolumeFormats + [ 'FreesurferMGZ' ] )
 
 #mri / transforms
 FileType( 'Referential of Raw T1 MRI', 'Referential' )

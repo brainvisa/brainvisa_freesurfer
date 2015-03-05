@@ -109,6 +109,8 @@ hierarchy = (
         'nu', SetType( 'Nu FreesurferAnat' ),
         'ribbon', SetType( 'Ribbon Freesurfer' ),
         'aseg', SetType( 'Freesurfer aseg' ),
+        'aparc.a2009s+aseg', SetType( 'Freesurfer Cortical Parcellation using Destrieux Atlas' ),
+        'brainmask', SetType( 'Freesurfer Brain Mask' ),
         'transforms', SetContent(
           'talairach.auto', SetType('Talairach Auto Freesurfer'),
           'orig_<subject>_TO_Scanner_Based', SetType( 'Transformation to Scanner Based Referential' ),
