@@ -76,7 +76,8 @@ hierarchy = (
         'thicknesses_freesurfer', SetType('Cortical Thicknesses Table'), SetWeakAttr('software', 'freesurfer'),
         'tissues_volumes_freesurfer', SetType('Global Volumetry Table'), SetWeakAttr('software', 'freesurfer'),
         'history_thicknesses_freesurfer', SetType('History Cortical Thicknesses Table'), SetWeakAttr('software', 'freesurfer'),
-        'history_tissues_volumes_freesurfer', SetType('History Global Volumetry Table'), SetWeakAttr('software', 'freesurfer'),                                      
+        'history_tissues_volumes_freesurfer', SetType('History Global Volumetry Table'), SetWeakAttr('software', 'freesurfer'),    
+        'snapshots_features_freesurfer', SetType('Snapshots Features Table'), SetWeakAttr('software', 'freesurfer'),                                  
       ),
     'history_book', SetContent(
     'bvsession', SetType( 'Bvsession' ),
