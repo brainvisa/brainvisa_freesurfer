@@ -23,7 +23,10 @@ def initialization( self ):
 
   def linkSubjectName( proc, dummy ):
     if proc.RawT1Image is not None:
-      return os.path.basename( os.path.dirname( os.path.dirname( os.path.dirname( proc.RawT1Image.fullName() ) ) ) ) + '_acquis_' + proc.RawT1Image.get('acquisition')
+      acquisition = proc.RawT1Image.get('acquisition')
+      if acquisition is not None:
+        return os.path.basename( os.path.dirname( os.path.dirname( os.path.dirname( proc.RawT1Image.fullName() ) ) ) ) + '_acquis_' + acquisition
+      print 'no acquisition for RawT1Image:', proc.RawT1Image
   #self.linkParameters( 'subjectName', 'RawT1Image', linkSubjectName )
   def linkAnatImage( proc, dummy ):
     if proc.subjectName is not None and proc.database is not None:
