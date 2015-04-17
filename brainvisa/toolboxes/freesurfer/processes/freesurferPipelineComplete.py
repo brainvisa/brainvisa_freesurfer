@@ -10,6 +10,7 @@ def validation():
 
 signature = Signature(
   'RawT1Image', ReadDiskItem('Raw T1 MRI', 'NIFTI-1 image'),
+  'database', Choice(),
 )
 
 
@@ -24,6 +25,14 @@ def initialization( self ):
                   
   eNode.addDoubleLink( 'FreeSurfer01.RawT1Image',
                        'RawT1Image' )
+  eNode.addDoubleLink( 'FreeSurfer01.database',
+                       'database' )
+  databases = [h.name for h in neuroHierarchy.hierarchies() if h.fso.name == 'freesurfer']
+  self.signature['database'].setChoices(*databases)
+  if len( databases ) != 0:
+    self.database = databases[0]
+  else:
+    self.signature[ 'Database' ] = OpenChoice()
   
   #02 Launch Freesurfer full pipeline
   eNode.addChild( 'FreeSurfer02',
@@ -31,7 +40,7 @@ def initialization( self ):
                   optional = 1 ) )
                   
   eNode.addDoubleLink( 'FreeSurfer02.AnatImage',
-                       'FreeSurfer01.AnatImage' )                   
+                       'FreeSurfer01.AnatImage' )
   
   #Brainvisa Freesurfer pipeline
   eNode.addChild( 'FreeSurferPipeline',
@@ -49,17 +58,17 @@ def initialization( self ):
                                        'anat' )
                                        
   eNode.FreeSurferPipeline.removeLink( 'rightPial',
-                                       'anat' )       
+                                       'anat' )
                                        
   eNode.FreeSurferPipeline.removeLink( 'rightCurv',
-                                       'anat' )                                          
+                                       'anat' )
   
   #left
   eNode.addDoubleLink( 'FreeSurferPipeline.leftPial',
                        'FreeSurfer02.leftPial' )
                        
   eNode.addDoubleLink( 'FreeSurferPipeline.leftWhite',
-                       'FreeSurfer02.leftWhite' )   
+                       'FreeSurfer02.leftWhite' )
                        
   eNode.addDoubleLink( 'FreeSurferPipeline.leftSphereReg',
                        'FreeSurfer02.leftSphereReg' )  
@@ -80,17 +89,17 @@ def initialization( self ):
                        'FreeSurfer02.leftGyri' )
                        
   eNode.addDoubleLink( 'FreeSurferPipeline.leftSulciGyri',
-                       'FreeSurfer02.leftSulciGyri' )     
+                       'FreeSurfer02.leftSulciGyri' )
                        
-  #right                     
+  #right
   eNode.addDoubleLink( 'FreeSurferPipeline.rightPial',
                        'FreeSurfer02.rightPial' )
                        
   eNode.addDoubleLink( 'FreeSurferPipeline.rightWhite',
-                       'FreeSurfer02.rightWhite' )   
+                       'FreeSurfer02.rightWhite' )
                        
   eNode.addDoubleLink( 'FreeSurferPipeline.rightSphereReg',
-                       'FreeSurfer02.rightSphereReg' )  
+                       'FreeSurfer02.rightSphereReg' )
                        
   eNode.addDoubleLink( 'FreeSurferPipeline.rightThickness',
                        'FreeSurfer02.rightThickness' )
@@ -108,8 +117,8 @@ def initialization( self ):
                        'FreeSurfer02.rightGyri' )
                        
   eNode.addDoubleLink( 'FreeSurferPipeline.rightSulciGyri',
-                       'FreeSurfer02.rightSulciGyri' )   
-   
+                       'FreeSurfer02.rightSulciGyri' )
+  
   self.setExecutionNode( eNode )
   
 
