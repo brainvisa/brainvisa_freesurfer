@@ -13,10 +13,13 @@ def validation():
 signature = Signature(
   'AnatImage', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
   'Add_options', String(),
-  'database', ReadDiskItem( 'Directory', 'Directory' ),
+  'database', ReadDiskItem('Directory', 'Directory'),
   'subject', String(),
   
   #liens non visible:
+  'nu', WriteDiskItem('Nu FreesurferAnat', 'FreesurferMGZ'),
+  'ribbon', WriteDiskItem('Ribbon Freesurfer', 'FreesurferMGZ'),
+  
   'leftPial', WriteDiskItem('BaseFreesurferType', 'FreesurferPial',
          requiredAttributes = {'side': 'left'}),
   'leftWhite', WriteDiskItem('BaseFreesurferType', 'FreesurferWhite',
@@ -71,10 +74,13 @@ def initialization(self):
   #self.database=databases[0][1]
 
   self.setOptional('Add_options')
-  self.linkParameters('database', 'AnatImage', linkDB )
-  self.linkParameters( 'subject', 'AnatImage', linkSubject )
+  self.linkParameters('database', 'AnatImage', linkDB)
+  self.linkParameters('subject', 'AnatImage', linkSubject)
   self.signature[ 'database' ].userLevel = 2
   self.signature[ 'subject' ].userLevel = 2
+
+  self.linkParameters( 'nu', 'AnatImage' )
+  self.linkParameters( 'ribbon', 'AnatImage' )
 
   self.linkParameters( 'leftPial', 'AnatImage' )
   self.linkParameters( 'leftWhite', 'AnatImage' )
@@ -95,6 +101,9 @@ def initialization(self):
   self.linkParameters( 'rightCurvPial', 'AnatImage' )
   self.linkParameters( 'rightGyri', 'AnatImage' )
   self.linkParameters( 'rightSulciGyri', 'AnatImage' )
+  
+  self.signature['nu'].userLevel = 3
+  self.signature['ribbon'].userLevel = 3
   
   self.signature['leftPial'].userLevel = 3
   self.signature['leftWhite'].userLevel = 3
@@ -120,7 +129,7 @@ def execution(self, context):
   subject = self.subject
   if subject is None:
     subject = os.path.basename( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImage.fullPath() ) ) ) )
-  context.write('Launch the Freesurfer pipeline on subject ' + subject )
+  context.write('Launch the Freesurfer pipeline on subject ' + subject)
   database = self.database
   if not database:
     database = os.path.dirname( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImage.fullPath() ) ) ) )
