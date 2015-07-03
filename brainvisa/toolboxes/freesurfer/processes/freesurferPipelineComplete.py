@@ -50,18 +50,20 @@ def initialization( self ):
                   
   eNode.addDoubleLink( 'FreeSurferPipeline.anat',
                        'FreeSurfer02.AnatImage' )
+  
+  eNode.FreeSurferPipeline.removeLink('nu', 'anat')
+  eNode.FreeSurferPipeline.removeLink('ribbon', 'anat')
                        
-  eNode.FreeSurferPipeline.removeLink( 'leftPial',
-                                       'anat' )
+  eNode.FreeSurferPipeline.removeLink('leftPial', 'anat')
+  eNode.FreeSurferPipeline.removeLink('leftCurv', 'anat')
                                        
-  eNode.FreeSurferPipeline.removeLink( 'leftCurv',
-                                       'anat' )
-                                       
-  eNode.FreeSurferPipeline.removeLink( 'rightPial',
-                                       'anat' )
-                                       
-  eNode.FreeSurferPipeline.removeLink( 'rightCurv',
-                                       'anat' )
+  eNode.FreeSurferPipeline.removeLink('rightPial', 'anat')                                       
+  eNode.FreeSurferPipeline.removeLink('rightCurv', 'anat')
+  
+  eNode.addDoubleLink( 'FreeSurferPipeline.nu',
+                       'FreeSurfer02.nu' )
+  eNode.addDoubleLink( 'FreeSurferPipeline.ribbon',
+                       'FreeSurfer02.ribbon' )
   
   #left
   eNode.addDoubleLink( 'FreeSurferPipeline.leftPial',
