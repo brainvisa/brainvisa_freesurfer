@@ -13,7 +13,7 @@ def validation():
 signature = Signature(
   'Gyri', ReadDiskItem('FreesurferResampledBothParcellationType',
     'anatomist Texture formats'),
-  'BrainMesh', ReadDiskItem('AimsBothWhite', 'anatomist mesh formats'),
+  'BrainMesh', ReadDiskItem('AimsWhite', 'anatomist mesh formats'),
 )
 
 def initialization( self ):
@@ -22,4 +22,4 @@ def initialization( self ):
 
 def execution( self, context ):
   a=anatomist.Anatomist()
-  return a.viewTextureOnMesh(self.BrainMesh, self.Gyri)
+  return a.viewTextureOnMesh(self.BrainMesh, self.Gyri, interpolation='rgb')

@@ -16,15 +16,16 @@ name = '3 Average Gyri Texture'
 userLevel = 1
 
 signature = Signature(
-  'group_freesurfer', ReadDiskItem('Freesurfer Group definition', 'XML' ),
+  'group_freesurfer', ReadDiskItem('Freesurfer Group definition', 'XML'),
   'mesh', ReadDiskItem('BothAverageBrainWhite', 'MESH mesh'),
-  'avg_gyri_texture', WriteDiskItem( 'BothAverageResampledGyri', 'BrainVISA texture formats' ),
+  'avg_gyri_texture', WriteDiskItem('BothAverageResampledGyri',
+                                    'aims texture formats'),
 )
 
 def initialization ( self ):
   self.linkParameters( 'mesh', 'group_freesurfer' )
   self.linkParameters( 'avg_gyri_texture', 'group_freesurfer' )
-  
+
 def execution ( self, context ):
   registerClass('minf_2.0', Subject, 'Subject')
   groupOfSubjects = readMinf(self.group_freesurfer.fullPath())
@@ -46,4 +47,3 @@ def execution ( self, context ):
     '-m', self.mesh,
     '-o', self.avg_gyri_texture
   )
-  
