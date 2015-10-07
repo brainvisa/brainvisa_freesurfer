@@ -58,7 +58,7 @@ signature = Signature(
 # Default values
 def initialization(self):
     self.linkParameters('mesh', 'group_freesurfer')
-    self.linkParameters('avg_gyri_texture', "group_freesurfer')
+    self.linkParameters('avg_gyri_texture', 'group_freesurfer')
 
   
 def execution ( self, context ):
