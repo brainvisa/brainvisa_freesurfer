@@ -32,7 +32,7 @@ def initialization( self ):
   if len( databases ) != 0:
     self.database = databases[0]
   else:
-    self.signature[ 'Database' ] = OpenChoice()
+    self.signature[ 'database' ] = OpenChoice()
   
   #02 Launch Freesurfer full pipeline
   eNode.addChild( 'FreeSurfer02',
