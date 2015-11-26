@@ -72,7 +72,7 @@ def launchFreesurferCommand( context, database=None, *args, **kwargs ):
     if cmdFreeSurferSystem:
       # run directly without setting environment
       try :
-        context.system ( * args, **kwargs )
+        context.system( * args, nativeEnv=True, **kwargs )
       except:
         ret = 2
     else:
@@ -87,8 +87,8 @@ def launchFreesurferCommand( context, database=None, *args, **kwargs ):
   argShell = tuple(setupShell) + args
 
   try :
-    ret = context.system ( *( (runFreesurferCommandSh, ) + argShell ),
-      **kwargs )
+    ret = context.system( *( (runFreesurferCommandSh, ) + argShell ),
+      nativeEnv=True, **kwargs )
   except:
     ret = 2
   if ret != 0:
