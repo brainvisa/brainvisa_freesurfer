@@ -30,21 +30,14 @@
 #
 # The fact that you are presently reading this means that you have had
 # knowledge of the CeCILL license version 2 and that you accept its terms.
+
+from freesurfer.brainvisaFreesurfer import *
 from brainvisa.processes import *
-from brainvisa import shelltools
-from brainvisa.validation import ValidationError
 from brainvisa.tools import aimsGlobals
-import stat
+from brainvisa import registration
 from soma import aims
 import numpy
-from brainvisa import registration
-from freesurfer.brainvisaFreesurfer import *
-import threading 
-from soma.wip.application.api import Application
-
-
-
-configuration = Application().configuration
+import threading
 
 
 def delInMainThread( lock, thing ): #Pour pb de communiation avec Anatomist
@@ -53,41 +46,56 @@ def delInMainThread( lock, thing ): #Pour pb de communiation avec Anatomist
   lock.release()
 
   
-name = 'Import From FreeSurfer to T1 pipeline'
+name = 'Import FreeSurfer grey/white segmentation to Morphologist'
 roles = ('importer',)
 userLevel = 1
 
 
-def validation():
-  pass
-
 signature=Signature(
-  'T1_orig', ReadDiskItem( 'T1 FreesurferAnat',  'FreesurferMGZ', exactType=True ),
-  #seems no mandatory ?
-  'ribbon_image', ReadDiskItem( 'Ribbon Freesurfer', 'FreesurferMGZ' ),
-  'scanner_based_referential', ReadDiskItem( 'Scanner Based Referential', 'Referential' ),
-  'Talairach_Auto', ReadDiskItem( 'Talairach Auto Freesurfer', 'MINC transformation matrix' ), 
-  'T1_output', WriteDiskItem( 'Raw T1 MRI', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
-  'T1_referential', WriteDiskItem( 'Referential of Raw T1 MRI', 'Referential' ),
-  'transform_to_scanner_based', WriteDiskItem( 'Transformation to Scanner Based Referential', 'Transformation matrix' ),
-  'Bias_corrected_output', WriteDiskItem( 'T1 MRI Bias Corrected', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
-  'normalization_transformation',  WriteDiskItem( 'Transform Raw T1 MRI to Talairach-MNI template-SPM', 'Transformation matrix' ), 
-  'Talairach_transform',  WriteDiskItem( 'Transform Raw T1 MRI to Talairach-AC/PC-Anatomist', 'Transformation matrix' ),
-  'commissure_coordinates', WriteDiskItem( 'Commissure Coordinates', 'Commissure coordinates' ),
-  'histo_analysis', WriteDiskItem( 'Histo Analysis', 'Histo Analysis' ),
-  'Split_brain_output', WriteDiskItem( 'Split Brain Mask', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
-  'Rgrey_white_output', WriteDiskItem( 'Right Grey White Mask', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
-  'Lgrey_white_output', WriteDiskItem( 'Left Grey White Mask', [ 'GIS image', 'NIFTI-1 image', 'gz compressed NIFTI-1 image' ] ),
-  'use_t1pipeline', Choice( ( 'graphically', 0 ), ( 'in batch', 1 ), ( 'don\'t use it', 2 ) ),
-  'mni_referential', ReadDiskItem( 'Referential', 'Referential' ),
-  'transform_chain_ACPC_to_Normalized',  ListOf( ReadDiskItem( 'Transformation', 'Transformation matrix' ) ),
-  'acpc_referential', ReadDiskItem('Referential', 'Referential'),
-  'bias_field', WriteDiskItem( 'T1 MRI bias field', 'aims writable volume formats' ),
-  'hfiltered', WriteDiskItem( 'T1 MRI filtered for histo', 'aims writable volume formats' ),
-  'white_ridges', WriteDiskItem( 'T1 MRI white matter ridges', 'aims writable volume formats', exactType=True ),
-  'mean_curvature', WriteDiskItem( 'T1 MRI mean curvature', 'aims writable volume formats' ),
-  'variance', WriteDiskItem( 'T1 MRI variance', 'aims writable volume formats' ),
-  'edges', WriteDiskItem( 'T1 MRI edges', 'aims writable volume formats' ),
+  'T1_orig', ReadDiskItem('T1 FreesurferAnat',
+                          'FreesurferMGZ',
+                          exactType=True),
+  'ribbon_image', ReadDiskItem('Ribbon Freesurfer',
+                               'FreesurferMGZ'),
+  'scanner_based_referential', ReadDiskItem('Scanner Based Referential',
+                                            'Referential'),
+  'Talairach_Auto', ReadDiskItem('Talairach Auto Freesurfer',
+                                 'MINC transformation matrix'), 
+  'T1_output', WriteDiskItem('Raw T1 MRI',
+                             ['gz compressed NIFTI-1 image',
+                              'NIFTI-1 image',
+                              'GIS image']),
+  'T1_referential', WriteDiskItem('Referential of Raw T1 MRI',
+                                  'Referential'),
+  'transform_to_scanner_based', WriteDiskItem('Transformation to Scanner Based Referential',
+                                              'Transformation matrix'),
+  'bias_corrected_output', WriteDiskItem('T1 MRI Bias Corrected',
+                                         'Aims writable volume formats'),
+  'normalization_transformation', WriteDiskItem('Transform Raw T1 MRI to Talairach-MNI template-SPM',
+                                                'Transformation matrix'), 
+  'talairach_transform', WriteDiskItem('Transform Raw T1 MRI to Talairach-AC/PC-Anatomist',
+                                        'Transformation matrix'),
+  'commissure_coordinates', WriteDiskItem('Commissure Coordinates',
+                                          'Commissure coordinates'),
+  'histo_analysis', WriteDiskItem('Histo Analysis',
+                                  'Histo Analysis'),
+  'brain_mask_output', WriteDiskItem('T1 Brain Mask',
+                                     'Aims writable volume formats'),
+  'split_brain_output', WriteDiskItem('Split Brain Mask',
+                                      'Aims writable volume formats'),
+  'right_grey_white_output', WriteDiskItem('Right Grey White Mask',
+                                           'Aims writable volume formats'),
+  'left_grey_white_output', WriteDiskItem('Left Grey White Mask',
+                                          'Aims writable volume formats'),
+  'use_morphologist', Choice(('graphically', 0),
+                             ('in batch', 1),
+                             ('don\'t use it', 2)),
+  'mni_referential', ReadDiskItem('Referential',
+                                  'Referential'),
+  'transform_chain_ACPC_to_Normalized', ListOf(ReadDiskItem('Transformation',
+                                                            'Transformation matrix')),
+  'acpc_referential', ReadDiskItem('Referential',
+                                   'Referential'),
 )
 
 
@@ -107,52 +115,37 @@ def initialization( self ):
       else:
         return []
 
-  #self.signature[ 'output' ].browseUserLevel = 3
-  #self.signature[ 'nu input' ].databaseUserLevel = 2
-  self.linkParameters( 'ribbon_image', 'T1_orig' )
-  self.linkParameters( 'scanner_based_referential', 'T1_orig' )
-  self.linkParameters( 'Talairach_Auto', 'T1_orig' )
-  self.linkParameters( 'transform_to_scanner_based', 'T1_output' )
-  self.linkParameters( 'Bias_corrected_output', 'T1_output' )
-  self.linkParameters( 'Split_brain_output', 'T1_output' )
-  self.linkParameters( 'normalization_transformation', 'T1_output' )
-  self.linkParameters( 'Talairach_transform', 'T1_output' )
-  self.linkParameters( 'histo_analysis', 'Bias_corrected_output' )
-  self.linkParameters( 'Rgrey_white_output', 'T1_output' )
-  self.linkParameters( 'Lgrey_white_output', 'T1_output' )
-  self.linkParameters( 'T1_referential', 'T1_output' )
-  self.linkParameters( 'commissure_coordinates', 'T1_output' )
-  self.linkParameters( 'transform_chain_ACPC_to_Normalized',
-    'mni_referential', linkACPC_to_norm )
+  self.linkParameters('ribbon_image', 'T1_orig')
+  self.linkParameters('scanner_based_referential', 'T1_orig')
+  self.linkParameters('Talairach_Auto', 'T1_orig')
+  self.linkParameters('transform_to_scanner_based', 'T1_output')
+  self.linkParameters('bias_corrected_output', 'T1_output')
+  self.linkParameters('brain_mask_output', 'T1_output')
+  self.linkParameters('split_brain_output', 'T1_output')
+  self.linkParameters('normalization_transformation', 'T1_output')
+  self.linkParameters('talairach_transform', 'T1_output')
+  self.linkParameters('histo_analysis', 'bias_corrected_output')
+  self.linkParameters('right_grey_white_output', 'T1_output')
+  self.linkParameters('left_grey_white_output', 'T1_output')
+  self.linkParameters('T1_referential', 'T1_output')
+  self.linkParameters('commissure_coordinates', 'T1_output')
+  self.linkParameters('transform_chain_ACPC_to_Normalized',
+                      'mni_referential',
+                      linkACPC_to_norm)
   trManager = registration.getTransformationManager()
   self.mni_referential = trManager.referential(
     registration.talairachMNIReferentialId )
   self.acpc_referential = trManager.referential(
     registration.talairachACPCReferentialId )
-  self.use_t1pipeline = 1
-  self.linkParameters( 'bias_field', 'T1_output' )
-  self.linkParameters( 'hfiltered', 'T1_output' )
-  self.linkParameters( 'white_ridges', 'T1_output' )
-  self.linkParameters( 'mean_curvature', 'T1_output' )
-  self.linkParameters( 'variance', 'T1_output' )
-  self.linkParameters( 'edges', 'T1_output' )
-  self.setOptional( 'scanner_based_referential', 'transform_to_scanner_based' )
+  
+  self.use_morphologist = 1
+  self.setOptional('scanner_based_referential', 'transform_to_scanner_based')
   self.signature['mni_referential'].userLevel = 2
   self.signature['transform_chain_ACPC_to_Normalized'].userLevel = 2
   self.signature['acpc_referential'].userLevel = 2
-  self.signature['bias_field'].userLevel = 2
-  self.signature['hfiltered'].userLevel = 2
-  self.signature['white_ridges'].userLevel = 2
-  self.signature['mean_curvature'].userLevel = 2
-  self.signature['variance'].userLevel = 2
-  self.signature['edges'].userLevel = 2
 
 
 def execution( self, context ):
- #a rajouter ?
-  #pi, p = context.getProgressInfo( self )
-  #pi.children = [ None ] * 3
-  #nsteps = 2
 
   #Temporary files
   tmp_ori = context.temporary( 'NIFTI-1 image', 'Raw T1 MRI'  )
@@ -170,9 +163,9 @@ def execution( self, context ):
     '-i', self.ribbon_image, '-o', tmp_ribbon)
 
   #Import Data 
-  context.write("Import Data into database with brainvisa ontology")
+  context.write("Import data into database with brainvisa ontology")
   context.write(database)
-  context.runProcess( 'ImportT1MRI', input=tmp_ori, output=self.T1_output)
+  context.runProcess('ImportT1MRI', input=tmp_ori, output=self.T1_output)
 
   if self.transform_to_scanner_based is not None:
     t1h = aimsGlobals.aimsVolumeAttributes( self.T1_output )
@@ -184,9 +177,9 @@ def execution( self, context ):
     aims.write( tr, self.transform_to_scanner_based.fullPath() )
     self.transform_to_scanner_based.readAndUpdateMinf()
 
-  context.runProcess( 'ImportData', tmp_ribbon , self.Split_brain_output)
-  context.system( 'AimsFileConvert', '-i',  self.Split_brain_output,
-    '-o', self.Split_brain_output, '-t', 'S16')
+  context.runProcess('ImportData', tmp_ribbon , self.split_brain_output)
+  context.system('AimsFileConvert', '-i',  self.split_brain_output,
+    '-o', self.split_brain_output, '-t', 'S16')
 
   if self.Talairach_Auto is not None:
     # import / convert transformation to MNI space
@@ -195,7 +188,7 @@ def execution( self, context ):
     m = []
     i = 0
     rl = False
-    for l in open( self.Talairach_Auto.fullPath() ).xreadlines():
+    for l in open(self.Talairach_Auto.fullPath()).xreadlines():
       if l.startswith( 'Linear_Transform =' ):
         rl = True
       elif rl:
@@ -216,13 +209,13 @@ def execution( self, context ):
     self.normalization_transformation.setMinf( 'destination_referential',
       str( registration.talairachMNIReferentialId ), saveMinf=True )
 
-    if self.Talairach_transform is not None:
+    if self.talairach_transform is not None:
       trm = context.temporary( 'Transformation matrix' )
       aims.write( t1aims2mni, trm.fullPath() )
 
       context.runProcess( 'TalairachTransformationFromNormalization',
         normalization_transformation=self.normalization_transformation,
-        Talairach_transform=self.Talairach_transform,
+        Talairach_transform=self.talairach_transform,
         commissure_coordinates=self.commissure_coordinates,
         t1mri=self.T1_output, source_referential=self.T1_referential,
         normalized_referential=self.mni_referential,
@@ -231,90 +224,106 @@ def execution( self, context ):
 
 
   #change labels for Split Brain
-  context.write("Create R/L-Grey white files from ribbon freesurfer data")
+  context.write("Create right/left grey white files from ribbon freesurfer data")
   VipGreyStatClassif = context.temporary( 'NIFTI-1 image' )
   context.system( 'AimsReplaceLevel',
-                  '-i', self.Split_brain_output,
+                  '-i', self.split_brain_output,
                   '-o', VipGreyStatClassif ,
                   '-g', '42', '41', '2', '3',
                   '-n', '100', '200', '200', '100' )
   context.system( 'AimsReplaceLevel',
-                  '-i', self.Split_brain_output,
-                  '-o', self.Rgrey_white_output,
+                  '-i', self.split_brain_output,
+                  '-o', self.right_grey_white_output,
                   '-g', '42', '41', '2', '3',
                   '-n', '100', '200', '0', '0' )
   context.system( 'AimsReplaceLevel',
-                  '-i', self.Split_brain_output,
-                  '-o', self.Lgrey_white_output,
+                  '-i', self.split_brain_output,
+                  '-o', self.left_grey_white_output,
                   '-g', '42', '41', '2', '3',
                   '-n', '0', '0', '200', '100' )
   
-  context.write("Create Split Brain file from ribbon freesurfer data")
+  context.write("Create brain mask file from ribbon freesurfer data")
   context.system( 'AimsReplaceLevel',
-                  '-i', self.Split_brain_output,
-                  '-o', self.Split_brain_output,
+                  '-i', self.split_brain_output,
+                  '-o', self.brain_mask_output,
+                  '-g', '42', '41', '2', '3',
+                  '-n', '255', '255', '255', '255' )
+  
+  context.write("Create split brain file from ribbon freesurfer data")
+  context.system( 'AimsReplaceLevel',
+                  '-i', self.split_brain_output,
+                  '-o', self.split_brain_output,
                   '-g', '42', '41', '2', '3',
                   '-n', '1', '1', '2', '2' )
 
   #Copy referential
   trManager = registration.getTransformationManager()
-  trManager.copyReferential( self.T1_output, self.Split_brain_output )
-  trManager.copyReferential( self.T1_output, self.Lgrey_white_output )
-  trManager.copyReferential( self.T1_output, self.Rgrey_white_output )
+  trManager.copyReferential( self.T1_output, self.brain_mask_output )
+  trManager.copyReferential( self.T1_output, self.split_brain_output )
+  trManager.copyReferential( self.T1_output, self.left_grey_white_output )
+  trManager.copyReferential( self.T1_output, self.right_grey_white_output )
 
   #Launch VipT1BiaisCorrection
   context.write("Launch T1BiasCorrection")
-
-  context.runProcess( 'T1BiasCorrection', t1mri=self.T1_output,
-    t1mri_nobias=self.Bias_corrected_output,
-    field=self.bias_field,
-    hfiltered=self.hfiltered,
-    white_ridges=self.white_ridges,
-    meancurvature=self.mean_curvature,
-    variance=self.variance,
-    edges=self.edges,
-    commissure_coordinates=self.commissure_coordinates)
+  tmp = context.temporary( 'NIFTI-1 image' )
+  
+  context.runProcess('T1BiasCorrection',
+                     t1mri=self.T1_output,
+                     commissure_coordinates=self.commissure_coordinates,
+                     delete_last_n_slices='0',
+                     t1mri_nobias=self.bias_corrected_output,
+                     field='',
+                     write_hfiltered='no',
+                     hfiltered=tmp,
+                     write_wridges='no',
+                     white_ridges=tmp,
+                     write_variance='no',
+                     variance=tmp,
+                     write_edges='no',
+                     edges=tmp,
+                     meancurvature='')
 
   #Launch VipGreyStatFromClassif to generate a histo analysis file
   context.write("Launch VipGreyStatFromClassif to generate a histo analysis file")
   context.system( 'VipGreyStatFromClassif',
-                  '-i', self.Bias_corrected_output,
+                  '-i', self.bias_corrected_output,
                   '-c', VipGreyStatClassif,
                   '-a', self.histo_analysis,
                   '-g', '100', '-w','200')
 
   #Lock Data
   self.T1_output.lockData()
-  self.Bias_corrected_output.lockData()
+  self.bias_corrected_output.lockData()
   self.normalization_transformation.lockData()
-  self.Talairach_transform.lockData() 
+  self.talairach_transform.lockData() 
   self.histo_analysis.lockData()
-  self.Split_brain_output.lockData()
-  self.Rgrey_white_output.lockData()
-  self.Lgrey_white_output.lockData()
+  self.brain_mask_output.lockData()
+  self.split_brain_output.lockData()
+  self.right_grey_white_output.lockData()
+  self.left_grey_white_output.lockData()
 
 
   #Launch Morphologist
-  if self.use_t1pipeline != 2:
-    t1pipeline = getProcessInstance( 'morphologist' )
+  if self.use_morphologist != 2:
+    morphologist = getProcessInstance( 'morphologist' )
     
-    t1pipeline.t1mri = self.T1_output
-    t1pipeline.t1mri_nobias = self.Bias_corrected_output
-    t1pipeline.histo_analysis = self.histo_analysis
-    t1pipeline.split_brain = self.Split_brain_output
+    morphologist.t1mri = self.T1_output
+    morphologist.t1mri_nobias = self.bias_corrected_output
+    morphologist.histo_analysis = self.histo_analysis
+    morphologist.split_brain = self.split_brain_output
 
-    enode = t1pipeline.executionNode()
+    enode = morphologist.executionNode()
 
-    context.write( _t_( 'Now run the last part of the regular T1 pipeline.' ) )
-
+    context.write( _t_( 'Now run the last part of the regular Morphologist pipeline.' ) )
 
     enode.PrepareSubject.setSelected( False )
     enode.BiasCorrection.setSelected( False )
     enode.HistoAnalysis.setSelected( False )
     enode.BrainSegmentation.setSelected( False )
+    enode.Renorm.setSelected( False )
     enode.SplitBrain.setSelected( False )
     enode.TalairachTransformation.setSelected( False )
-    enode.HeadMesh.setSelected( True )
+    enode.HeadMesh.setSelected( False )
     enode.HemispheresProcessing.setSelected( True )
     enode.HemispheresProcessing.LeftHemisphere.setSelected( True )
     enode.HemispheresProcessing.LeftHemisphere.GreyWhiteClassification.setSelected( False )
@@ -323,6 +332,7 @@ def execution( self, context ):
     enode.HemispheresProcessing.LeftHemisphere.SulciSkeleton.setSelected( True )
     enode.HemispheresProcessing.LeftHemisphere.PialMesh.setSelected( True )
     enode.HemispheresProcessing.LeftHemisphere.CorticalFoldsGraph.setSelected( True )
+    enode.HemispheresProcessing.LeftHemisphere.SulciRecognition.setSelected( True )
     enode.HemispheresProcessing.RightHemisphere.setSelected( True )
     enode.HemispheresProcessing.RightHemisphere.GreyWhiteClassification.setSelected( False )
     enode.HemispheresProcessing.RightHemisphere.GreyWhiteTopology.setSelected( True )
@@ -330,9 +340,12 @@ def execution( self, context ):
     enode.HemispheresProcessing.RightHemisphere.SulciSkeleton.setSelected( True )
     enode.HemispheresProcessing.RightHemisphere.PialMesh.setSelected( True )
     enode.HemispheresProcessing.RightHemisphere.CorticalFoldsGraph.setSelected( True )
-
-  if self.use_t1pipeline == 0:
-    pv = mainThreadActions().call( ProcessView, t1pipeline )
+    enode.HemispheresProcessing.RightHemisphere.SulciRecognition.setSelected( True )
+    
+  if self.use_morphologist == 0:
+    pv = mainThreadActions().call( ProcessView, morphologist )
+    mainThreadActions().call( pv.hide )
+    mainThreadActions().call( pv.show )
     r = context.ask( 'run the pipeline, then click here', 'OK' )
     #print '***************** OK clicked'
     mainThreadActions().call( pv.close )
@@ -343,13 +356,11 @@ def execution( self, context ):
     #print '*** DELETED'
     lock.release()
     #print 'lock released'
-  elif self.use_t1pipeline == 1:
-    context.runProcess( t1pipeline )
+  elif self.use_morphologist == 1:
+    context.runProcess( morphologist )
   else:
     context.write( '<font color="#a0a060">' \
-      + _t_( 'Pipeline not run since the "use_t1pipeline" parameter ' \
+      + _t_( 'Pipeline not run since the "use_morphologist" parameter ' \
         'prevents it' ) + '</font>')
 
   context.write( 'OK')
-  #context.progress( 10, nsteps, self )
-
