@@ -9,6 +9,7 @@ find_package( PyQt${DESIRED_QT_VERSION} REQUIRED )
 find_package( python REQUIRED )
 
 BRAINVISA_DEPENDENCY( RUN DEPENDS "axon" RUN ">= ${axon_VERSION_MAJOR}.${axon_VERSION_MINOR}" )
+BRAINVISA_DEPENDENCY( RUN DEPENDS "morphologist-gpl" RUN "= ${anatomist-gpl_VERSION}" )
 
 BRAINVISA_COPY_PYTHON_DIRECTORY( "${CMAKE_CURRENT_SOURCE_DIR}/python"
                                  ${PROJECT_NAME} )
