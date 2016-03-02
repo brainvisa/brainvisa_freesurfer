@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 ###############################################################################
 # This software and supporting documentation are distributed by CEA/NeuroSpin,
 # Batiment 145, 91191 Gif-sur-Yvette cedex, France. This software is governed
@@ -60,7 +59,7 @@ def initialization(self):
     self.linkParameters('mesh', 'group_freesurfer')
     self.linkParameters('avg_gyri_texture', 'group_freesurfer')
 
-  
+
 def execution ( self, context ):
     registerClass('minf_2.0', Subject, 'Subject')
     groupOfSubjects = readMinf(self.group_freesurfer.fullPath())
@@ -70,18 +69,18 @@ def execution ( self, context ):
             'BothResampledGyri', 'Aims texture formats').findValue(
             subject.attributes()))
     context.write(str([i for i in textures]))
-  
+
     cmd_args = []
     for tex in textures:
         cmd_args += ['-i', tex]
     cmd_args += ['-o', self.avg_gyri_texture]
     context.system('python',
-                   find_in_path('freesurferAvgGyriTexture.py'), *cmd_args)
+                   find_in_path('/volatile/sandrine/svn/brainvisa_projects/source/cortical_surface/freesurfer_plugin/bug_fix/bin/freesurferAvgGyriTexture.py'), *cmd_args)
     # Computing connected component:
     context.system(
         'python', find_in_path('constelGyriTextureCleaningIsolatedVertices.py'),
-        '-i', self.avg_gyri_texture,
-        '-m', self.mesh,
-        '-o', self.avg_gyri_texture
+        self.avg_gyri_texture,
+        self.mesh,
+        self.avg_gyri_texture
     )
 
