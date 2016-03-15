@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 import optparse
 import sys
 import soma.aims.texturetools as satt
