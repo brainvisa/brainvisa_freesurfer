@@ -77,7 +77,7 @@ def execution ( self, context ):
     context.system('python2'
                    find_in_path('/volatile/sandrine/svn/brainvisa_projects/source/cortical_surface/freesurfer_plugin/bug_fix/bin/freesurferAvgGyriTexture.py'), *cmd_args)
     # Computing connected component:
-    context.pythonSystem(
+    context.system(
         'python2', find_in_path('constelGyriTextureCleaningIsolatedVertices.py'),
         self.avg_gyri_texture,
         self.mesh,
