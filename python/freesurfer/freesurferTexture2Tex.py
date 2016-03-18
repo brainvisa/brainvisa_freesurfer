@@ -1,3 +1,4 @@
+#! /usr/bin/env python2
 from numpy import array, zeros
 from soma import aims
 import glob
@@ -43,7 +44,7 @@ def freesurferTexture2TexBrainvisa(freesurferTextures, brain_mesh,
 
 def usage():
     print "Convert freesurfer ASCII parcels file to aims tex file"
-    print "usage : python freesurferTexture2Tex.py freesurferTexturesPath brain_mesh output_texture"
+    print "usage : freesurferTexture2Tex.py freesurferTexturesPath brain_mesh output_texture"
     print ""
     print "Info: freesurferTexturesPath should be like /data/subject/label/lh.aparc.annot"
     print " and the prog will take into account all files begining with that."

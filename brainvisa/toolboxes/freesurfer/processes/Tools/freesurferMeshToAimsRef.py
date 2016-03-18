@@ -26,11 +26,11 @@ def execution(self, context):
 
   cmd = 'from freesurfer.freesurferMeshToAimsMesh import freesurferMeshToAimsMesh as f;'
 
-  context.write('python -c '+cmd+' f(\"%s\", \"%s\", \"%s\");'%(self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
-  context.system('python', '-c', cmd+'f(\"%s\", \"%s\", \"%s\");'%(self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
+  context.write('python2 -c '+cmd+' f(\"%s\", \"%s\", \"%s\");'%(self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
+  context.system('python2', '-c', cmd+'f(\"%s\", \"%s\", \"%s\");'%(self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
 
-  context.write('python -c '+cmd+' f(\"%s\", \"%s\", \"%s\");'%(self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
-  context.system('python', '-c', cmd+'f(\"%s\", \"%s\", \"%s\");'%(self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
+  context.write('python2 -c '+cmd+' f(\"%s\", \"%s\", \"%s\");'%(self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
+  context.system('python2', '-c', cmd+'f(\"%s\", \"%s\", \"%s\");'%(self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
 
   context.write( 'material:', self.AimsPial.get( 'material' ) )
   if self.AimsPial.get( 'material' ):

@@ -1,3 +1,4 @@
+#! /usr/bin/env python2
 from numpy import vstack, array, zeros
 import pickle
 from tio import Texture
@@ -25,7 +26,7 @@ def regularizeParcelTexture(isin, mesh, tex, output):
 
 def usage():
     print "Regularize parcels texture"
-    print "usage : python regularizeParcelTexture isin white_mesh tex output"
+    print "usage : regularizeParcelTexture.py isin white_mesh tex output"
 
 
 if __name__ == "__main__":

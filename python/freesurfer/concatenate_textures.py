@@ -1,3 +1,4 @@
+#! /usr/bin/env python2
 from numpy import array
 import numpy
 #from tio import Texture
@@ -6,7 +7,7 @@ import sys
 
 def usage():
   print "concatenate textures"
-  #print "usage: python concatenate_textures.py output.tex file1.tex ... fileN.tex"
+  #print "usage: concatenate_textures.py output.tex file1.tex ... fileN.tex"
 
 def concatenate_textures(output, fileL, fileR): 
   gyriTexR = aims.read(fileR)

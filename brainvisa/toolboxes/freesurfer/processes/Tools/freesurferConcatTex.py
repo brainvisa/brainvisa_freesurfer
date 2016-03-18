@@ -30,9 +30,9 @@ def initialization(self):
 def execution(self, context):
   context.write(self.Gyri.fullPath())
   
-  context.system('python', '-c', 'from freesurfer.concatenate_textures import concatenate_textures as f; f(\"%s\", \"%s\", \"%s\");'%(self.Gyri.fullPath(), self.LeftGyri.fullPath(), self.RightGyri.fullPath()))
+  context.system('python2', '-c', 'from freesurfer.concatenate_textures import concatenate_textures as f; f(\"%s\", \"%s\", \"%s\");'%(self.Gyri.fullPath(), self.LeftGyri.fullPath(), self.RightGyri.fullPath()))
 
   context.write(self.SulciGyri.fullPath())
   
-  context.system('python', '-c', 'from freesurfer.concatenate_textures import concatenate_textures as f; f(\"%s\", \"%s\", \"%s\");'%(self.SulciGyri.fullPath(), self.LeftSulciGyri.fullPath(), self.RightSulciGyri.fullPath()))
+  context.system('python2', '-c', 'from freesurfer.concatenate_textures import concatenate_textures as f; f(\"%s\", \"%s\", \"%s\");'%(self.SulciGyri.fullPath(), self.LeftSulciGyri.fullPath(), self.RightSulciGyri.fullPath()))
 

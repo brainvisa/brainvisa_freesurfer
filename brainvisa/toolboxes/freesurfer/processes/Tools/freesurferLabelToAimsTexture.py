@@ -68,7 +68,7 @@ def execution(self, context):
   # GYRI PART
   context.write("---Gyri---")
   if gyriFiles:
-    context.system('python', '-c', 'from freesurfer.freesurferTexture2Tex import freesurferTexture2TexBrainvisa as f; f(%s, \"%s\", \"%s\");'%(gyriFiles, self.WhiteMesh.fullPath(), self.GyriTexture.fullPath()))
+    context.system('python2', '-c', 'from freesurfer.freesurferTexture2Tex import freesurferTexture2TexBrainvisa as f; f(%s, \"%s\", \"%s\");'%(gyriFiles, self.WhiteMesh.fullPath(), self.GyriTexture.fullPath()))
   else:
     context.write("no gyri file, conversion from freesurfer failed")
   for i in gyriFiles:
@@ -77,7 +77,7 @@ def execution(self, context):
   # SULCI-GYRI PART
   context.write("---Sulci-Gyri---")
   if sulciGyriFiles:
-    context.system('python', '-c', 'from freesurfer.freesurferTexture2Tex import freesurferTexture2TexBrainvisa as f; f(%s, \"%s\", \"%s\");'%(sulciGyriFiles, self.WhiteMesh.fullPath(), self.SulciGyriTexture.fullPath()))
+    context.system('python2', '-c', 'from freesurfer.freesurferTexture2Tex import freesurferTexture2TexBrainvisa as f; f(%s, \"%s\", \"%s\");'%(sulciGyriFiles, self.WhiteMesh.fullPath(), self.SulciGyriTexture.fullPath()))
   else:
     context.write("no sulci-gyri file, conversion from freesurfer failed")
   for i in sulciGyriFiles:

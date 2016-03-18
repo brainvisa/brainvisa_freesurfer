@@ -25,11 +25,11 @@ def initialization(self):
 def execution(self, context):
   context.write('Resample brain mesh.')
   
-  context.write('python -c \"from freesurfer.regularizeMeshFromIsin import regularizeMesh as f; f(\"%s\", \"%s\", \"%s\", \"%s\");\#'%(self.PialMesh.fullPath(), self.Isin.fullPath(), self.ResampledPialMesh.fullPath(), self.destination.fullPath()))
-  context.system('python', '-c', 'from freesurfer.regularizeMeshFromIsin import regularizeMeshAims as f; f(\"%s\", \"%s\", \"%s\", \"%s\")'%(self.PialMesh.fullPath(), self.Isin.fullPath(), self.ResampledPialMesh.fullPath(), self.destination.fullPath()))
+  context.write('python2 -c \"from freesurfer.regularizeMeshFromIsin import regularizeMesh as f; f(\"%s\", \"%s\", \"%s\", \"%s\");\#'%(self.PialMesh.fullPath(), self.Isin.fullPath(), self.ResampledPialMesh.fullPath(), self.destination.fullPath()))
+  context.system('python2', '-c', 'from freesurfer.regularizeMeshFromIsin import regularizeMeshAims as f; f(\"%s\", \"%s\", \"%s\", \"%s\")'%(self.PialMesh.fullPath(), self.Isin.fullPath(), self.ResampledPialMesh.fullPath(), self.destination.fullPath()))
 
-  context.write('python -c \"from freesurfer.regularizeMeshFromIsin import regularizeMesh as f; f(\"%s\", \"%s\", \"%s\", \"%s\");\#'%(self.WhiteMesh.fullPath(), self.Isin.fullPath(), self.ResampledWhiteMesh.fullPath(), self.destination.fullPath()))
-  context.system('python', '-c', 'from freesurfer.regularizeMeshFromIsin import regularizeMeshAims as f; f(\"%s\", \"%s\", \"%s\", \"%s\")'%(self.WhiteMesh.fullPath(), self.Isin.fullPath(), self.ResampledWhiteMesh.fullPath(), self.destination.fullPath()))
+  context.write('python2 -c \"from freesurfer.regularizeMeshFromIsin import regularizeMesh as f; f(\"%s\", \"%s\", \"%s\", \"%s\");\#'%(self.WhiteMesh.fullPath(), self.Isin.fullPath(), self.ResampledWhiteMesh.fullPath(), self.destination.fullPath()))
+  context.system('python2', '-c', 'from freesurfer.regularizeMeshFromIsin import regularizeMeshAims as f; f(\"%s\", \"%s\", \"%s\", \"%s\")'%(self.WhiteMesh.fullPath(), self.Isin.fullPath(), self.ResampledWhiteMesh.fullPath(), self.destination.fullPath()))
 
   self.ResampledPialMesh.setMinf( 'material',
     { 'front_face': 'counterclockwise' }, saveMinf=True )

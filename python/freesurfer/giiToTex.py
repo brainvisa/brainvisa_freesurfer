@@ -1,3 +1,4 @@
+#! /usr/bin/env python2
 from soma import aims
 import sys
 from tio import Texture
@@ -19,7 +20,7 @@ def giftiToTex(filename, output):
 
 #def usage():
     #print "Convert gifti texture to aims tex-format"
-    #print "usage: python giiToTex.py filename.gii"
+    #print "usage: giiToTex.py filename.gii"
     #print "Output will be filename.tex"
 
 #if __name__ == "__main__":

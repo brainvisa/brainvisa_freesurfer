@@ -1,10 +1,11 @@
+#! /usr/bin/env python2
 from soma import aims
 from numpy import array, mean
 import sys
 
 def usage():
     print "Create average mesh from resampled brain mesh."
-    print "usage: python average_mesh.py output.mesh subject1.mesh ... subjectN.mesh"
+    print "usage: average_mesh.py output.mesh subject1.mesh ... subjectN.mesh"
 
 def average_mesh(output, inputs):
     mesh = []

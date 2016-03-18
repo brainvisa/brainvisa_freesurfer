@@ -36,21 +36,21 @@ def execution(self, context):
   context.write('Resample brain mesh.')
 
   context.write(self.Curv.fullPath())
-  context.system('python', '-c', 'from freesurfer.regularizeTexture import regularizeTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(
+  context.system('python2', '-c', 'from freesurfer.regularizeTexture import regularizeTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(
     self.Isin.fullPath(), self.OriginalMesh.fullPath(),
     self.Curv.fullPath(), self.ResampledCurv.fullPath()))
 
   context.write(self.AvgCurv.fullPath())
-  context.system('python', '-c', 'from freesurfer.regularizeTexture import regularizeTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(
+  context.system('python2', '-c', 'from freesurfer.regularizeTexture import regularizeTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(
     self.Isin.fullPath(), self.OriginalMesh.fullPath(),
     self.AvgCurv.fullPath(), self.ResampledAvgCurv.fullPath()))
 
   context.write(self.CurvPial.fullPath())
-  context.system('python', '-c', 'from freesurfer.regularizeTexture import regularizeTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(
+  context.system('python2', '-c', 'from freesurfer.regularizeTexture import regularizeTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(
     self.Isin.fullPath(), self.OriginalMesh.fullPath(),
     self.CurvPial.fullPath(), self.ResampledCurvPial.fullPath()))
 
   context.write(self.Thickness.fullPath())
-  context.system('python', '-c', 'from freesurfer.regularizeTexture import regularizeTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(
+  context.system('python2', '-c', 'from freesurfer.regularizeTexture import regularizeTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(
     self.Isin.fullPath(), self.OriginalMesh.fullPath(),
     self.Thickness.fullPath(), self.ResampledThickness.fullPath()))

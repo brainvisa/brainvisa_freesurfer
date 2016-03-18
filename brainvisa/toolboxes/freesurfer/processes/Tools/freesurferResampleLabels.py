@@ -25,7 +25,7 @@ def initialization(self):
 def execution(self, context):
   context.write('Resample  brain mesh.')
 
-  context.system('python', '-c', 'from freesurfer.regularizeParcelTexture import regularizeParcelTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(self.Isin.fullPath(), self.WhiteMesh.fullPath(), self.Gyri.fullPath(), self.ResampledGyri.fullPath()))
+  context.system('python2', '-c', 'from freesurfer.regularizeParcelTexture import regularizeParcelTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(self.Isin.fullPath(), self.WhiteMesh.fullPath(), self.Gyri.fullPath(), self.ResampledGyri.fullPath()))
 
-  context.system('python', '-c', 'from freesurfer.regularizeParcelTexture import regularizeParcelTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(self.Isin.fullPath(), self.WhiteMesh.fullPath(), self.SulciGyri.fullPath(), self.ResampledSulciGyri.fullPath()))
+  context.system('python2', '-c', 'from freesurfer.regularizeParcelTexture import regularizeParcelTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(self.Isin.fullPath(), self.WhiteMesh.fullPath(), self.SulciGyri.fullPath(), self.ResampledSulciGyri.fullPath()))
 

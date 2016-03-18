@@ -22,7 +22,7 @@ def initialization(self):
 def execution(self, context):
   context.write('Resample brain mesh.')
 
-  context.system('python', '-c', 'from freesurfer.freesurferTexture2Tex import freesurferTexture2TexBrainvisa as f; f(%s, \"%s\", \"%s\");'%(self.Gyri.fullPaths(), self.WhiteMesh.fullPath(), self.GyriTexture.fullPath()))
+  context.system('python2', '-c', 'from freesurfer.freesurferTexture2Tex import freesurferTexture2TexBrainvisa as f; f(%s, \"%s\", \"%s\");'%(self.Gyri.fullPaths(), self.WhiteMesh.fullPath(), self.GyriTexture.fullPath()))
 
-  context.system('python', '-c', 'from freesurfer.freesurferTexture2Tex import freesurferTexture2TexBrainvisa as f; f(%s, \"%s\", \"%s\");'%(self.SulciGyri.fullPaths(), self.WhiteMesh.fullPath(), self.SulciGyriTexture.fullPath()))
+  context.system('python2', '-c', 'from freesurfer.freesurferTexture2Tex import freesurferTexture2TexBrainvisa as f; f(%s, \"%s\", \"%s\");'%(self.SulciGyri.fullPaths(), self.WhiteMesh.fullPath(), self.SulciGyriTexture.fullPath()))
 

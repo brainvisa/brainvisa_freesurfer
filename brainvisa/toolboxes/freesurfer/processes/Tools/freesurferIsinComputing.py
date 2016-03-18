@@ -17,8 +17,8 @@ def initialization(self):
 def execution(self, context):
   context.write('Conpute \'isin\' file, allowing the mesh resampling.')
   
-  context.write('python -c \"from freesurfer.regularizeSphericalMesh_hack4 import regularizeSphericalMesh as f; f(\'%s\', \'%s\', \'%s\');\"'%(self.SphereRegMesh.fullPath(), self.Isin.fullPath(), self.destination.fullPath()))
+  context.write('python2 -c \"from freesurfer.regularizeSphericalMesh_hack4 import regularizeSphericalMesh as f; f(\'%s\', \'%s\', \'%s\');\"'%(self.SphereRegMesh.fullPath(), self.Isin.fullPath(), self.destination.fullPath()))
     
-  context.system('python', '-c', 'from freesurfer.regularizeSphericalMesh_hack4 import regularizeSphericalMesh as f; f(\"%s\", \"%s\", \"%s\"); '%(self.SphereRegMesh.fullPath(), self.Isin.fullPath(), self.destination.fullPath()))
+  context.system('python2', '-c', 'from freesurfer.regularizeSphericalMesh_hack4 import regularizeSphericalMesh as f; f(\"%s\", \"%s\", \"%s\"); '%(self.SphereRegMesh.fullPath(), self.Isin.fullPath(), self.destination.fullPath()))
 
 

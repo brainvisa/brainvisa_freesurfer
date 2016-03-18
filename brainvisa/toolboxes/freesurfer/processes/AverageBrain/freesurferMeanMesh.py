@@ -77,7 +77,7 @@ def execution(self, context):
 
     # create the left average mesh
     context.system(
-        "python",
+        "python2",
         "-c",
         "from freesurfer.average_mesh import average_mesh as f; f(\"%s\", %s);"%(
             self.LeftAverageMesh.fullPath(),
@@ -99,7 +99,7 @@ def execution(self, context):
 
     # create the right average mesh
     context.system(
-        "python",
+        "python2",
         "-c",
         "from freesurfer.average_mesh import average_mesh as f; f(\"%s\", %s);"%(
             self.RightAverageMesh.fullPath(),
