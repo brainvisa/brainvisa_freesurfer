@@ -13,7 +13,7 @@ This script does the following:
 * compute the connected components to delete the isolated points on the average
   texture
 
-Author:
+Main dependencies: axon python API.
 """
 
 #----------------------------Imports-------------------------------------------
@@ -28,8 +28,7 @@ from soma.minf.api import registerClass, readMinf
 # soma-base module
 from soma.path import find_in_path
 
-
-#----------------------------Functions-----------------------------------------
+#----------------------------Header--------------------------------------------
 
 
 def validation():
@@ -41,46 +40,59 @@ def validation():
             "Please make sure that constel module is installed.")
 
 
-name = '3 Average Gyri Texture'
+name = "3 Average Gyri Texture"
 userLevel = 1
 
 
 # Argument declaration
 signature = Signature(
-    'group_freesurfer', ReadDiskItem('Freesurfer Group definition', 'XML'),
-    'mesh', ReadDiskItem('BothAverageBrainWhite', 'MESH mesh'),
-    'avg_gyri_texture', WriteDiskItem('BothAverageResampledGyri',
-                                      'aims texture formats'),
+    "group_freesurfer", ReadDiskItem("Freesurfer Group definition", "XML"),
+    "mesh", ReadDiskItem("BothAverageBrainWhite", "MESH mesh"),
+    "avg_gyri_texture", WriteDiskItem(
+        "BothAverageResampledGyri", "aims texture formats"),
 )
+
+
+#----------------------------Functions-----------------------------------------
 
 
 # Default values
 def initialization(self):
-    self.linkParameters('mesh', 'group_freesurfer')
-    self.linkParameters('avg_gyri_texture', 'group_freesurfer')
+    """Defines the link of parameters.
+    """
+    self.linkParameters("mesh", "group_freesurfer")
+    self.linkParameters("avg_gyri_texture", "group_freesurfer")
 
 
-def execution ( self, context ):
-    registerClass('minf_2.0', Subject, 'Subject')
+def execution(self, context):
+    """
+    """
+    registerClass("minf_2.0", Subject, "Subject")
     groupOfSubjects = readMinf(self.group_freesurfer.fullPath())
     textures = []
     for subject in groupOfSubjects:
         textures.append(ReadDiskItem(
-            'BothResampledGyri', 'Aims texture formats').findValue(
+            "BothResampledGyri", "Aims texture formats").findValue(
             subject.attributes()))
+
     context.write(str([i for i in textures]))
 
+    # create the average texture
     cmd_args = []
     for tex in textures:
-        cmd_args += ['-i', tex]
-    cmd_args += ['-o', self.avg_gyri_texture]
-    context.system('python',
-                   find_in_path('/volatile/sandrine/svn/brainvisa_projects/source/cortical_surface/freesurfer_plugin/bug_fix/bin/freesurferAvgGyriTexture.py'), *cmd_args)
-    # Computing connected component:
+        cmd_args += ["-i", tex]
+    cmd_args += ["-o", self.avg_gyri_texture]
+    context.system('python2',
+                   find_in_path('freesurferAvgGyriTexture.py'), *cmd_args)
     context.system(
-        'python', find_in_path('constelGyriTextureCleaningIsolatedVertices.py'),
+        "python",
+        find_in_path("freesurferAvgGyriTexture.py"), *cmd_args)
+
+    # compute the connected component:
+    context.system(
+        "python",
+        find_in_path("constelGyriTextureCleaningIsolatedVertices.py"),
         self.avg_gyri_texture,
         self.mesh,
         self.avg_gyri_texture
     )
-
