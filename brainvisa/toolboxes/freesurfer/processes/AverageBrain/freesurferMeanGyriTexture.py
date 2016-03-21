@@ -75,7 +75,7 @@ def execution ( self, context ):
         cmd_args += ['-i', tex]
     cmd_args += ['-o', self.avg_gyri_texture]
     context.system('python2',
-                   find_in_path('/volatile/sandrine/svn/brainvisa_projects/source/cortical_surface/freesurfer_plugin/bug_fix/bin/freesurferAvgGyriTexture.py'), *cmd_args)
+                   find_in_path('freesurferAvgGyriTexture.py'), *cmd_args)
     # Computing connected component:
     context.system(
         'python2', find_in_path('constelGyriTextureCleaningIsolatedVertices.py'),
