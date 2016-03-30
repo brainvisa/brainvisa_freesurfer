@@ -28,6 +28,7 @@ from soma.minf.api import registerClass, readMinf
 # soma-base module
 from soma.path import find_in_path
 
+
 #----------------------------Header--------------------------------------------
 
 
@@ -43,13 +44,15 @@ def validation():
 name = "3 Average Gyri Texture"
 userLevel = 1
 
-
 # Argument declaration
 signature = Signature(
+    # inputs
     "group_freesurfer", ReadDiskItem("Freesurfer Group definition", "XML"),
-    "mesh", ReadDiskItem("BothAverageBrainWhite", "MESH mesh"),
+    "mesh", ReadDiskItem("BothAverageBrainWhite", "Aims mesh formats"),
+
+    # outputs
     "avg_gyri_texture", WriteDiskItem(
-        "BothAverageResampledGyri", "aims texture formats"),
+        "BothAverageResampledGyri", "Aims texture formats"),
 )
 
 
@@ -73,7 +76,8 @@ def execution(self, context):
     for subject in groupOfSubjects:
         textures.append(ReadDiskItem(
             "BothResampledGyri", "Aims texture formats").findValue(
-            subject.attributes()))
+            subject.attributes(),
+            {"_database": self.group_freesurfer.get("_database")}))
 
     context.write(str([i for i in textures]))
 
@@ -88,7 +92,7 @@ def execution(self, context):
         "python",
         find_in_path("freesurferAvgGyriTexture.py"), *cmd_args)
 
-    # compute the connected component:
+    # compute the connected component
     context.system(
         "python",
         find_in_path("constelGyriTextureCleaningIsolatedVertices.py"),

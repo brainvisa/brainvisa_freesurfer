@@ -36,11 +36,12 @@ signature = Signature(
     "group", ReadDiskItem("Freesurfer Group definition", "XML"),
 
     # outputs
-    "LeftAverageMesh", WriteDiskItem("AverageBrainWhite", "MESH mesh",
+    "LeftAverageMesh", WriteDiskItem("AverageBrainWhite", "Aims mesh formats",
                                      requiredAttributes={"side": "left"}),
-    "RightAverageMesh", WriteDiskItem("AverageBrainWhite", "MESH mesh",
+    "RightAverageMesh", WriteDiskItem("AverageBrainWhite", "Aims mesh formats",
                                       requiredAttributes={"side": "right"}),
-    "BothAverageMesh", WriteDiskItem("BothAverageBrainWhite", "MESH mesh"),
+    "BothAverageMesh", WriteDiskItem("BothAverageBrainWhite",
+                                     "Aims mesh formats"),
 )
 
 
@@ -67,10 +68,10 @@ def execution(self, context):
 
     # list all left meshes
     subjects = []
-    rattrs = {"side": "left"}
+    rattrs = {"side": "left", "_database": self.group.get("_database")}
     for subject in groupOfSubjects:
         subjects.append(
-            ReadDiskItem("AimsWhite", "MESH mesh").findValue(
+            ReadDiskItem("AimsWhite", "Aims mesh formats").findValue(
                 subject.attributes(), requiredAttributes=rattrs))
 
     context.write(str([i.fullPath() for i in subjects]))
@@ -89,10 +90,10 @@ def execution(self, context):
 
     # list all right meshes
     subjects = []
-    rattrs = {"side": "right"}
+    rattrs = {"side": "right", "_database": self.group.get("_database")}
     for subject in groupOfSubjects:
         subjects.append(
-            ReadDiskItem("AimsWhite", "MESH mesh").findValue(
+            ReadDiskItem("AimsWhite", "Aims mesh formats").findValue(
                 subject.attributes(), requiredAttributes=rattrs))
 
     context.write(str([i.fullPath() for i in subjects]))
@@ -113,6 +114,7 @@ def execution(self, context):
     # create the both average mesh
     context.system(
         "AimsZCat",
-        "-i", self.LeftAverageMesh.fullPath(), self.RightAverageMesh.fullPath(),
+        "-i", self.LeftAverageMesh.fullPath(),
+        self.RightAverageMesh.fullPath(),
         "-o", self.BothAverageMesh.fullPath()
         )
