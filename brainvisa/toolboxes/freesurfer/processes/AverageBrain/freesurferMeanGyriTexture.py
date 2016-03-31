@@ -91,7 +91,7 @@ def execution(self, context):
     """
     # create the average texture
     context.system('python2',
-                   find_in_path('freesurferAvgGyriTexture.py'),
+                   find_in_path('freesurfer_average_gyri_parcellation.py'),
                    self.gyri_segmentations,
                    self.avg_gyri_texture)
 
