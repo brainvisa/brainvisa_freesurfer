@@ -18,7 +18,7 @@ import argparse
 import textwrap
 
 # soma module
-import soma.aims.texturetools as satt
+from soma.aims import texturetools 
 
 
 #----------------------------Functions-----------------------------------------
@@ -55,12 +55,11 @@ def parse_args(argv):
 
 def main():
     # load the arguments of parser (delete script name: sys.arg[0])
-    print json.dumps(eval(sys.argv[1]))
     arguments = (json.dumps(eval(sys.argv[1])), sys.argv[2])
     parser, args = parse_args(arguments)
 
     # create and write the average gyri segmentation
-    satt.average_texture(args.otex, args.itex)
+    texturetools.average_texture(args.output, args.inputs)
 
 if __name__ == "__main__":
     main()
