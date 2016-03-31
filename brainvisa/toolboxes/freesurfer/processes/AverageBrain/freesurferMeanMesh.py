@@ -18,11 +18,12 @@ Main dependencies: axon python API.
 
 
 # axon python API modules
-from brainvisa.processes import Signature, ReadDiskItem, WriteDiskItem
+from brainvisa.processes import Signature, ReadDiskItem, WriteDiskItem, ListOf
 from brainvisa.group_utils import Subject
 
 # soma module
 from soma.minf.api import registerClass, readMinf
+from soma.path import find_in_path
 
 
 #----------------------------Header--------------------------------------------
@@ -34,6 +35,10 @@ userLevel = 1
 signature = Signature(
     # input
     "group", ReadDiskItem("Freesurfer Group definition", "XML"),
+    "individual_rhmeshes", ListOf(
+        ReadDiskItem("AimsWhite", "Aims mesh formats")),
+    "individual_lhmeshes", ListOf(
+        ReadDiskItem("AimsWhite", "Aims mesh formats")),
 
     # outputs
     "LeftAverageMesh", WriteDiskItem("AverageBrainWhite", "Aims mesh formats",
@@ -45,12 +50,46 @@ signature = Signature(
 )
 
 
-#----------------------------Functionc-----------------------------------------
+#----------------------------Function------------------------------------------
 
 
 def initialization(self):
+    """Defines the link of parameters.
     """
-    """
+    def link_rmesh(self, dummy):
+        """
+        """
+        list_mesh = []
+        registerClass("minf_2.0", Subject, "Subject")
+        groupOfSubjects = readMinf(self.group.fullPath())
+        if self.group:
+            atrs = {"side": "right", "_database": self.group.get("_database")}
+            for subject in groupOfSubjects:
+                mesh = self.signature[
+                    "individual_rhmeshes"].contentType.findValue(
+                    subject.attributes(), requiredAttributes=atrs)
+                if mesh:
+                    list_mesh.append(mesh)
+            return list_mesh
+
+    def link_lmesh(self, dummy):
+        """
+        """
+        list_mesh = []
+        registerClass("minf_2.0", Subject, "Subject")
+        groupOfSubjects = readMinf(self.group.fullPath())
+        if self.group:
+            atrs = {"side": "left", "_database": self.group.get("_database")}
+            for subject in groupOfSubjects:
+                mesh = self.signature[
+                    "individual_lhmeshes"].contentType.findValue(
+                    subject.attributes(), requiredAttributes=atrs)
+                if mesh:
+                    list_mesh.append(mesh)
+            return list_mesh
+
+    self.linkParameters("individual_lhmeshes", "group", link_lmesh)
+    self.linkParameters("individual_rhmeshes", "group", link_rmesh)
     self.linkParameters("LeftAverageMesh", "group")
     self.linkParameters("RightAverageMesh", "group")
     self.linkParameters("BothAverageMesh", "group")
@@ -66,45 +105,25 @@ def execution(self, context):
     #                        LEFT HEMISPHERE (lh)                             #
     ###########################################################################
 
-    # list all left meshes
-    subjects = []
-    rattrs = {"side": "left", "_database": self.group.get("_database")}
-    for subject in groupOfSubjects:
-        subjects.append(
-            ReadDiskItem("AimsWhite", "Aims mesh formats").findValue(
-                subject.attributes(), requiredAttributes=rattrs))
-
-    context.write(str([i.fullPath() for i in subjects]))
-
     # create the left average mesh
     context.system(
         "python2",
-        "-c",
-        "from freesurfer.average_mesh import average_mesh as f; f(\"%s\", %s);"%(
-            self.LeftAverageMesh.fullPath(),
-            str([i.fullPath() for i in subjects])))
+        find_in_path("average_mesh.py"),
+        self.individual_lhmeshes,
+        self.LeftAverageMesh)
+
 
     ###########################################################################
     #                        RIGHT HEMISPHERE (rh)                            #
     ###########################################################################
 
-    # list all right meshes
-    subjects = []
-    rattrs = {"side": "right", "_database": self.group.get("_database")}
-    for subject in groupOfSubjects:
-        subjects.append(
-            ReadDiskItem("AimsWhite", "Aims mesh formats").findValue(
-                subject.attributes(), requiredAttributes=rattrs))
-
-    context.write(str([i.fullPath() for i in subjects]))
 
     # create the right average mesh
     context.system(
         "python2",
-        "-c",
-        "from freesurfer.average_mesh import average_mesh as f; f(\"%s\", %s);"%(
-            self.RightAverageMesh.fullPath(),
-            str([i.fullPath() for i in subjects])))
+        find_in_path("average_mesh.py"),
+        self.individual_rhmeshes,
+        self.LeftAverageMesh)
 
     ###########################################################################
     #                        BOTH HEMISPHERE (bh)                             #
