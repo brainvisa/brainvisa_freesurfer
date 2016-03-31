@@ -72,10 +72,11 @@ def initialization(self):
         registerClass("minf_2.0", Subject, "Subject")
         groupOfSubjects = readMinf(self.group_freesurfer.fullPath())
         if self.group_freesurfer:
+            atrs = {"_database": self.group_freesurfer.get("_database")}
             for subject in groupOfSubjects:
                 seg = self.signature[
                     "gyri_segmentations"].contentType.findValue(
-                    subject.attributes())
+                    subject.attributes(), requiredAttributes=atrs)
                 if seg:
                     gyri_seg.append(seg)
             return gyri_seg
