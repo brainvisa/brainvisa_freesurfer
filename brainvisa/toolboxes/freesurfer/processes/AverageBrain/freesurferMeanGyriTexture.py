@@ -23,10 +23,10 @@ Main dependencies: axon python API.
 from brainvisa.processes import Signature, ReadDiskItem, WriteDiskItem, \
     ValidationError, ListOf
 from brainvisa.group_utils import Subject
-from soma.minf.api import registerClass, readMinf
 
 # soma-base module
 from soma.path import find_in_path
+from soma.minf.api import registerClass, readMinf
 
 
 #----------------------------Header--------------------------------------------
