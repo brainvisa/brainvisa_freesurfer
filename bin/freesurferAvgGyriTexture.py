@@ -1,21 +1,65 @@
 #!/usr/bin/env python2
-import optparse
-import sys
-import soma.aims.texturetools as satt
+###############################################################################
+# This software and supporting documentation are distributed by CEA/NeuroSpin,
+# Batiment 145, 91191 Gif-sur-Yvette cedex, France. This software is governed
+# by the CeCILL license version 2 under French law and abiding by the rules of
+# distribution of free software. You can  use, modify and/or redistribute the
+# software under the terms of the CeCILL license version 2 as circulated by
+# CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+###############################################################################
 
-def parseOpts( argv ):
-  description = 'Create average gyri texture. usage : python average_texture.py output.gii(.tex) subject1.gii(.tex) ... subjectN.gii(.tex)'
-  parser = optparse.OptionParser( description )
-  parser.add_option('-i', '--itex', dest = 'itex',
-    metavar = 'FILE', action='append',
-    help = 'inputs texture (list of)' )
-  parser.add_option('-o', '--otex', dest = 'otex',
-    metavar = 'FILE',
-    help = 'output texture' )
-  return parser, parser.parse_args( argv )
+
+#----------------------------Imports-------------------------------------------
+
+# python system module
+import sys
+import json
+import argparse
+import textwrap
+
+# soma module
+from soma.aims import texturetools 
+
+
+#----------------------------Functions-----------------------------------------
+
+
+def mylist(string):
+    return json.loads(string)
+
+
+def parse_args(argv):
+    """Parses the given list of arguments."""
+
+    # creating a parser
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=textwrap.dedent("""\
+            -------------------------------------------------------------------
+            Create the average gyri texture (.tex and .gii).
+            usage : python average_texture.py output subject1 ... subjectN'
+            -------------------------------------------------------------------
+            """))
+
+    # adding arguments
+    parser.add_argument(
+        "inputs", type=mylist, help="list of gryi segmentations")
+    parser.add_argument("output", type=str, help="averaged gyri segmentation")
+
+    # parsing arguments
+    return parser, parser.parse_args(argv)
+
+
+#----------------------------Main program--------------------------------------
+
 
 def main():
-  parser, ( options, args ) = parseOpts( sys.argv )
-  satt.average_texture( options.otex, options.itex )
+    # load the arguments of parser (delete script name: sys.arg[0])
+    arguments = (json.dumps(eval(sys.argv[1])), sys.argv[2])
+    parser, args = parse_args(arguments)
 
-if __name__ == "__main__" : main()
+    # create and write the average gyri segmentation
+    texturetools.average_texture(args.output, args.inputs)
+
+if __name__ == "__main__":
+    main()

@@ -21,7 +21,7 @@ Main dependencies: axon python API.
 
 # axon python API module
 from brainvisa.processes import Signature, ReadDiskItem, WriteDiskItem, \
-    ValidationError
+    ValidationError, ListOf
 from brainvisa.group_utils import Subject
 from soma.minf.api import registerClass, readMinf
 
@@ -49,6 +49,8 @@ signature = Signature(
     # inputs
     "group_freesurfer", ReadDiskItem("Freesurfer Group definition", "XML"),
     "mesh", ReadDiskItem("BothAverageBrainWhite", "Aims mesh formats"),
+    "gyri_segmentations", ListOf(
+        ReadDiskItem("BothResampledGyri", "Aims texture formats")),
 
     # outputs
     "avg_gyri_texture", WriteDiskItem(
@@ -63,34 +65,34 @@ signature = Signature(
 def initialization(self):
     """Defines the link of parameters.
     """
+    def link_gyriseg(self, dummy):
+        """
+        """
+        gyri_seg = []
+        registerClass("minf_2.0", Subject, "Subject")
+        groupOfSubjects = readMinf(self.group_freesurfer.fullPath())
+        if self.group_freesurfer:
+            for subject in groupOfSubjects:
+                seg = self.signature[
+                    "gyri_segmentations"].contentType.findValue(
+                    subject.attributes())
+                if seg:
+                    gyri_seg.append(seg)
+            return gyri_seg
+
     self.linkParameters("mesh", "group_freesurfer")
     self.linkParameters("avg_gyri_texture", "group_freesurfer")
+    self.linkParameters("gyri_segmentations", "group_freesurfer", link_gyriseg)
 
 
 def execution(self, context):
     """
     """
-    registerClass("minf_2.0", Subject, "Subject")
-    groupOfSubjects = readMinf(self.group_freesurfer.fullPath())
-    textures = []
-    for subject in groupOfSubjects:
-        textures.append(ReadDiskItem(
-            "BothResampledGyri", "Aims texture formats").findValue(
-            subject.attributes(),
-            {"_database": self.group_freesurfer.get("_database")}))
-
-    context.write(str([i for i in textures]))
-
     # create the average texture
-    cmd_args = []
-    for tex in textures:
-        cmd_args += ["-i", tex]
-    cmd_args += ["-o", self.avg_gyri_texture]
     context.system('python2',
-                   find_in_path('freesurferAvgGyriTexture.py'), *cmd_args)
-    context.system(
-        'python2', find_in_path('constelGyriTextureCleaningIsolatedVertices.py'),
-        find_in_path("freesurferAvgGyriTexture.py"), *cmd_args)
+                   find_in_path('freesurferAvgGyriTexture.py'),
+                   self.gyri_segmentations,
+                   self.avg_gyri_texture)
 
     # compute the connected component
     context.system(
