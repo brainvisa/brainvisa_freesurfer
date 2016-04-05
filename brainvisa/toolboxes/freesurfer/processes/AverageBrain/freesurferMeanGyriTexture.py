@@ -23,10 +23,10 @@ Main dependencies: axon python API.
 from brainvisa.processes import Signature, ReadDiskItem, WriteDiskItem, \
     ValidationError, ListOf
 from brainvisa.group_utils import Subject
-from soma.minf.api import registerClass, readMinf
 
 # soma-base module
 from soma.path import find_in_path
+from soma.minf.api import registerClass, readMinf
 
 
 #----------------------------Header--------------------------------------------
@@ -72,10 +72,11 @@ def initialization(self):
         registerClass("minf_2.0", Subject, "Subject")
         groupOfSubjects = readMinf(self.group_freesurfer.fullPath())
         if self.group_freesurfer:
+            atrs = {"_database": self.group_freesurfer.get("_database")}
             for subject in groupOfSubjects:
                 seg = self.signature[
                     "gyri_segmentations"].contentType.findValue(
-                    subject.attributes())
+                    subject.attributes(), requiredAttributes=atrs)
                 if seg:
                     gyri_seg.append(seg)
             return gyri_seg
@@ -90,7 +91,7 @@ def execution(self, context):
     """
     # create the average texture
     context.system('python2',
-                   find_in_path('freesurferAvgGyriTexture.py'),
+                   find_in_path('freesurfer_average_gyri_parcellation.py'),
                    self.gyri_segmentations,
                    self.avg_gyri_texture)
 
