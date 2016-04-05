@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="minf_2.0">
+<d>
+  <d name="en">
+    <xhtml name="short">This pipeline performs the following steps:
+<ul>
+<li><a href="freesurferCreateGroup.html">Creation of a group of subjects</a> :  select many subjects in the BrainVisa database and create a group. The choice of a group name is free. </li> <br/>
+<li><a href="freesurferMeanMesh.html">Average brain mesh</a> : create an average mesh from the previously selected group of subjects. </li> <br/>
+<li><a href="freesurferMeanGyriTexture.html">Average Gyri Texture</a> : create an average gyri segmentation from the previously selected group of subjects. </li> <br/>
+</ul></xhtml>
+    <d name="parameters">
+      <xhtml name="list_of_subjects"/>
+      <xhtml name="group_definition"/>
+    </d>
+    <xhtml name="long"/>
+  </d>
+</d>
+</minf>
