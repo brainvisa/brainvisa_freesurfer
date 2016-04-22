@@ -123,7 +123,7 @@ def execution(self, context):
         "python2",
         find_in_path("freesurfer_average_mesh.py"),
         self.individual_rhmeshes,
-        self.LeftAverageMesh)
+        self.RightAverageMesh)
 
     ###########################################################################
     #                        BOTH HEMISPHERE (bh)                             #
