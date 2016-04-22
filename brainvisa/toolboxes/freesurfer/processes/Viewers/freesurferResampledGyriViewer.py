@@ -22,4 +22,5 @@ def initialization( self ):
 
 def execution( self, context ):
   a=anatomist.Anatomist()
-  return a.viewTextureOnMesh(self.WhiteMesh, self.Gyri, interpolation='rgb')
+  return a.viewTextureOnMesh(self.WhiteMesh, self.Gyri, interpolation='rgb',
+                             palette='freesurfer_gyri')
