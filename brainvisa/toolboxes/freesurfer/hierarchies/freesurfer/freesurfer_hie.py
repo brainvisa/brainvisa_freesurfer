@@ -36,24 +36,24 @@
 
 #snapshots snapbase freesurfer
 snap_aimspial_content = (
-  "snapshot_freesurfer_left_aimspial_{subject}", SetType( 'Snapshot Pial Mesh'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
-  "snapshot_freesurfer_right_aimspial_{subject}", SetType( 'Snapshot Pial Mesh'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_left_aimspial_{subject}", SetType( 'Snapshot Pial Mesh'), SetWeakAttr( 'side', 'left', 'processing', 'freesurfer'  ),
+  "snapshot_freesurfer_right_aimspial_{subject}", SetType( 'Snapshot Pial Mesh'), SetWeakAttr( 'side', 'right', 'processing', 'freesurfer'  ),
 )
 snap_aimswhite_content = (
-  "snapshot_freesurfer_left_aimswhite_{subject}", SetType( 'Snapshot White Mesh'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
-  "snapshot_freesurfer_right_aimswhite_{subject}", SetType( 'Snapshot White Mesh'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_left_aimswhite_{subject}", SetType( 'Snapshot White Mesh'), SetWeakAttr( 'side', 'left', 'processing', 'freesurfer'  ),
+  "snapshot_freesurfer_right_aimswhite_{subject}", SetType( 'Snapshot White Mesh'), SetWeakAttr( 'side', 'right', 'processing', 'freesurfer'  ),
 )
 snap_thickness_content = (
-  "snapshot_freesurfer_left_thickness_{subject}", SetType( 'Snapshot Thickness Map'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
-  "snapshot_freesurfer_right_thickness_{subject}", SetType( 'Snapshot Thickness Map'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_left_thickness_{subject}", SetType( 'Snapshot Thickness Map'), SetWeakAttr( 'side', 'left', 'processing', 'freesurfer'  ),
+  "snapshot_freesurfer_right_thickness_{subject}", SetType( 'Snapshot Thickness Map'), SetWeakAttr( 'side', 'right', 'processing', 'freesurfer'  ),
 )
 snap_gyri_content = (
-  "snapshot_freesurfer_left_gyri_{subject}", SetType( 'Snapshot Gyral Parcellation'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
-  "snapshot_freesurfer_right_gyri_{subject}", SetType( 'Snapshot Gyral Parcellation'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_left_gyri_{subject}", SetType( 'Snapshot Gyral Parcellation'), SetWeakAttr( 'side', 'left', 'processing', 'freesurfer'  ),
+  "snapshot_freesurfer_right_gyri_{subject}", SetType( 'Snapshot Gyral Parcellation'), SetWeakAttr( 'side', 'right', 'processing', 'freesurfer'  ),
 )
 snap_curv_content = (
-  "snapshot_freesurfer_left_curv_{subject}", SetType( 'Snapshot Curvature Map'), SetWeakAttr( 'side', 'left', 'software', 'freesurfer'  ),
-  "snapshot_freesurfer_right_curv_{subject}", SetType( 'Snapshot Curvature Map'), SetWeakAttr( 'side', 'right', 'software', 'freesurfer'  ),
+  "snapshot_freesurfer_left_curv_{subject}", SetType( 'Snapshot Curvature Map'), SetWeakAttr( 'side', 'left', 'processing', 'freesurfer'  ),
+  "snapshot_freesurfer_right_curv_{subject}", SetType( 'Snapshot Curvature Map'), SetWeakAttr( 'side', 'right', 'processing', 'freesurfer'  ),
 )
 
 hierarchy = (
@@ -62,11 +62,11 @@ hierarchy = (
     'snapshots',SetContent(
       'freesurfer', SetContent(
         'greywhite', SetContent(
-        "snapshot_freesurfer_greywhite_{subject}", SetType( 'Snapshot Grey White'), SetWeakAttr('software', 'freesurfer'),
-        "qc_greywhite", SetType( 'Snapshots Grey White Quality Scores') , SetWeakAttr('software', 'freesurfer'),
+        "snapshot_freesurfer_greywhite_{subject}", SetType( 'Snapshot Grey White'), SetWeakAttr('processing', 'freesurfer'),
+        "qc_greywhite", SetType( 'Snapshots Grey White Quality Scores') , SetWeakAttr('processing', 'freesurfer'),
          ),
         'meshcut', SetContent(
-        "snapshot_freesurfer_meshcut_{subject}", SetType('Snapshot Meshcut'), SetWeakAttr('software', 'freesurfer'),
+        "snapshot_freesurfer_meshcut_{subject}", SetType('Snapshot Meshcut'), SetWeakAttr('processing', 'freesurfer'),
          ),
         'aimspial', apply(SetContent,snap_aimspial_content),
         'aimswhite', apply(SetContent, snap_aimswhite_content),
@@ -76,11 +76,11 @@ hierarchy = (
         ),
       ),
     'tables',SetContent(
-        'thicknesses_freesurfer', SetType('Cortical Thicknesses Table'), SetWeakAttr('software', 'freesurfer'),
-        'tissues_volumes_freesurfer', SetType('Global Volumetry Table'), SetWeakAttr('software', 'freesurfer'),
-        'history_thicknesses_freesurfer', SetType('History Cortical Thicknesses Table'), SetWeakAttr('software', 'freesurfer'),
-        'history_tissues_volumes_freesurfer', SetType('History Global Volumetry Table'), SetWeakAttr('software', 'freesurfer'),    
-        'snapshots_features_freesurfer', SetType('Snapshots Features Table'), SetWeakAttr('software', 'freesurfer'),
+        'thicknesses_freesurfer', SetType('Cortical Thicknesses Table'), SetWeakAttr('processing', 'freesurfer'),
+        'tissues_volumes_freesurfer', SetType('Global Volumetry Table'), SetWeakAttr('processing', 'freesurfer'),
+        'history_thicknesses_freesurfer', SetType('History Cortical Thicknesses Table'), SetWeakAttr('processing', 'freesurfer'),
+        'history_tissues_volumes_freesurfer', SetType('History Global Volumetry Table'), SetWeakAttr('processing', 'freesurfer'),    
+        'snapshots_features_freesurfer', SetType('Snapshots Features Table'), SetWeakAttr('processing', 'freesurfer'),
       ),
     'history_book', SetContent(
     'bvsession', SetType( 'Bvsession' ),
