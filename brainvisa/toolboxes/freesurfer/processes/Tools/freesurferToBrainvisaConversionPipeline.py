@@ -343,6 +343,8 @@ def initialization( self ):
                                         optional=1))
     eNode.addDoubleLink('RfreesurferInflate.White',
                         'RfreesurferMeshToAimsRef.AimsWhite')
+    eNode.addDoubleLink('LfreesurferInflate.save_sequence',
+                        'RfreesurferInflate.save_sequence')
 
     # 16
     eNode.addChild('freesurferConcatenate',
@@ -353,6 +355,10 @@ def initialization( self ):
     eNode.freesurferConcatenate.removeLink('RightPial', 'LeftWhite')
     eNode.freesurferConcatenate.removeLink('LeftInflatedWhite', 'LeftWhite')
     eNode.freesurferConcatenate.removeLink('RightInflatedWhite', 'LeftWhite')
+    eNode.freesurferConcatenate.removeLink('LeftInflatedWhite_sequence',
+                                           'LeftInflatedWhite')
+    eNode.freesurferConcatenate.removeLink('RightInflatedWhite_sequence',
+                                           'RightInflatedWhite')
     eNode.addDoubleLink('freesurferConcatenate.LeftWhite',
                         'LfreesurferMeshToAimsRef.AimsWhite')
     eNode.addDoubleLink('freesurferConcatenate.RightWhite',
@@ -365,6 +371,10 @@ def initialization( self ):
                         'LfreesurferInflate.InflatedWhite')
     eNode.addDoubleLink('freesurferConcatenate.RightInflatedWhite',
                         'RfreesurferInflate.InflatedWhite')
+    eNode.addDoubleLink('freesurferConcatenate.LeftInflatedWhite_sequence',
+                        'LfreesurferInflate.InflatedWhite_sequence')
+    eNode.addDoubleLink('freesurferConcatenate.RightInflatedWhite_sequence',
+                        'RfreesurferInflate.InflatedWhite_sequence')
 
     # 17
     eNode.addChild('freesurferConcatTex',

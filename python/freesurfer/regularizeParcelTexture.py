@@ -1,7 +1,6 @@
 #! /usr/bin/env python2
 from numpy import vstack, array, zeros
 import pickle
-from tio import Texture
 import sys
 from soma import aims
 
@@ -9,20 +8,24 @@ from soma import aims
 def regularizeParcelTexture(isin, mesh, tex, output):
     fisin = open(isin, 'r')
     mesh = aims.read(mesh)
-    tex = Texture.read(tex)
-    
+    tex = aims.read(tex)
+
     isin = pickle.load(open(isin))
     isin = vstack((array(isin[0]), array(isin[1]).T)).T
 
-    output = Texture(filename=output, data=zeros(len(isin)))
-    
+    output_tex = tex.__class__()
+    output_tex.header().update(tex.header())
+    output_tex[0].resize(len(isin))
+    arr_output = output_tex[0].data().arraydata()
+    arr_tex = tex[0].data().arraydata()
+
     for n in range(len(isin)):
-        t = tex.data[mesh.polygon()[isin[n][0]].arraydata()]
+        t = arr_tex[mesh.polygon()[isin[n][0]].arraydata()]
         weights = array([(1-isin[n][1]-isin[n][2]), isin[n][1], isin[n][2]])
         value = t[weights.argmax()]
-        output.data[n] = value
-    
-    output.write()
+        arr_output[n] = value
+
+    aims.write(output_tex, output)
 
 def usage():
     print "Regularize parcels texture"
