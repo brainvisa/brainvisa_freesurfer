@@ -34,7 +34,7 @@ def execution(self, context):
     tm.copyReferential(self.White, self.InflatedWhite)
     if self.save_sequence:
         context.system('AimsInflate', '-i', self.White.fullPath(),
-                      '-o', self.InflatedWhite.fullPath(),
+                      '-o', self.InflatedWhite_sequence.fullPath(),
                       '-c', self.InflatedWhiteCurvTex.fullPath(),
                       '-S')
         tm.copyReferential(self.White, self.InflatedWhite_sequence)
