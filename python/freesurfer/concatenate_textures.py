@@ -19,11 +19,9 @@ def concatenate_textures(output, fileL, fileR):
     vertexNbB = vertexNbR + vertexNbL
     gyriTexB[0].resize(vertexNbB)
     arr_b = gyriTexB[0].arraydata()
-    arr_b[:vertexNbL] = gyriTexL[0].arraydata() + 1
+    arr_b[:vertexNbL] = gyriTexL[0].arraydata()
     lh_max = gyriTexL[0].arraydata().max() + 2
-    arr_b[arr_b[:vertexNbL] == 0] = 1 # orig value -1 becomes 1
     arr_b[vertexNbL:] = gyriTexR[0].arraydata() + lh_max
-    arr_b[vertexNbL:][gyriTexR[0].arraydata() == -1] = lh_max
     # fix header
     new_lt = {}
     if 'GIFTI_labels_table' in gyriTexL.header():
@@ -31,7 +29,7 @@ def concatenate_textures(output, fileL, fileR):
         lt = gyriTexL.header()['GIFTI_labels_table']
         for i in range(lh_max - 1):
             try:
-                new_lt[i + 1] = lt[i]
+                new_lt[i ] = lt[i]
             except:
                 pass
     if 'GIFTI_labels_table' in gyriTexR.header():
