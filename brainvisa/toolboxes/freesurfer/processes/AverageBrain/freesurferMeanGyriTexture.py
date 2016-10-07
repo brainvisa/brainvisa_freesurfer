@@ -20,25 +20,18 @@ Main dependencies: axon python API.
 
 
 # axon python API module
-from brainvisa.processes import Signature, ReadDiskItem, WriteDiskItem, \
-    ValidationError, ListOf
+from brainvisa.processes import Signature
+from brainvisa.processes import ReadDiskItem
+from brainvisa.processes import WriteDiskItem
+from brainvisa.processes import ValidationError
+from brainvisa.processes import ListOf
 from brainvisa.group_utils import Subject
 
 # soma-base module
-from soma.path import find_in_path
 from soma.minf.api import registerClass, readMinf
 
 
 #----------------------------Header--------------------------------------------
-
-
-def validation():
-    """This function is executed at BrainVisa startup when the process is
-    loaded. It checks some conditions for the process to be available.
-    """
-    if not find_in_path("constelGyriTextureCleaningIsolatedVertices.py"):
-        raise ValidationError(
-            "Please make sure that constel module is installed.")
 
 
 name = "3 Average Gyri Texture"
@@ -90,15 +83,14 @@ def execution(self, context):
     """
     """
     # create the average texture
-    context.system('python2',
-                   find_in_path('freesurfer_average_gyri_parcellation.py'),
-                   self.gyri_segmentations,
-                   self.avg_gyri_texture)
+    context.pythonSystem(
+        'freesurfer_average_gyri_parcellation.py',
+        self.gyri_segmentations,
+        self.avg_gyri_texture)
 
     # compute the connected component
-    context.system(
-        "python",
-        find_in_path("constelGyriTextureCleaningIsolatedVertices.py"),
+    context.pythonSystem(
+        "AimsGyriTextureCleaningIsolatedVertices.py",
         self.avg_gyri_texture,
         self.mesh,
         self.avg_gyri_texture
