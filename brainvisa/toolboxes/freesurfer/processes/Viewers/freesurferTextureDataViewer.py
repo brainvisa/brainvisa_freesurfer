@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from brainvisa.processes import *
-import shfjGlobals
 from brainvisa import anatomist
 
 name = 'Freesurfer data textures viewer'
