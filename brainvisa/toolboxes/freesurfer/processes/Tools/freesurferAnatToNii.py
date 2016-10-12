@@ -8,16 +8,30 @@ name = "Convert Freesurfer images to Nifti format"
 userLevel = 2
 
 signature = Signature(
-  'AnatImage', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ',
+  'AnatImage', ReadDiskItem(
+    'RawFreesurferAnat',
+    'FreesurferMGZ',
     enableConversion=False),
-  'NiiAnatImage', WriteDiskItem('RawFreesurferAnat', 'NIFTI-1 image'),
-  'NuImage', ReadDiskItem('Nu FreesurferAnat', 'FreesurferMGZ',
+  'NiiAnatImage', WriteDiskItem(
+    'RawFreesurferAnat',
+    ['gz compressed NIFTI-1 image', 'NIFTI-1 image']),
+  'NuImage', ReadDiskItem(
+    'Nu FreesurferAnat',
+    'FreesurferMGZ',
     enableConversion=False),
-  'NiiNuImage', WriteDiskItem('Nu FreesurferAnat', 'NIFTI-1 image'),
-  'RibbonImage', ReadDiskItem('Ribbon Freesurfer', 'FreesurferMGZ',
+  'NiiNuImage', WriteDiskItem(
+    'Nu FreesurferAnat',
+    ['gz compressed NIFTI-1 image', 'NIFTI-1 image']),
+  'RibbonImage', ReadDiskItem(
+    'Ribbon Freesurfer',
+    'FreesurferMGZ',
     enableConversion=False),
-  'NiiRibbonImage', WriteDiskItem('Ribbon Freesurfer', 'NIFTI-1 image' ),
-  'referential', ReadDiskItem( 'Referential of Raw T1 MRI', 'Referential' ),
+  'NiiRibbonImage', WriteDiskItem(
+    'Ribbon Freesurfer',
+    ['gz compressed NIFTI-1 image', 'NIFTI-1 image']),
+  'referential', ReadDiskItem(
+    'Referential of Raw T1 MRI',
+    'Referential'),
 )
 
 def initialization(self):
