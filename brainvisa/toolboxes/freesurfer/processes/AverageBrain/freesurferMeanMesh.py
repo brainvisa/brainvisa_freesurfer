@@ -20,10 +20,13 @@ Main dependencies: axon python API.
 # axon python API modules
 from brainvisa.processes import Signature, ReadDiskItem, WriteDiskItem, ListOf
 from brainvisa.group_utils import Subject
+from brainvisa import registration
 
 # soma module
 from soma.minf.api import registerClass, readMinf
 from soma.path import find_in_path
+from soma import aims
+import json
 
 
 #----------------------------Header--------------------------------------------
@@ -35,10 +38,12 @@ userLevel = 1
 signature = Signature(
     # input
     "group", ReadDiskItem("Freesurfer Group definition", "XML"),
-    "individual_rhmeshes", ListOf(
-        ReadDiskItem("AimsWhite", "Aims mesh formats")),
     "individual_lhmeshes", ListOf(
-        ReadDiskItem("AimsWhite", "Aims mesh formats")),
+        ReadDiskItem("ResampledWhite", "Aims mesh formats",
+                     requiredAttributes={'side': 'left'})),
+    "individual_rhmeshes", ListOf(
+        ReadDiskItem("ResampledWhite", "Aims mesh formats",
+                     requiredAttributes={'side': 'right'})),
 
     # outputs
     "LeftAverageMesh", WriteDiskItem("AverageBrainWhite", "Aims mesh formats",
@@ -101,16 +106,27 @@ def execution(self, context):
     registerClass("minf_2.0", Subject, "Subject")
     groupOfSubjects = readMinf(self.group.fullPath())
 
+    to_apc_tal = aims.AffineTransformation3d()
+    to_apc_tal.rotation()[0, 0] = -1.
+    to_apc_tal.rotation()[1, 1] = -1.
+    to_apc_tal.rotation()[2, 2] = -1.
+    to_apc_tal.header()['source_referential'] = 'Talairach'
+    to_apc_tal.header()['destination_referential'] \
+        = aims.StandardReferentials.acPcReferentialID()
+    t_tr = context.temporary('Transformation matrix')
+    aims.write(to_apc_tal, t_tr.fullPath())
+
     ###########################################################################
     #                        LEFT HEMISPHERE (lh)                             #
     ###########################################################################
 
     # create the left average mesh
-    context.system(
-        "python",
-        find_in_path("freesurfer_average_mesh.py"),
-        self.individual_lhmeshes,
-        self.LeftAverageMesh)
+    args = ['freesurfer_average_mesh.py', '-r', 'Talairach', '-f', t_tr]
+    args += [json.dumps([x.fullPath() for x in self.individual_lhmeshes]),
+             self.LeftAverageMesh]
+
+    context.pythonSystem(*args)
+    context.write('left hemispheres done.')
 
 
     ###########################################################################
@@ -119,11 +135,12 @@ def execution(self, context):
 
 
     # create the right average mesh
-    context.system(
-        "python",
-        find_in_path("freesurfer_average_mesh.py"),
-        self.individual_rhmeshes,
-        self.RightAverageMesh)
+    args = ['freesurfer_average_mesh.py', '-r', 'Talairach', '-f', t_tr]
+    args += [json.dumps([x.fullPath() for x in self.individual_rhmeshes]),
+             self.RightAverageMesh]
+
+    context.pythonSystem(*args)
+    context.write('right hemispheres done.')
 
     ###########################################################################
     #                        BOTH HEMISPHERE (bh)                             #
