@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
+import os, platform
 from brainvisa.configuration.neuroConfig import mainPath
 import brainvisa.processes
 from soma.wip.application.api import Application
