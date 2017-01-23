@@ -27,6 +27,10 @@ def testFreesurferCommand( force_retest=False ):
 
 
 def launchFreesurferCommand( context, database=None, *args, **kwargs ):
+  if platform.system() == 'Windows':
+    raise ValidationError( 'FreeSurfer plugin for BrainVISA is not available '
+                           'on Windows platform.' )
+    
   #print " -- Function launchFreesurferCommand -- ", args
   #print 'kwargs:', kwargs
   
