@@ -106,8 +106,7 @@ def execution(self, context):
     ###########################################################################
 
     # create the left average mesh
-    context.system(
-        "python2",
+    context.pythonSystem(
         find_in_path("freesurfer_average_mesh.py"),
         self.individual_lhmeshes,
         self.LeftAverageMesh)
@@ -119,8 +118,7 @@ def execution(self, context):
 
 
     # create the right average mesh
-    context.system(
-        "python2",
+    context.pythonSystem(
         find_in_path("freesurfer_average_mesh.py"),
         self.individual_rhmeshes,
         self.RightAverageMesh)

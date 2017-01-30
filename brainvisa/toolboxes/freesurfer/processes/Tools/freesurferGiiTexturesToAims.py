@@ -1,3 +1,4 @@
+import os, sys
 from brainvisa.processes import *
 
 name = '13 Converting gifti textures to Aims texture format.'
@@ -30,14 +31,14 @@ def execution(self, context):
   context.write('Resample brain mesh.')
 
   context.write(self.GiftiAvgCurv.fullPath())
-  context.system('python2', '-c', 'from freesurfer.giiToTex import giftiToTex as f; f(\"%s\", \"%s\");'%(self.GiftiCurv.fullPath(), self.TexCurv.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.giiToTex import giftiToTex as f; f(\"%s\", \"%s\");'%(self.GiftiCurv.fullPath(), self.TexCurv.fullPath()))
 
   context.write(self.GiftiAvgCurv.fullPath())
-  context.system('python2', '-c', 'from freesurfer.giiToTex import giftiToTex as f; f(\"%s\", \"%s\");'%(self.GiftiAvgCurv.fullPath(), self.TexAvgCurv.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.giiToTex import giftiToTex as f; f(\"%s\", \"%s\");'%(self.GiftiAvgCurv.fullPath(), self.TexAvgCurv.fullPath()))
 
   context.write(self.GiftiCurvPial.fullPath())
-  context.system('python2', '-c', 'from freesurfer.giiToTex import giftiToTex as f; f(\"%s\", \"%s\");'%(self.GiftiCurvPial.fullPath(), self.TexCurvPial.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.giiToTex import giftiToTex as f; f(\"%s\", \"%s\");'%(self.GiftiCurvPial.fullPath(), self.TexCurvPial.fullPath()))
 
   context.write(self.GiftiThickness.fullPath())
-  context.system('python2', '-c', 'from freesurfer.giiToTex import giftiToTex as f; f(\"%s\", \"%s\");'%(self.GiftiThickness.fullPath(), self.TexThickness.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.giiToTex import giftiToTex as f; f(\"%s\", \"%s\");'%(self.GiftiThickness.fullPath(), self.TexThickness.fullPath()))
 

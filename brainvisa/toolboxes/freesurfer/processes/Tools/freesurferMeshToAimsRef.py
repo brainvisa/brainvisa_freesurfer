@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
+import os, sys
 from brainvisa.processes import *
 from brainvisa import registration
 
@@ -26,11 +26,11 @@ def execution(self, context):
 
   cmd = 'from freesurfer.freesurferMeshToAimsMesh import freesurferMeshToAimsMesh as f;'
 
-  context.write('python2 -c '+cmd+' f(\"%s\", \"%s\", \"%s\");'%(self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
-  context.system('python2', '-c', cmd+'f(\"%s\", \"%s\", \"%s\");'%(self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
+  context.write('%s -c '+cmd+' f(\"%s\", \"%s\", \"%s\");'%(os.path.basename(sys.executable), self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', cmd+'f(\"%s\", \"%s\", \"%s\");'%(self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
 
-  context.write('python2 -c '+cmd+' f(\"%s\", \"%s\", \"%s\");'%(self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
-  context.system('python2', '-c', cmd+'f(\"%s\", \"%s\", \"%s\");'%(self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
+  context.write('%s -c '+cmd+' f(\"%s\", \"%s\", \"%s\");'%(os.path.basename(sys.executable), self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', cmd+'f(\"%s\", \"%s\", \"%s\");'%(self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
 
   context.write( 'material:', self.AimsPial.get( 'material' ) )
   if self.AimsPial.get( 'material' ):
