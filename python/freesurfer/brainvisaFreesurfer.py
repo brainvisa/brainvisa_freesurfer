@@ -64,6 +64,13 @@ def launchFreesurferCommand( context, database=None, *args, **kwargs ):
   #elif configuration.freesurfer.executable_freesurfer : setupShell.append(configuration.freesurfer.executable_freesurfer)
   
 
+  if configuration.freesurfer.freesurfer_home_path \
+      and os.path.exists(configuration.freesurfer.freesurfer_home_path):
+    # force FREESURFER_HOME in case it is not defined or if it points to
+    # another version
+    os.environ['FREESURFER_HOME'] \
+      = configuration.freesurfer.freesurfer_home_path
+
   # determine freesurfer commands path or environment script
   if configuration.freesurfer.freesurfer_home_path \
       and os.path.exists( os.path.join(

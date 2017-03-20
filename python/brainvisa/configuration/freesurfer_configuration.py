@@ -89,7 +89,8 @@ class FreeSurferConfiguration( ConfigurationGroup ):
     #print value
     self._freesurfer_home_path = value
     
-  freesurfer_home_path = property( _get_freesurfer_home_path, _set_freesurfer_home_path )
+  freesurfer_home_path = property(_get_freesurfer_home_path,
+                                  _set_freesurfer_home_path)
   
   
   
