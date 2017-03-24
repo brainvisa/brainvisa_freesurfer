@@ -48,7 +48,7 @@ def delInMainThread( lock, thing ): #Pour pb de communiation avec Anatomist
   
 name = 'Import FreeSurfer grey/white segmentation to Morphologist'
 roles = ('importer',)
-userLevel = 1
+userLevel = 0
 
 
 signature=Signature(
