@@ -14,22 +14,20 @@ This script does the following:
 Main dependencies: axon python API.
 """
 
-#----------------------------Imports-------------------------------------------
+# ---------------------------Imports-------------------------------------------
 
 
 # axon python API modules
 from brainvisa.processes import Signature, ReadDiskItem, WriteDiskItem, ListOf
 from brainvisa.group_utils import Subject
-from brainvisa import registration
 
 # soma module
 from soma.minf.api import registerClass, readMinf
-from soma.path import find_in_path
 from soma import aims
 import json
 
 
-#----------------------------Header--------------------------------------------
+# ---------------------------Header--------------------------------------------
 
 
 name = "2 Average brain mesh"
@@ -39,10 +37,10 @@ signature = Signature(
     # input
     "group", ReadDiskItem("Freesurfer Group definition", "XML"),
     "individual_lhmeshes", ListOf(
-        ReadDiskItem("ResampledWhite", "Aims mesh formats",
+        ReadDiskItem("White Mesh", "Aims mesh formats",
                      requiredAttributes={'side': 'left'})),
     "individual_rhmeshes", ListOf(
-        ReadDiskItem("ResampledWhite", "Aims mesh formats",
+        ReadDiskItem("White Mesh", "Aims mesh formats",
                      requiredAttributes={'side': 'right'})),
 
     # outputs
@@ -55,7 +53,7 @@ signature = Signature(
 )
 
 
-#----------------------------Function------------------------------------------
+# ---------------------------Function------------------------------------------
 
 
 def initialization(self):
@@ -104,7 +102,6 @@ def execution(self, context):
     """
     """
     registerClass("minf_2.0", Subject, "Subject")
-    groupOfSubjects = readMinf(self.group.fullPath())
 
     to_apc_tal = aims.AffineTransformation3d()
     to_apc_tal.rotation()[0, 0] = -1.
@@ -128,11 +125,9 @@ def execution(self, context):
     context.pythonSystem(*args)
     context.write('left hemispheres done.')
 
-
     ###########################################################################
     #                        RIGHT HEMISPHERE (rh)                            #
     ###########################################################################
-
 
     # create the right average mesh
     args = ['freesurfer_average_mesh.py', '-r', 'Talairach', '-f', t_tr]
