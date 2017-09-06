@@ -1,3 +1,4 @@
+#! /usr/bin/env python2
 # -*- coding: utf-8 -*-
 from numpy import array, vstack
 import math
@@ -52,7 +53,7 @@ def regularizeMesh(brainMesh, isinFile,
 
 def usage():
     print "Regularize the mesh"
-    print "usage : python regularizeMeshFromIsin brain_mesh isin regular_sphere_mesh output_mesh"
+    print "usage : regularizeMeshFromIsin.py brain_mesh isin regular_sphere_mesh output_mesh"
 
 
 if __name__ == "__main__":

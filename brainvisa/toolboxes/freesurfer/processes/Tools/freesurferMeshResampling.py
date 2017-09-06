@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os, sys
 from brainvisa.processes import *
 from brainvisa import registration
 
@@ -25,11 +26,11 @@ def initialization(self):
 def execution(self, context):
   context.write('Resample brain mesh.')
   
-  context.write('python -c \"from freesurfer.regularizeMeshFromIsin import regularizeMesh as f; f(\"%s\", \"%s\", \"%s\", \"%s\");\#'%(self.PialMesh.fullPath(), self.Isin.fullPath(), self.ResampledPialMesh.fullPath(), self.destination.fullPath()))
-  context.system('python', '-c', 'from freesurfer.regularizeMeshFromIsin import regularizeMeshAims as f; f(\"%s\", \"%s\", \"%s\", \"%s\")'%(self.PialMesh.fullPath(), self.Isin.fullPath(), self.ResampledPialMesh.fullPath(), self.destination.fullPath()))
+  context.write('%s -c \"from freesurfer.regularizeMeshFromIsin import regularizeMesh as f; f(\"%s\", \"%s\", \"%s\", \"%s\");\#'%(os.path.basename(sys.executable), self.PialMesh.fullPath(), self.Isin.fullPath(), self.ResampledPialMesh.fullPath(), self.destination.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.regularizeMeshFromIsin import regularizeMeshAims as f; f(\"%s\", \"%s\", \"%s\", \"%s\")'%(self.PialMesh.fullPath(), self.Isin.fullPath(), self.ResampledPialMesh.fullPath(), self.destination.fullPath()))
 
-  context.write('python -c \"from freesurfer.regularizeMeshFromIsin import regularizeMesh as f; f(\"%s\", \"%s\", \"%s\", \"%s\");\#'%(self.WhiteMesh.fullPath(), self.Isin.fullPath(), self.ResampledWhiteMesh.fullPath(), self.destination.fullPath()))
-  context.system('python', '-c', 'from freesurfer.regularizeMeshFromIsin import regularizeMeshAims as f; f(\"%s\", \"%s\", \"%s\", \"%s\")'%(self.WhiteMesh.fullPath(), self.Isin.fullPath(), self.ResampledWhiteMesh.fullPath(), self.destination.fullPath()))
+  context.write('%s -c \"from freesurfer.regularizeMeshFromIsin import regularizeMesh as f; f(\"%s\", \"%s\", \"%s\", \"%s\");\#'%(os.path.basename(sys.executable), self.WhiteMesh.fullPath(), self.Isin.fullPath(), self.ResampledWhiteMesh.fullPath(), self.destination.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.regularizeMeshFromIsin import regularizeMeshAims as f; f(\"%s\", \"%s\", \"%s\", \"%s\")'%(self.WhiteMesh.fullPath(), self.Isin.fullPath(), self.ResampledWhiteMesh.fullPath(), self.destination.fullPath()))
 
   self.ResampledPialMesh.setMinf( 'material',
     { 'front_face': 'counterclockwise' }, saveMinf=True )

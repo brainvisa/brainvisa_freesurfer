@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os, sys
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
@@ -25,7 +26,7 @@ def initialization(self):
 def execution(self, context):
   context.write('Resample  brain mesh.')
 
-  context.system('python', '-c', 'from freesurfer.regularizeParcelTexture import regularizeParcelTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(self.Isin.fullPath(), self.WhiteMesh.fullPath(), self.Gyri.fullPath(), self.ResampledGyri.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.regularizeParcelTexture import regularizeParcelTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(self.Isin.fullPath(), self.WhiteMesh.fullPath(), self.Gyri.fullPath(), self.ResampledGyri.fullPath()))
 
-  context.system('python', '-c', 'from freesurfer.regularizeParcelTexture import regularizeParcelTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(self.Isin.fullPath(), self.WhiteMesh.fullPath(), self.SulciGyri.fullPath(), self.ResampledSulciGyri.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.regularizeParcelTexture import regularizeParcelTexture as f; f(\"%s\", \"%s\", \"%s\", \"%s\");'%(self.Isin.fullPath(), self.WhiteMesh.fullPath(), self.SulciGyri.fullPath(), self.ResampledSulciGyri.fullPath()))
 

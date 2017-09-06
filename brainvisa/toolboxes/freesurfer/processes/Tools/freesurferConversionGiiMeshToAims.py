@@ -27,17 +27,17 @@ def execution(self, context):
   from soma import aims
   m = aims.read( self.PialGifti.fullPath() )
   aims.write( m, self.PialMesh.fullPath() )
-  #context.write('python -c \"from freesurfer.GiftiToBrainvisa import GiftiToBrainvisa as f; f(\'%s\', \'%s\');\"'%(self.PialGifti.fullPath(), self.PialMesh.fullPath()))
-  #context.system('python', '-c', 'from freesurfer.GiftiToBrainvisa import GiftiToBrainvisa as f; f(\"%s\", \"%s\"); '%(self.PialGifti.fullPath(), self.PialMesh.fullPath()))
+  #context.write('python2 -c \"from freesurfer.GiftiToBrainvisa import GiftiToBrainvisa as f; f(\'%s\', \'%s\');\"'%(self.PialGifti.fullPath(), self.PialMesh.fullPath()))
+  #context.system('python2', '-c', 'from freesurfer.GiftiToBrainvisa import GiftiToBrainvisa as f; f(\"%s\", \"%s\"); '%(self.PialGifti.fullPath(), self.PialMesh.fullPath()))
   
   # White
   m = aims.read( self.WhiteGifti.fullPath() )
   aims.write( m, self.WhiteMesh.fullPath() )
-  #context.write('python -c \"from freesurfer.GiftiToBrainvisa import GiftiToBrainvisa as f; f(\'%s\', \'%s\');\"'%(self.WhiteGifti.fullPath(), self.WhiteMesh.fullPath()))
-  #context.system('python', '-c', 'from freesurfer.GiftiToBrainvisa import GiftiToBrainvisa as f; f(\"%s\", \"%s\"); '%(self.WhiteGifti.fullPath(), self.WhiteMesh.fullPath()))
+  #context.write('python2 -c \"from freesurfer.GiftiToBrainvisa import GiftiToBrainvisa as f; f(\'%s\', \'%s\');\"'%(self.WhiteGifti.fullPath(), self.WhiteMesh.fullPath()))
+  #context.system('python2', '-c', 'from freesurfer.GiftiToBrainvisa import GiftiToBrainvisa as f; f(\"%s\", \"%s\"); '%(self.WhiteGifti.fullPath(), self.WhiteMesh.fullPath()))
   
   # SphereReg
   m = aims.read( self.SphereRegGifti.fullPath() )
   aims.write( m, self.SphereRegMesh.fullPath() )
-  #context.write('python -c \"from freesurfer.GiftiToBrainvisa import GiftiToBrainvisa as f; f(\'%s\', \'%s\');\"'%(self.SphereRegGifti.fullPath(), self.SphereRegMesh.fullPath()))
-  #context.system('python', '-c', 'from freesurfer.GiftiToBrainvisa import GiftiToBrainvisa as f; f(\"%s\", \"%s\"); '%(self.SphereRegGifti.fullPath(), self.SphereRegMesh.fullPath()))
+  #context.write('python2 -c \"from freesurfer.GiftiToBrainvisa import GiftiToBrainvisa as f; f(\'%s\', \'%s\');\"'%(self.SphereRegGifti.fullPath(), self.SphereRegMesh.fullPath()))
+  #context.system('python2', '-c', 'from freesurfer.GiftiToBrainvisa import GiftiToBrainvisa as f; f(\"%s\", \"%s\"); '%(self.SphereRegGifti.fullPath(), self.SphereRegMesh.fullPath()))

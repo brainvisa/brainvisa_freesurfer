@@ -1,3 +1,4 @@
+#! /usr/bin/env python2
 from numpy import vstack, array, zeros
 import pickle
 from tio import Texture
@@ -25,8 +26,8 @@ def regularizeTexture(isin, mesh, tex, output):
 
 def usage():
     print "Regularize texture"
-    print "usage : python regularizeTexture.py isin original_white_mesh input.tex output.tex"
-    print "example : python regularizeTexture.py lh.isin lh.white.mesh lh.curv.tex lh.r.curv.tex"
+    print "usage : regularizeTexture.py isin original_white_mesh input.tex output.tex"
+    print "example : regularizeTexture.py lh.isin lh.white.mesh lh.curv.tex lh.r.curv.tex"
 
 
 if __name__ == "__main__":

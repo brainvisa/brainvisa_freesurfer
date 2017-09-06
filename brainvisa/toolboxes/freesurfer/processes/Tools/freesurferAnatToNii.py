@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
+import os, sys
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 from brainvisa import registration
@@ -76,9 +76,9 @@ def execution(self, context):
   self.NiiAnatImage.saveMinf()
   self.NiiNuImage.saveMinf()
   self.NiiRibbonImage.saveMinf()
-  context.system('python', '-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiAnatImage.fullPath()))
-  context.system('python', '-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiNuImage.fullPath()))
-  context.system('python', '-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiRibbonImage.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiAnatImage.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiNuImage.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiRibbonImage.fullPath()))
   self.NiiAnatImage.readAndUpdateMinf()
   self.NiiNuImage.readAndUpdateMinf()
   self.NiiRibbonImage.readAndUpdateMinf()

@@ -1,4 +1,4 @@
-import os
+import os, sys
 from brainvisa.processes import *
 
 name = '18 Meshes normalization'
@@ -23,5 +23,5 @@ def initialization( self ):
 def execution(self, context):
   context.write(self.whiteMesh.fullPath())
 
-  context.system('python', '-c', 'from freesurfer.normalizeMesh import normalizeMesh as f; f(\"%s\", \"%s\", \"%s\", \"%s\", \"%s\");'%(self.anat.fullPath(), self.matrix.fullPath(), self.normAnat.fullPath(), self.whiteMesh.fullPath(), self.whiteNormMesh.fullPath()))
+  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.normalizeMesh import normalizeMesh as f; f(\"%s\", \"%s\", \"%s\", \"%s\", \"%s\");'%(self.anat.fullPath(), self.matrix.fullPath(), self.normAnat.fullPath(), self.whiteMesh.fullPath(), self.whiteNormMesh.fullPath()))
 

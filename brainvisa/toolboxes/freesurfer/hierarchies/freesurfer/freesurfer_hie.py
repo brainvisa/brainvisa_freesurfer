@@ -65,6 +65,9 @@ hierarchy = (
         "snapshot_freesurfer_greywhite_{subject}", SetType( 'Snapshot Grey White'), SetWeakAttr('processing', 'freesurfer'),
         "qc_greywhite", SetType( 'Snapshots Grey White Quality Scores') , SetWeakAttr('processing', 'freesurfer'),
          ),
+        'meshcut', SetContent(
+        "snapshot_freesurfer_meshcut_{subject}", SetType('Snapshot Meshcut'), SetWeakAttr('processing', 'freesurfer'),
+         ),
         'aimspial', apply(SetContent,snap_aimspial_content),
         'aimswhite', apply(SetContent, snap_aimswhite_content),
         'thickness', apply(SetContent, snap_thickness_content),
