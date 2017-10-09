@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="minf_2.0">
+<d>
+  <d name="fr">
+    <xhtml name="short"/>
+    <d name="parameters">
+      <xhtml name="freesurfer_ico_order"/>
+      <xhtml name="mesh"/>
+      <xhtml name="resampled_mesh"/>
+    </d>
+    <xhtml name="long"/>
+  </d>
+  <d name="en">
+    <xhtml name="short">Resample mesh using Freesurfer mri_surf2surf with FS icosahedron sphere topology</xhtml>
+    <d name="parameters">
+      <xhtml name="freesurfer_ico_order">ico order number, as used by Freesurfer command mri_surf2surf: corresponds to the number of targer vertices as follows:
+<table>
+  <tr><td>ico_order</td><td>num of vertices</td></tr>
+  <tr><td>0</td><td>12</td></tr>
+  <tr><td>1</td><td>42</td></tr>
+  <tr><td>2</td><td>162</td></tr>
+  <tr><td>3</td><td>642</td></tr>
+  <tr><td>4</td><td>2562</td></tr>
+  <tr><td>5</td><td>10242</td></tr>
+  <tr><td>6</td><td>40962</td></tr>
+  <tr><td>7</td><td>163842</td></tr>
+</table></xhtml>
+      <xhtml name="mesh">mesh to be resampled, normally the raw white mesh from Freesurfer</xhtml>
+      <xhtml name="resampled_mesh"/>
+    </d>
+    <xhtml name="long">Contrarily to the processes <a href="bvprocess://freesurferMeshResampling">Mesh resampling</a>, <a href="bvprocess://freesurferResampleLabels">Resample label textures</a>, <a href="bvprocess://freesurferResamplingDataTextures">Resampling freesurfer data textures</a> and <a href="bvprocess://freesurferIsinComputing">Computation of resampling parameters</a> (all used in the pipeline <a href="bvprocess://freesurferToBrainvisaConversionPipeline">Freesurfer outputs To BrainVisa conversion pipeline</a>), this resampling is not based on BrainVISA/AIMS algorithms, but is using the Freesurfer <tt>mri_surf2surf</tt> command to perform resampling. It thus allows to resample to builtin Freesurfer icospheres, and only to them.</xhtml>
+  </d>
+</d>
+</minf>
