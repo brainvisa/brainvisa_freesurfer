@@ -7,7 +7,7 @@ userlevel = 2
 
 signature = Signature(
     'LeftGyri', ReadDiskItem('ResampledGyri', 'Aims Texture formats',
-                              requiredAttributes = {'side' : 'left'}),
+                             requiredAttributes = {'side' : 'left'}),
     'RightGyri', ReadDiskItem('ResampledGyri', 'Aims Texture formats',
                               requiredAttributes = {'side' : 'right'}),
 
@@ -28,7 +28,7 @@ def initialization(self):
     self.linkParameters('Gyri', 'LeftGyri')
     self.linkParameters('SulciGyri', 'LeftGyri')
     self.setOptional('LeftGyri', 'RightGyri', 'LeftSulciGyri', 'RightSulciGyri',
-                    'Gyri', 'SulciGyri')
+                     'Gyri', 'SulciGyri')
 
   
 def execution(self, context):
