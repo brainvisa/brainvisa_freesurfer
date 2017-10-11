@@ -33,5 +33,15 @@
 # knowledge of the CeCILL license version 2 and that you accept its terms.
 
 insertFirst('standardmeshes',
-        'ico*', SetType("Ico Mesh")
-        )
+    'ico*', SetType("Ico Mesh"), SetWeakAttr('icosphere_type', 'brainvisa', 'vetices', '40962'),
+    'fs_LR-deformed_to-fsaverage.L.sphere.32k_fs_LR.surf',
+        SetType('Ico Mesh'),
+        SetWeakAttr('side', 'left', 'icosphere_type', 'hcp',
+                    'vertices', '32492'),
+        SetPriority(-1),
+    'fs_LR-deformed_to-fsaverage.R.sphere.32k_fs_LR.surf',
+        SetType('Ico Mesh'),
+        SetWeakAttr('side', 'right', 'icosphere_type', 'hcp',
+                    'vertices', '32492'),
+        SetPriority(-1),
+)
