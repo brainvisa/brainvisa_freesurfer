@@ -6,7 +6,7 @@ userlevel = 2
 
 signature = Signature(
     'SphereRegMesh', ReadDiskItem('SphereReg', 'Aims Mesh formats'),
-    'icosphere_type', Choice('brainvisa', 'hcp'),
+    'icosphere_type', Choice('brainvisa 40k', 'hcp 32k', 'freesurfer ic6 40k'),
     'destination', ReadDiskItem('Ico Mesh', 'GIFTI File'),
     'Isin', WriteDiskItem('BaseFreesurferType', 'FreesurferIsin'),
 )
@@ -19,7 +19,7 @@ def initialization(self):
         if self.icosphere_type:
             # if icosphere_type is specified, use it for selection
             atts['icosphere_type'] = self.icosphere_type
-            if self.icosphere_type != 'hcp' and 'side' in atts:
+            if not self.icosphere_type.startswith('hcp') and 'side' in atts:
                 # only the HCP mesh has side information, otherwise drop it
                 del atts['side']
         return self.signature['destination'].findValue(atts)

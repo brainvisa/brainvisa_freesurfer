@@ -8,16 +8,21 @@ import pickle
 #from gifti import GiftiIntentCode
 from soma import aims, aimsalgo
 
-def remeshAims( unstructured, target ):
-    mi = aims.MeshInterpoler( unstructured, target )
+def remeshAims(unstructured, target):
+    # ensure the target mesh has a radius of 100.
+    r = sum([p.norm() for p in target.vertex()]) / len(target.vertex())
+    r = 100. / r
+    for p in target.vertex():
+        p *= r
+    mi = aims.MeshInterpoler(unstructured, target)
     mi.project()
     t = mi.projectedTriangles()
     tc1, tc2 = mi.projectedTriCoord1(), mi.projectedTriCoord2()
-    isiN = numpy.array( t[0].arraydata() )
-    c1 = numpy.array( tc1[0].arraydata() )
-    c2 = numpy.array( tc2[0].arraydata() )
-    isin = numpy.hstack( ( numpy.reshape( c1, [ len(c1), 1 ] ),
-        numpy.reshape( c2, [ len(c2), 1 ] ) ) )
+    isiN = numpy.array(t[0].arraydata())
+    c1 = numpy.array(tc1[0].arraydata())
+    c2 = numpy.array(tc2[0].arraydata())
+    isin = numpy.hstack((numpy.reshape(c1, [len(c1), 1]),
+        numpy.reshape(c2, [len(c2), 1])))
     return isiN, isin
 
 
