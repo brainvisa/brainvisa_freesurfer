@@ -1,28 +1,64 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <minf expander="minf_2.0">
 <d>
+  <d name="fr">
+    <xhtml name="short"/>
+    <d name="parameters">
+      <xhtml name="rightGyri"/>
+      <xhtml name="rightAvgCurv"/>
+      <xhtml name="leftGyri"/>
+      <xhtml name="rightWhite"/>
+      <xhtml name="leftCurv"/>
+      <xhtml name="ribbon"/>
+      <xhtml name="rightCurv"/>
+      <xhtml name="rightSulciGyri"/>
+      <xhtml name="rightThickness"/>
+      <xhtml name="leftWhite"/>
+      <xhtml name="nu"/>
+      <xhtml name="leftThickness"/>
+      <xhtml name="rightPial"/>
+      <xhtml name="rightSphereReg"/>
+      <xhtml name="rightCurvPial"/>
+      <xhtml name="leftPial"/>
+      <xhtml name="icosphere_type"/>
+      <xhtml name="anat"/>
+      <xhtml name="leftAvgCurv"/>
+      <xhtml name="leftCurvPial"/>
+      <xhtml name="leftSphereReg"/>
+      <xhtml name="leftSulciGyri"/>
+    </d>
+    <xhtml name="long"/>
+  </d>
   <d name="en">
     <xhtml name="short"/>
     <d name="parameters">
       <xhtml name="rightGyri"/>
-      <xhtml name="rightPial"/>
-      <xhtml name="anat"/>
-      <xhtml name="rightSulciGyri"/>
-      <xhtml name="rightCurv"/>
       <xhtml name="rightAvgCurv"/>
-      <xhtml name="leftThickness"/>
       <xhtml name="leftGyri"/>
-      <xhtml name="rightSphereReg"/>
-      <xhtml name="leftSulciGyri"/>
-      <xhtml name="leftAvgCurv"/>
-      <xhtml name="leftCurv"/>
-      <xhtml name="rightCurvPial"/>
-      <xhtml name="leftCurvPial"/>
-      <xhtml name="leftPial"/>
-      <xhtml name="leftWhite"/>
       <xhtml name="rightWhite"/>
+      <xhtml name="leftCurv"/>
+      <xhtml name="ribbon"/>
+      <xhtml name="rightCurv"/>
+      <xhtml name="rightSulciGyri"/>
       <xhtml name="rightThickness"/>
+      <xhtml name="leftWhite"/>
+      <xhtml name="nu"/>
+      <xhtml name="leftThickness"/>
+      <xhtml name="rightPial"/>
+      <xhtml name="rightSphereReg"/>
+      <xhtml name="rightCurvPial"/>
+      <xhtml name="leftPial"/>
+      <xhtml name="icosphere_type">This merely helps the link to the target template icosphere used in the <a href="bvprocess://freesurferIsinComputing">Computation of resampling parameters</a> process. There are basically 3 sets of meshes:
+<ul>
+  <li>Brainvisa builtin sphere, 40962 vertices</li>
+  <li>Freesurfer icospheres, named ic0, ic1... ic7. BrainVisa only ships the ic6 sphere, using also 40962 vertices, but which is different from the above BrainVisa one.</li>
+  <li>Human Connectome Project spheres (<tt>hcp 40k</tt>) which have 32492 vertices and are lateralized: there is one mesh for the left hemisphere and another one for the right hemisphere. This lateralization ensures an additional inter-hemisphere vertex-by-vertex correspondance.</li>
+</ul></xhtml>
+      <xhtml name="anat"/>
+      <xhtml name="leftAvgCurv"/>
+      <xhtml name="leftCurvPial"/>
       <xhtml name="leftSphereReg"/>
+      <xhtml name="leftSulciGyri"/>
     </d>
     <xhtml name="long">
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="minf_2.0">
+<d>
+  <d name="fr">
+    <xhtml name="short"/>
+    <d name="parameters">
+      <xhtml name="SphereRegMesh"/>
+      <xhtml name="Isin"/>
+      <xhtml name="destination"/>
+      <xhtml name="icosphere_type"/>
+    </d>
+    <xhtml name="long"/>
+  </d>
+  <d name="en">
+    <xhtml name="short">Compute resampling parameters for meshes and textures onto a template icosphere mesh, needed to actually resample data with vertex-by-vertex correspondance</xhtml>
+    <d name="parameters">
+      <xhtml name="SphereRegMesh">Mesh to be resampled</xhtml>
+      <xhtml name="Isin">Output resampling parameters. Internal format.</xhtml>
+      <xhtml name="destination">target template icosphere. See <tt>icosphere_type</tt> above for an explanation.</xhtml>
+      <xhtml name="icosphere_type">This merely helps the link to the target template icosphere. There are basically 3 sets of meshes:
+<ul>
+  <li>Brainvisa builtin sphere, 40962 vertices</li>
+  <li>Freesurfer icospheres, named ic0, ic1... ic7. BrainVisa only ships the ic6 sphere, using also 40962 vertices, but which is different from the above BrainVisa one.</li>
+  <li>Human Connectome Project spheres (<tt>hcp 40k</tt>) which have 32492 vertices and are lateralized: there is one mesh for the left hemisphere and another one for the right hemisphere. This lateralization ensures an additional inter-hemisphere vertex-by-vertex correspondance.</li>
+</ul></xhtml>
+    </d>
+    <xhtml name="long"/>
+  </d>
+</d>
+</minf>
