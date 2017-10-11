@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import math, sys, time
 from numpy import *
 import numpy
@@ -30,7 +31,7 @@ def remesh(unstructured, target):
 	ufaces = array(unstructured.polygon())
 	# roughly same center and same bounding box
 	if (not allclose(svertex.mean(0), uvertex.mean(0), atol=1e-2)) or (not allclose(svertex.max(0), uvertex.max(0), atol=1e-2)):
-		print "\nWARNING : different mean or max(0)\n"
+		print("\nWARNING : different mean or max(0)\n")
 	polycenters = uvertex[ufaces].mean(1)
 	maxs = sum((uvertex[ufaces] - polycenters[:,newaxis,:])**2, 2).max(1)
 	# precompute some stuffs
@@ -50,10 +51,10 @@ def remesh(unstructured, target):
 	# will iterate on the unstructured-mesh triangles (their centers, actually)
 	triangle = empty((3, 3))
 	a, bc = triangle[0], triangle[1:] # setup some views
-	print time.time() - T
+	print(time.time() - T)
 	for i, p in enumerate(polycenters):
 		if i % 30000 == 0:
-			print i, "/", len(polycenters)
+			print(i, "/", len(polycenters))
 		# find closest points of p : first a rough filter, then an exact filter
 		binxyz = [searchsorted(grid_xyz[x], p[x]) for x in (0, 1, 2)] # le bin de p
 		W = d[0][binxyz[0]].intersection(d[1][binxyz[1]]).intersection(d[2][binxyz[2]])
@@ -81,13 +82,13 @@ def remesh(unstructured, target):
 			elif isinN[n] < 0: # debug
 				isinN[n] -= 1
 				isin[n] = lam, gam
-	print time.time() - T
+	print(time.time() - T)
 	return isinN, isin
 
 #def apply_remesh(remesh_params, orig_mesh, orig_pal):
 #	isinN, isinT = remesh_params[0], transpose(remesh_params[1])
 #	if -1 in isinN:
-#		print "\nWARNING : -1 in remeshing output\n"
+#		print("\nWARNING : -1 in remeshing output\n")
 #	ufaces = orig_mesh.getArraysFromIntent(GiftiIntentCode.NIFTI_INTENT_TRIANGLE)[0].data
 #	T = rollaxis(orig_pal[ufaces[isinN]], 0, 3)
 #	texout = ((1 - isinT[0] - isinT[1]) * T[0] + isinT[0] * T[1] + isinT[1] * T[2]).T
@@ -114,22 +115,22 @@ def remesh(unstructured, target):
 #		dstgii = gifti.loadImage(dstmesh)
 #		for x in srcgii, dstgii:
 #			x.showSummary()
-#		print "computing transformation"
+#		print("computing transformation")
 #		remesh_params = remesh(srcgii, dstgii)
-#		print "applying on palettes"
+#		print("applying on palettes")
 #		texout = apply_remesh(remesh_params, srcgii, numpy.load(srcpal))
 #		numpy.save(open(dstpal, 'w'), texout)
 #	elif len(sys.argv) == 4:
 #		srcmesh, dstmesh, isinFile = sys.argv[1:]
-#		print 'srcmesh', srcmesh
-#		print 'dstmesh', dstmesh
-#		print 'isinFile', isinFile
+#		print('srcmesh', srcmesh)
+#		print('dstmesh', dstmesh)
+#		print('isinFile', isinFile)
 #		assert(srcmesh.endswith('.gii') and dstmesh.endswith('.gii'))
 #		srcgii = gifti.loadImage(srcmesh)
 #		dstgii = gifti.loadImage(dstmesh)
 #		for x in srcgii, dstgii:
 #			x.showSummary()
-#		print "computing transformation"
+#		print("computing transformation")
 #		remesh_params = remesh(srcgii, dstgii)
 #		f = open(isinFile,'w')
 #		pickle.dump(remesh_params, f)
@@ -138,28 +139,28 @@ def remesh(unstructured, target):
 #		# auto test (sans args)
 #		mesh = gifti.loadImage("uvlarge.gii")
 #		sphere = gifti.loadImage("icolarge.gii")
-#		print mesh.showSummary()
-#		print sphere.showSummary()
+#		print(mesh.showSummary())
+#		print(sphere.showSummary())
 #		# same center
-#		print allclose(mesh.arrays[0].data.mean(0), sphere.arrays[0].data.mean(0), atol=1e-4)
+#		print(allclose(mesh.arrays[0].data.mean(0), sphere.arrays[0].data.mean(0), atol=1e-4))
 #		# same bounding box
-#		print allclose(mesh.arrays[0].data.max(0), sphere.arrays[0].data.max(0), atol=1e-2)
+#		print(allclose(mesh.arrays[0].data.max(0), sphere.arrays[0].data.max(0), atol=1e-2))
 #		isinN, isin = remesh(mesh, sphere)
 #		isin_correct = load("isincorrect.npy")
-#		print allclose(column_stack([isinN, isin]), isin_correct)
+#		print(allclose(column_stack([isinN, isin]), isin_correct))
 #
 
 # Brainvisa function
 def regularizeSphericalMesh(srcmesh, isinFile, dstmesh='./ico100_7.mesh'):
-	print "source", srcmesh
-	print "isin", isinFile
-	print "destination", dstmesh
-	srcgii = aims.read(srcmesh)
-	dstgii = aims.read(dstmesh)
-	print "computing transformation"
-	#remesh_params = remesh(srcgii, dstgii)
-	remesh_params = remeshAims(srcgii, dstgii)
-	f = open(isinFile,'w')
-	pickle.dump(remesh_params, f)
-	f.close()
+    print("source", srcmesh)
+    print("isin", isinFile)
+    print("destination", dstmesh)
+    srcgii = aims.read(srcmesh)
+    dstgii = aims.read(dstmesh)
+    print("computing transformation")
+    #remesh_params = remesh(srcgii, dstgii)
+    remesh_params = remeshAims(srcgii, dstgii)
+    f = open(isinFile,'w')
+    pickle.dump(remesh_params, f)
+    f.close()
 

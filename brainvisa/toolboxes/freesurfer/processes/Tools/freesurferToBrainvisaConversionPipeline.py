@@ -7,6 +7,7 @@ userLevel = 0
 signature = Signature(
     'anat', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ',
         enableConversion=False),
+    'icosphere_type', Choice('brainvisa', 'hcp'),
     'nu', ReadDiskItem('Nu FreesurferAnat', 'FreesurferMGZ',
         enableConversion=False),
     'ribbon', ReadDiskItem('Ribbon Freesurfer', 'FreesurferMGZ',
@@ -64,6 +65,7 @@ def initialization( self ):
 
     self.linkParameters('rightPial', 'anat')
     self.linkParameters('rightCurv', 'anat')
+    self.setOptional('icosphere_type')
 
     eNode = SerialExecutionNode(self.name, parameterized=self)
 
@@ -156,12 +158,16 @@ def initialization( self ):
                                         optional=1))
     eNode.addDoubleLink('LfreesurferIsinComputing.SphereRegMesh',
                         'LfreesurferConversionMeshToGii.SphereRegGifti')
+    eNode.addDoubleLink('icosphere_type',
+                        'LfreesurferIsinComputing.icosphere_type')
     eNode.addChild('RfreesurferIsinComputing',
                    ProcessExecutionNode('freesurferIsinComputing',
                                         optional=1))
     eNode.addDoubleLink('RfreesurferIsinComputing.SphereRegMesh',
                         'RfreesurferConversionMeshToGii.SphereRegGifti')
-    
+    eNode.addDoubleLink('icosphere_type',
+                        'RfreesurferIsinComputing.icosphere_type')
+
     # 7
     eNode.addChild('LfreesurferMeshResampling',
                    ProcessExecutionNode('freesurferMeshResampling',
