@@ -8,7 +8,14 @@ userLevel = 2
 
 signature = Signature(
     'mesh', ReadDiskItem('White Mesh', 'aims mesh formats'),
-    'freesurfer_ico_order', Choice(0, 1, 2, 3, 4, 5, 6, 7),
+    'freesurfer_ico_order', Choice(('0: 12 vertices', 0),
+                                   ('1: 42 vertices', 1),
+                                   ('2: 162 vertices', 2),
+                                   ('3: 642 vertices', 3),
+                                   ('4: 2562 vertices', 4),
+                                   ('5: 10242 vertices', 5),
+                                   ('6: 40962 vertices', 6),
+                                   ('7: 163842 vertices', 7)),
     'resampled_mesh', WriteDiskItem('ResampledWhite', 'Aims mesh formats'),
 )
 
