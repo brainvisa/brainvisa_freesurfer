@@ -30,7 +30,7 @@
     <xhtml name="long"/>
   </d>
   <d name="en">
-    <xhtml name="short"/>
+    <xhtml name="short">Convert Freesurfer outputs to GIFTI formats, handle coordinates systems links with BrainVISA/AIMS/Anatomist world, make resampled meshes and textures with direct vertex_to-vertex inter-subject correspondance, based on template sphere meshes.</xhtml>
     <d name="parameters">
       <xhtml name="rightGyri"/>
       <xhtml name="rightAvgCurv"/>
@@ -60,7 +60,8 @@
       <xhtml name="leftSphereReg"/>
       <xhtml name="leftSulciGyri"/>
     </d>
-    <xhtml name="long">
+    <xhtml name="long"><p>Before running this pipeline, a database should have been defined in BrainVISA preferences, which follows the "freesurfer" ontology (see the expert settings of the database).
+</p>
 
 <table cellpadding="10" border="1" cellspacing="0">
 
