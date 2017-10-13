@@ -5,7 +5,7 @@ from brainvisa.processes import (Signature, ReadDiskItem, Choice, OpenChoice,
 from freesurfer.brainvisaFreesurfer import testFreesurferCommand
 
 name = "Freesurfer / BrainVisa full pipeline"
-userLevel = 1
+userLevel = 0
 
 
 def validation():
