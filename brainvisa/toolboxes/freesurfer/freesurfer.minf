@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="brainvisa-tree_2.0">
+<l length="1">
+  <f type="ProcessTree">
+    <s name="name">freesurfer</s>
+    <l length="2" name="content">
+      <f type="ProcessTree.Leaf">
+        <none name="userLevel"/>
+        <true name="editable"/>
+        <s name="id">freesurferToBrainvisaConversionPipeline</s>
+        <none name="name"/>
+      </f>
+    </l>
+  </f>
+</l>
+<s>freesurfer</s>
+</minf>
