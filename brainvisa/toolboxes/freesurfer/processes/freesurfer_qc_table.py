@@ -8,6 +8,7 @@ signature = Signature(
     'database', Choice(),
     'keys', ListOf(String()),
     'data_filters', ListOf(String()),
+    'output_file', WriteDiskItem('Text File', ['HTML', 'PDF file']),
 )
 
 
@@ -22,7 +23,7 @@ def initialization(self):
     else:
         self.signature["database"] = OpenChoice()
 
-    self.setOptional('data_filters')
+    self.setOptional('data_filters', 'output_file')
     self.keys = ['subject']
 
 
@@ -97,6 +98,7 @@ def execution(self, context):
                               data_types=dtypes,
                               data_filters=filters,
                               keys=self.keys,
-                              type_labels=tlabels)
+                              type_labels=tlabels,
+                              output_file=self.output_file)
 
 
