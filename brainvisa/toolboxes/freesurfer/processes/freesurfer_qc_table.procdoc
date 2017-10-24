@@ -16,7 +16,8 @@
     <d name="parameters">
       <xhtml name="keys">Keys are used to sort and display data. One data line will be created for a single keys values combination.</xhtml>
       <xhtml name="data_filters">Additional data filters, see the <a href="bvprocess://database_qc_table">Database QC table</a> process for details.</xhtml>
-      <xhtml name="output_file">Allows to save the QC table as a HTML file (maybe also PDF in the future). If this parameter is filled, then the process will not open the Qt GUI and will run in batch mode.</xhtml>
+      <xhtml name="output_file"><p>Allows to save the QC table as a HTML file. If this parameter is filled, then the process will not open the Qt GUI and will run in batch mode.</p>
+<p>PDF export is also possible, if the program <a href="https://wkhtmltopdf.org">wkhtmltopdf</a> is installad on the system and available in the PATH.</p></xhtml>
       <xhtml name="database">Database to be displayed</xhtml>
     </d>
     <xhtml name="long">See the <a href="bvprocess://database_qc_table">Database QC table</a> process for details.</xhtml>
