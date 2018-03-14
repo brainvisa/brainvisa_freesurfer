@@ -1,184 +1,275 @@
-
 # -*- coding: utf-8 -*-
-import os
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer \
   import launchFreesurferCommand, testFreesurferCommand
-import string
+
 
 name = "Average Subject Longitudinal Pipeline"
 userLevel = 3
 
+
 def validation():
-  testFreesurferCommand()
+    testFreesurferCommand()
+
 
 signature = Signature(
-  'AnatImageTimepoint1', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
-  'AnatImageTimepoint2', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
-  'template_name', String(),
-  'AnatImage', WriteDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
-  'Add_options', String(),
+    'number_of_time_point', Choice(1, 2, 3, 4, 5),
+    'anat_tp1', ReadDiskItem(
+        'RawFreesurferAnat',
+        'FreesurferMGZ'),
+    'subject_tp1', String(),
+    'anat_tp2', ReadDiskItem(
+        'RawFreesurferAnat',
+        'FreesurferMGZ'),
+    'subject_tp2', String(),
+    'anat_tp3', ReadDiskItem(
+        'RawFreesurferAnat',
+        'FreesurferMGZ'),
+    'subject_tp3', String(),
+    'anat_tp4', ReadDiskItem(
+        'RawFreesurferAnat',
+        'FreesurferMGZ'),
+    'subject_tp4', String(),
+    'anat_tp5', ReadDiskItem(
+        'RawFreesurferAnat',
+        'FreesurferMGZ'),
+    'subject_tp5', String(),
+    'database', ReadDiskItem('Directory', 'Directory'),
+    'template_name', String(),
+    'template_anat', WriteDiskItem(
+        'RawFreesurferAnat',
+        'FreesurferMGZ'),
+    'add_options', String(),
 
-  #liens non visible:
-  'leftPial', WriteDiskItem('BaseFreesurferType', 'FreesurferPial',
-         requiredAttributes = {'side': 'left'}),
-  'leftWhite', WriteDiskItem('BaseFreesurferType', 'FreesurferWhite',
-         requiredAttributes = {'side': 'left'}),
-  'leftSphereReg', WriteDiskItem('BaseFreesurferType', 'FreesurferSphereReg',
-         requiredAttributes = {'side': 'left'}),
-  'leftThickness', WriteDiskItem('BaseFreesurferType', 'FreesurferThickness',
-         requiredAttributes = {'side': 'left'}),
-  'leftCurv', WriteDiskItem('BaseFreesurferType', 'FreesurferCurv',
-         requiredAttributes = {'side': 'left'}),
-  'leftAvgCurv', WriteDiskItem('BaseFreesurferType', 'FreesurferAvgCurv',
-         requiredAttributes = {'side': 'left'}),
-  'leftCurvPial', WriteDiskItem('BaseFreesurferType', 'FreesurferCurvPial',
-         requiredAttributes = {'side': 'left'}),
-  'leftGyri', WriteDiskItem('FreesurferGyriTexture', 'FreesurferParcellation',
-         requiredAttributes = {'side': 'left'}),
-  'leftSulciGyri',
-         WriteDiskItem('FreesurferSulciGyriTexture', 'FreesurferParcellation',
-         requiredAttributes = {'side': 'left'}),
+    #liens non visible:
+    #'leftPial', WriteDiskItem('BaseFreesurferType',
+                              #'FreesurferPial',
+                              #requiredAttributes = {'side': 'left'}),
+    #'leftWhite', WriteDiskItem('BaseFreesurferType',
+                               #'FreesurferWhite',
+                               #requiredAttributes = {'side': 'left'}),
+    #'leftSphereReg', WriteDiskItem('BaseFreesurferType',
+                                   #'FreesurferSphereReg',
+                                   #requiredAttributes = {'side': 'left'}),
+    #'leftThickness', WriteDiskItem('BaseFreesurferType',
+                                   #'FreesurferThickness',
+                                   #requiredAttributes = {'side': 'left'}),
+    #'leftCurv', WriteDiskItem('BaseFreesurferType',
+                              #'FreesurferCurv',
+                              #requiredAttributes = {'side': 'left'}),
+    #'leftAvgCurv', WriteDiskItem('BaseFreesurferType',
+                                 #'FreesurferAvgCurv',
+                                 #requiredAttributes = {'side': 'left'}),
+    #'leftCurvPial', WriteDiskItem('BaseFreesurferType',
+                                  #'FreesurferCurvPial',
+                                  #requiredAttributes = {'side': 'left'}),
+    #'leftGyri', WriteDiskItem('FreesurferGyriTexture',
+                              #'FreesurferParcellation',
+                              #requiredAttributes = {'side': 'left'}),
+    #'leftSulciGyri', WriteDiskItem('FreesurferSulciGyriTexture',
+                                   #'FreesurferParcellation',
+                                   #requiredAttributes = {'side': 'left'}),
+    #'rightPial', WriteDiskItem('BaseFreesurferType',
+                               #'FreesurferPial',
+                               #requiredAttributes = {'side': 'right'}),
+    #'rightWhite', WriteDiskItem('BaseFreesurferType',
+                                #'FreesurferWhite',
+                                #requiredAttributes = {'side': 'right'}),
+    #'rightSphereReg', WriteDiskItem('BaseFreesurferType',
+                                    #'FreesurferSphereReg',
+                                    #requiredAttributes = {'side': 'right'}),
+    #'rightThickness', WriteDiskItem('BaseFreesurferType',
+                                    #'FreesurferThickness',
+                                    #requiredAttributes = {'side': 'right'}),
+    #'rightCurv', WriteDiskItem('BaseFreesurferType',
+                               #'FreesurferCurv',
+                               #requiredAttributes = {'side': 'right'}),
+    #'rightAvgCurv', WriteDiskItem('BaseFreesurferType',
+                                  #'FreesurferAvgCurv',
+                                  #requiredAttributes = {'side': 'right'}),
+    #'rightCurvPial', WriteDiskItem('BaseFreesurferType',
+                                   #'FreesurferCurvPial',
+                                   #requiredAttributes = {'side': 'right'}),
+    #'rightGyri', WriteDiskItem('FreesurferGyriTexture',
+                               #'FreesurferParcellation',
+                               #requiredAttributes = {'side': 'right'}),
+    #'rightSulciGyri', WriteDiskItem('FreesurferSulciGyriTexture',
+                                    #'FreesurferParcellation',
+                                    #requiredAttributes = {'side': 'right'}),
+)
 
-  'rightPial', WriteDiskItem('BaseFreesurferType', 'FreesurferPial',
-         requiredAttributes = {'side': 'right'}),
-  'rightWhite', WriteDiskItem('BaseFreesurferType', 'FreesurferWhite',
-         requiredAttributes = {'side': 'right'}),
-  'rightSphereReg', WriteDiskItem('BaseFreesurferType', 'FreesurferSphereReg',
-         requiredAttributes = {'side': 'right'}),
-  'rightThickness', WriteDiskItem('BaseFreesurferType', 'FreesurferThickness',
-         requiredAttributes = {'side': 'right'}),
-  'rightCurv', WriteDiskItem('BaseFreesurferType', 'FreesurferCurv',
-         requiredAttributes = {'side': 'right'}),
-  'rightAvgCurv', WriteDiskItem('BaseFreesurferType', 'FreesurferAvgCurv',
-         requiredAttributes = {'side': 'right'}),
-  'rightCurvPial', WriteDiskItem('BaseFreesurferType', 'FreesurferCurvPial',
-         requiredAttributes = {'side': 'right'}),
-  'rightGyri', WriteDiskItem('FreesurferGyriTexture', 'FreesurferParcellation',
-         requiredAttributes = {'side': 'right'}),
-  'rightSulciGyri',
-         WriteDiskItem('FreesurferSulciGyriTexture', 'FreesurferParcellation',
-         requiredAttributes = {'side': 'right'}),
 
-  'subject_tp1', String(),
-  'subject_tp2', String(),
-  'db', ReadDiskItem('Directory', 'Directory')
+#def buildNewSignature(self, number):
+    #signature_params = ['number_of_time_point', Choice(1, 2, 3, 4, 5)]
+    #for i in range(number):
+        #signature_params += ['anat_tp'+str(i+1),
+                             #ReadDiskItem('RawFreesurferAnat',
+                                          #'FreesurferMGZ'),
+                             #'subject_tp'+str(i+1), String()]
+    #signature_params += [
+        #'database', ReadDiskItem('Directory', 'Directory'),
+        #'template_name', String(),
+        #'template_anat', WriteDiskItem(
+            #'RawFreesurferAnat',
+            #'FreesurferMGZ'),
+        #'add_options', String()]
 
-  )
+    #signature = Signature(*signature_params)
+    #self.changeSignature(signature)
+
+def updateSignature(self, number):
+    for i in range(2, 6):
+        if i <= number:
+            self.setEnable('anat_tp'+str(i))
+            self.setEnable('subject_tp'+str(i))
+        else:
+            self.setDisable('anat_tp'+str(i))
+            self.setDisable('subject_tp'+str(i))
+    self.changeSignature(self.signature)
+
 
 def initialization(self):
-#  def linkTemplateName( proc, dummy ):
-#    if proc.AnatImageTimepoint1 is not None and proc.AnatImageTimepoint2 is not None:
-#      print proc.AnatImageTimepoint1.get('subject')
-#      print proc.AnatImageTimepoint1
-#      subject_tp1, timepoint1 = string.split(proc.AnatImageTimepoint1.get('subject'), '_acquis_')
-#      subject_tp2, timepoint2 = string.split(proc.AnatImageTimepoint2.get('subject'), '_acquis_')
-#      assert(subject_tp1 == subject_tp2)
-#      subject_ave = subject_tp1 + '_template'
-#      return proc.AnatImageTimepoint1
+    
+    def linkDB(proc, dummy):
+        databases = []
+        for i in range(self.number_of_time_point):
+            anat = self.__dict__['anat_tp'+str(i+1)]
+            if anat is not None:
+                databases.append(anat.get('_database'))
+        if len(databases) == self.number_of_time_point:
+            if all(x == databases[0] for x in databases):
+                return databases[0]
+            else:
+                #context.Error('Anat images were selected from different databases')
+                print 'Anat images were selected from different databases'
+    
+    def linkSubjectName(param, proc, dummy):
+        if self.__dict__[param] is not None:
+            subject = self.__dict__[param].get('subject')
+            return subject
+    
+    def linkTemplateName(proc, dummy):
+        subjects = []
+        tp = []
+        for i in range(self.number_of_time_point):
+            sub = self.__dict__['subject_tp'+str(i+1)]
+            if sub is not None:
+                subjects.append(sub.split('_')[0])
+                tp.append(sub.split('_')[1])
+        if len(subjects)== self.number_of_time_point:
+            if len(set(subjects)) == 1:
+                subject_ave = list(set(subjects))[0] + '_avgtemplate_' + '_'.join(tp)
+                return subject_ave
+            else:
+                #context.Error('Error in subject name')
+                print 'Error in subject name'
+                
+    def linkAnatTemplatePath(proc, dummy):
+        if self.template_name is not None and self.database is not None:
+            dirname = self.database.fullPath()
+            filepath = os.path.join(dirname,
+                                    self.template_name,
+                                    'mri/orig/001.mgz')
+            return filepath
 
-  def linkAnatImageName( proc, dummy):
-    if proc.AnatImageTimepoint1 is not None and proc.AnatImageTimepoint1.get('_database') is not None and proc.template_name is not None:
-      subject = proc.template_name
-      dirname = proc.AnatImageTimepoint1.get('_database')
-      filename = os.path.join( dirname, subject, 'mri/orig/001.mgz' )
-      return filename
+    self.addLink(None, 'number_of_time_point', self.updateSignature)
+    
+    for i in range(1,6):
+        self.linkParameters('subject_tp'+str(i), 'anat_tp'+str(i),
+                            partial(linkSubjectName,
+                                    'anat_tp'+str(i)))
+    self.linkParameters('database',
+                        ('anat_tp1', 'anat_tp2', 'anat_tp3',
+                         'anat_tp4', 'anat_tp5'),
+                        linkDB)
+    self.linkParameters('template_name',
+                        ('subject_tp1', 'subject_tp2', 'subject_tp3',
+                         'subject_tp4', 'subject_tp5'),
+                        linkTemplateName)
+    self.linkParameters('template_anat',
+                        ('template_name', 'database'),
+                        linkAnatTemplatePath)
+    
+    self.number_of_time_point = 2
+    self.setOptional('add_options')
 
-  def linkSubjectNames( proc, dummy):
-    if proc.AnatImageTimepoint1 is not None and proc.AnatImageTimepoint2 is not None and\
-        proc.AnatImageTimepoint1.get('subject') is not None and proc.AnatImageTimepoint2.get('subject') is not None:
-        proc.subject_tp1 = proc.AnatImageTimepoint1.get('subject')
-        proc.subject_tp2 = proc.AnatImageTimepoint2.get('subject')
-        print 'toto', proc.subject_tp1
-        subject_tp1, timepoint1 = string.split(str(proc.subject_tp1), '_acquis_')
-        subject_tp2, timepoint2 = string.split(str(proc.subject_tp2), '_acquis_')
-        assert(subject_tp1 == subject_tp2)
-        subject_ave = subject_tp1 + '_template_' + str(proc.subject_tp1) + '_versus_' + str(proc.subject_tp2)
-        proc.template_name = subject_ave
-        print proc.template_name
-        return proc.template_name
+    #self.linkParameters('leftPial', 'templateAnatImage')
+    #self.linkParameters('leftWhite', 'templateAnatImage')
+    #self.linkParameters('leftSphereReg', 'templateAnatImage')
+    #self.linkParameters('leftThickness', 'templateAnatImage')
+    #self.linkParameters('leftCurv', 'templateAnatImage')
+    #self.linkParameters('leftAvgCurv', 'templateAnatImage')
+    #self.linkParameters('leftCurvPial', 'templateAnatImage')
+    #self.linkParameters('leftGyri', 'templateAnatImage')
+    #self.linkParameters('leftSulciGyri', 'templateAnatImage')
+    #self.linkParameters('rightPial', 'templateAnatImage')
+    #self.linkParameters('rightWhite', 'templateAnatImage')
+    #self.linkParameters('rightSphereReg', 'templateAnatImage')
+    #self.linkParameters('rightThickness', 'templateAnatImage')
+    #self.linkParameters('rightCurv', 'templateAnatImage')
+    #self.linkParameters('rightAvgCurv', 'templateAnatImage')
+    #self.linkParameters('rightCurvPial', 'templateAnatImage')
+    #self.linkParameters('rightGyri', 'templateAnatImage')
+    #self.linkParameters('rightSulciGyri', 'templateAnatImage')
+    
+    #self.signature['leftPial'].userLevel = 3
+    #self.signature['leftWhite'].userLevel = 3
+    #self.signature['leftSphereReg'].userLevel = 3
+    #self.signature['leftThickness'].userLevel = 3
+    #self.signature['leftCurv'].userLevel = 3
+    #self.signature['leftAvgCurv'].userLevel = 3
+    #self.signature['leftCurvPial'].userLevel = 3
+    #self.signature['leftGyri'].userLevel = 3
+    #self.signature['leftSulciGyri'].userLevel = 3
+    #self.signature['rightPial'].userLevel = 3
+    #self.signature['rightWhite'].userLevel = 3
+    #self.signature['rightSphereReg'].userLevel = 3
+    #self.signature['rightThickness'].userLevel = 3
+    #self.signature['rightCurv'].userLevel = 3
+    #self.signature['rightAvgCurv'].userLevel = 3
+    #self.signature['rightCurvPial'].userLevel = 3
+    #self.signature['rightGyri'].userLevel = 3
+    #self.signature['rightSulciGyri'].userLevel = 3
 
-  def linkDB( proc, dummy):
-    if proc.AnatImage is not None:
-        proc.db = proc.AnatImage.get('_database')
-        return proc.db
+    #self.signature['subject_tp1'].userLevel = 3
+    #self.signature['subject_tp2'].userLevel = 3
+    #self.signature['database'].userLevel = 3
 
-  self.setOptional('Add_options')
-
-  self.linkParameters( 'template_name', ('AnatImageTimepoint1', 'AnatImageTimepoint2'), linkSubjectNames)
-  self.linkParameters( 'AnatImage', ('template_name', 'AnatImageTimepoint1'), linkAnatImageName)
-  self.linkParameters( 'db', 'AnatImage' , linkDB)
-  self.linkParameters( 'leftPial', 'AnatImage' )
-  self.linkParameters( 'leftWhite', 'AnatImage' )
-  self.linkParameters( 'leftSphereReg', 'AnatImage' )
-  self.linkParameters( 'leftThickness', 'AnatImage' )
-  self.linkParameters( 'leftCurv', 'AnatImage' )
-  self.linkParameters( 'leftAvgCurv', 'AnatImage' )
-  self.linkParameters( 'leftCurvPial', 'AnatImage' )
-  self.linkParameters( 'leftGyri', 'AnatImage' )
-  self.linkParameters( 'leftSulciGyri', 'AnatImage' )
-
-  self.linkParameters( 'rightPial', 'AnatImage' )
-  self.linkParameters( 'rightWhite', 'AnatImage' )
-  self.linkParameters( 'rightSphereReg', 'AnatImage' )
-  self.linkParameters( 'rightThickness', 'AnatImage' )
-  self.linkParameters( 'rightCurv', 'AnatImage' )
-  self.linkParameters( 'rightAvgCurv', 'AnatImage' )
-  self.linkParameters( 'rightCurvPial', 'AnatImage' )
-  self.linkParameters( 'rightGyri', 'AnatImage' )
-  self.linkParameters( 'rightSulciGyri', 'AnatImage' )
-
-  self.signature['leftPial'].userLevel = 3
-  self.signature['leftWhite'].userLevel = 3
-  self.signature['leftSphereReg'].userLevel = 3
-  self.signature['leftThickness'].userLevel = 3
-  self.signature['leftCurv'].userLevel = 3
-  self.signature['leftAvgCurv'].userLevel = 3
-  self.signature['leftCurvPial'].userLevel = 3
-  self.signature['leftGyri'].userLevel = 3
-  self.signature['leftSulciGyri'].userLevel = 3
-
-  self.signature['rightPial'].userLevel = 3
-  self.signature['rightWhite'].userLevel = 3
-  self.signature['rightSphereReg'].userLevel = 3
-  self.signature['rightThickness'].userLevel = 3
-  self.signature['rightCurv'].userLevel = 3
-  self.signature['rightAvgCurv'].userLevel = 3
-  self.signature['rightCurvPial'].userLevel = 3
-  self.signature['rightGyri'].userLevel = 3
-  self.signature['rightSulciGyri'].userLevel = 3
-
-  self.signature['subject_tp1'].userLevel = 3
-  self.signature['subject_tp2'].userLevel = 3
-  self.signature['db'].userLevel = 3
 
 def execution(self, context):
-  subject_tp1 = self.subject_tp1 #AnatImageTimepoint1.get('subject')
-  if subject_tp1 is None:
-    subject_tp1 = os.path.basename( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImageTimepoint1.fullPath() ) ) ) )
-  subject_tp2 = self.subject_tp2 #AnatImageTimepoint1.get('subject')
-  if subject_tp2 is None:
-    subject_tp2 = os.path.basename( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImageTimepoint2.fullPath() ) ) ) )
-  subject_ave = self.template_name #AnatImage.get('subject')
-  context.write('Launch the Freesurfer pipeline on subject timepoints ' + subject_tp1 + subject_tp2 + subject_ave )
-  database = self.db.fullPath() #AnatImage.get('_database')
-  if not database:
-    database = os.path.dirname( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImage.fullPath() ) ) ) )
+    #subject_tp1 = self.subject_tp1 #AnatImageTimepoint1.get('subject')
+    #if subject_tp1 is None:
+        #subject_tp1 = os.path.basename( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImageTimepoint1.fullPath() ) ) ) )
+    #subject_tp2 = self.subject_tp2 #AnatImageTimepoint1.get('subject')
+    #if subject_tp2 is None:
+        #subject_tp2 = os.path.basename( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImageTimepoint2.fullPath() ) ) ) )
+    
+    #subject_ave = self.template_name #templateAnatImage.get('subject')
+    
+    if not self.database:
+        database = os.path.dirname(
+            os.path.dirname(
+                os.path.dirname(os.path.dirname(self.template_anat.fullPath()))))
+    else:
+        database = self.database.fullPath()
 
+    kwargs={}
+    args = ['recon-all', '-base', self.template_name]
+    for i in range(self.number_of_time_point):
+        args.append('-tp')
+        sub = 'subject_tp'+str(i+1)
+        args.append(self.__dict__[sub])
+    args.append('-all')
+    
+    if self.add_options is not None :
+        liste_option = string.split(self.add_options)
+        for option in liste_option :
+            args.append(option)
 
-  context.write('recon-all -base %s -autorecon-all -tp %s -tp %s'%(subject_ave, subject_tp1, subject_tp2))
+    context.write('Create the freesurfer average template from time points')
+    #context.write('recon-all -base %s -tp %s -tp %s -all'%(self.template_name, self.subject_tp1, self.subject_tp2))
+    context.write(args)
+    launchFreesurferCommand(context, database, *args, **kwargs)
 
-  #launchFreesurferCommand(context, database, args)
-  kwargs={}
-  args = ['recon-all', '-base', subject_ave, '-autorecon-all', '-tp', subject_tp1, '-tp', subject_tp2]
-  if self.Add_options is not None :
-    liste_option = string.split(self.Add_options)
-    for option in liste_option :
-      args.append(option)
-
-  launchFreesurferCommand(context, database, *args, **kwargs)
-  #launchFreesurferCommand(context, database, 'recon-all', '-autorecon-all', '-subjid', subject, **kwargs )
-  #launchFreesurferCommand(context, database, 'recon-all', '-autorecon-all', '-subjid', subject )
-
-#  neuroHierarchy.databases.update( [ os.path.join( database, subject ) ] )
+    #neuroHierarchy.databases.update([os.path.join(self.database, self.template_name)])
 
