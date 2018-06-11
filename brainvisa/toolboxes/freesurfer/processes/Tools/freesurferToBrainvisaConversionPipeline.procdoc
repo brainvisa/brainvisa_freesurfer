@@ -3,31 +3,31 @@
 <d>
   <d name="fr">
     <xhtml name="short"/>
+    <xhtml name="long"/>
     <d name="parameters">
       <xhtml name="rightGyri"/>
       <xhtml name="rightAvgCurv"/>
       <xhtml name="leftGyri"/>
       <xhtml name="rightWhite"/>
-      <xhtml name="leftCurv"/>
+      <xhtml name="leftWhite"/>
       <xhtml name="ribbon"/>
       <xhtml name="rightCurv"/>
       <xhtml name="rightSulciGyri"/>
       <xhtml name="rightThickness"/>
-      <xhtml name="leftWhite"/>
+      <xhtml name="leftCurv"/>
       <xhtml name="nu"/>
       <xhtml name="leftThickness"/>
-      <xhtml name="rightPial"/>
+      <xhtml name="icosphere_type"/>
       <xhtml name="rightSphereReg"/>
       <xhtml name="rightCurvPial"/>
       <xhtml name="leftPial"/>
-      <xhtml name="icosphere_type"/>
+      <xhtml name="rightPial"/>
       <xhtml name="anat"/>
       <xhtml name="leftAvgCurv"/>
       <xhtml name="leftCurvPial"/>
-      <xhtml name="leftSphereReg"/>
       <xhtml name="leftSulciGyri"/>
+      <xhtml name="leftSphereReg"/>
     </d>
-    <xhtml name="long"/>
   </d>
   <d name="en">
     <xhtml name="short">Convert Freesurfer outputs to GIFTI formats, handle coordinates systems links with BrainVISA/AIMS/Anatomist world, make resampled meshes and textures with direct vertex_to-vertex inter-subject correspondance, based on template sphere meshes.</xhtml>
@@ -135,7 +135,28 @@
 <td>Concatenate right and left textures to bh.r.aparc.annot.gii and bh.r.aparc.a2009s.annot.gii.</td>
 </tr>
 
-</table></xhtml>
+</table>
+
+<h2>Note on coordinates systems</h2>
+
+<div class="warning">
+  <h5>Important: incorrect behavior in BV 4.6.0</h5>
+
+  For what I have understood, the Freesurfer toolbox for BrainVISA did not handle them well in BrainVisa 4.6.0. They appeared to be OK for Freesurfer 5.3 but not for Freesurfer 6.
+</div>
+
+<ul>
+  <li><tt>orig/001.mgz</tt> is the "native space" MRI. It has a "scanner-based" transform which can make the link to other images in Freesurfer.
+  </li>
+  <li><tt>nu.mrg</tt>, <tt>ribbon.mgz</tt> etc are in a resampled space (1mm) different from <tt>orig/001.mgz</tt>. Their scanner-based transform is OK however.
+  </li>
+  <li><tt>transforms/talairach.auto.xfm</tt> transforms from the Scanner-based referential to the MNI space.
+  </li>
+  <li>Meshes have internal transforms going from their coordinates system to the MNI ("Talairach") space. We don't really care their own coordinates system this way (and actually I'm not sure we have understood it, hence the problems in Brainvisa 4.6).
+  </li>
+</ul>
+Combining all this we can transform any data to any other one. The pipeline in BrainVisa 4.7 has been updated.
+</xhtml>
   </d>
 </d>
 </minf>

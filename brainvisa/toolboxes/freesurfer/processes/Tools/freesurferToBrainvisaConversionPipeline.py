@@ -112,8 +112,11 @@ def initialization( self ):
     eNode.addChild('CreateMeshesTransformation',
                    ProcessExecutionNode('freesurferAnatToMeshesTransformation',
                                         optional=1))
-    eNode.CreateMeshesTransformation.removeLink('freesurfer_meshes_referential',
-                                                'anat')
+    eNode.CreateMeshesTransformation.removeLink(
+        'freesurfer_meshes_referential', 'anat')
+    eNode.addDoubleLink('CreateMeshesTransformation.scanner_based_to_mni',
+                        'MNI_transformation.transform_to_mni')
+    eNode.addDoubleLink('CreateMeshesTransformation.fs_mesh', 'leftPial')
     eNode.CreateMeshesTransformation.removeLink('anat_referential', 'anat')
     eNode.addDoubleLink('BfreesurferImageToNii.NiiAnatImage',
                         'CreateMeshesTransformation.anat')

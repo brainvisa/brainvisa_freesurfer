@@ -82,27 +82,12 @@ def execution(self, context):
     self.NiiAnatImage.saveMinf()
     self.NiiNuImage.saveMinf()
     self.NiiRibbonImage.saveMinf()
-    context.system(os.path.basename(sys.executable), '-c',
-                   'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");' % (self.NiiAnatImage.fullPath()))
-    context.system(os.path.basename(sys.executable), '-c',
-                   'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");' % (self.NiiNuImage.fullPath()))
-    context.system(os.path.basename(sys.executable), '-c',
-                   'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");' % (self.NiiRibbonImage.fullPath()))
-    self.NiiAnatImage.readAndUpdateMinf()
-    self.NiiNuImage.readAndUpdateMinf()
-    self.NiiRibbonImage.readAndUpdateMinf()
 
     # referential
     if self.referential is not None:
         self.NiiAnatImage.setMinf('referential', self.referential.uuid(),
                                   saveMinf=True)
-        self.NiiNuImage.setMinf('referential', self.referential.uuid(),
-                                saveMinf=True)
-        self.NiiRibbonImage.setMinf('referential', self.referential.uuid(),
-                                    saveMinf=True)
-    registration.getTransformationManager().copyReferential(self.referential,
-                                                            self.NiiAnatImage)
-    registration.getTransformationManager().copyReferential(self.referential,
-                                                            self.NiiNuImage)
-    registration.getTransformationManager().copyReferential(self.referential,
-                                                            self.NiiRibbonImage)
+        registration.getTransformationManager().copyReferential(
+            self.referential, self.NiiAnatImage)
+    # Nu and ribbon are in a different referential as Anat. For now we
+    # don't set it. Their scanner-based transform should help to make the link.
