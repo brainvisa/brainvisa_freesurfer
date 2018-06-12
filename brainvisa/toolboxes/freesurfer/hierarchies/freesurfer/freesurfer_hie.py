@@ -68,11 +68,11 @@ hierarchy = (
         'meshcut', SetContent(
         "snapshot_freesurfer_meshcut_{subject}", SetType('Snapshot Meshcut'), SetWeakAttr('processing', 'freesurfer'),
          ),
-        'aimspial', apply(SetContent,snap_aimspial_content),
-        'aimswhite', apply(SetContent, snap_aimswhite_content),
-        'thickness', apply(SetContent, snap_thickness_content),
-        'gyri', apply(SetContent, snap_gyri_content),
-        'curv', apply(SetContent, snap_curv_content),
+        'aimspial', SetContent(*snap_aimspial_content),
+        'aimswhite', SetContent(*snap_aimswhite_content),
+        'thickness', SetContent(*snap_thickness_content),
+        'gyri', SetContent(*snap_gyri_content),
+        'curv', SetContent(*snap_curv_content),
         ),
       ),
     'tables',SetContent(
