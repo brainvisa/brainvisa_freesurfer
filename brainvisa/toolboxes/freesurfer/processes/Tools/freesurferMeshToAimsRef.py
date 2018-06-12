@@ -9,7 +9,11 @@ userlevel = 2
 signature = Signature(
     'ResampledPialMesh', ReadDiskItem('ResampledPial', 'Aims mesh formats'),
     'ResampledWhiteMesh', ReadDiskItem('ResampledWhite', 'Aims mesh formats'),
-    'bv_anat', ReadDiskItem('RawFreesurferAnat', 'Aims readable volume formats'),
+    'bv_anat', ReadDiskItem('RawFreesurferAnat',
+                            'Aims readable volume formats'),
+    'scanner_based_to_mni',
+        ReadDiskItem('Freesurfer Scanner To MNI Transformation',
+                     'Transformation matrix'),
     'AimsPial', WriteDiskItem('AimsPial', 'Aims mesh formats'),
     'AimsWhite', WriteDiskItem('AimsWhite', 'Aims mesh formats',
                                exactType=True),
@@ -27,16 +31,23 @@ def execution(self, context):
   cmd = 'from freesurfer.freesurferMeshToAimsMesh import freesurferMeshToAimsMesh as f;'
 
   #context.write('%s -c '+cmd+' f(\"%s\", \"%s\", \"%s\");'%(os.path.basename(sys.executable), self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
-  context.pythonSystem('-c', cmd+'f(\"%s\", \"%s\", \"%s\");'%(self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
+  context.pythonSystem(
+      '-c',
+      cmd + ' f(\"%s\", \"%s\", \"%s\", \"%s\");'
+        %(self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(),
+          self.scanner_based_to_mni.fullPath(), self.AimsPial.fullPath()))
 
   #context.write('%s -c '+cmd+' f(\"%s\", \"%s\", \"%s\");'%(os.path.basename(sys.executable), self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
-  context.pythonSystem('-c', cmd+'f(\"%s\", \"%s\", \"%s\");'%(self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
+  context.pythonSystem(
+      '-c',
+      cmd + ' f(\"%s\", \"%s\", \"%s\", \"%s\");'
+          %(self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(),
+            self.scanner_based_to_mni.fullPath(), self.AimsWhite.fullPath()))
 
-  context.write( 'material:', self.AimsPial.get( 'material' ) )
-  if self.AimsPial.get( 'material' ):
-    self.AimsPial.removeMinf( 'material', saveMinf=True )
-  if self.AimsWhite.get( 'material' ):
-    self.AimsWhite.removeMinf( 'material', saveMinf=True )
+  if self.AimsPial.get('material'):
+      self.AimsPial.removeMinf( 'material', saveMinf=True )
+  if self.AimsWhite.get('material'):
+      self.AimsWhite.removeMinf( 'material', saveMinf=True )
   tm = registration.getTransformationManager()
   tm.copyReferential( self.bv_anat, self.AimsPial )
   tm.copyReferential( self.bv_anat, self.AimsWhite )

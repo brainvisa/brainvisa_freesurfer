@@ -186,6 +186,10 @@ def initialization( self ):
                         'LfreesurferIsinComputing.destination')
     eNode.addDoubleLink('LfreesurferMeshResampling.Isin',
                         'LfreesurferIsinComputing.Isin')
+    # destination has already a value in freesurferIsinComputing, so will
+    # not propagate automatically at the beginning
+    eNode.LfreesurferMeshResampling.setValue(
+        'destination', eNode.LfreesurferIsinComputing.destination)
 
     eNode.addChild('RfreesurferMeshResampling',
                    ProcessExecutionNode('freesurferMeshResampling',
@@ -201,6 +205,11 @@ def initialization( self ):
                         'RfreesurferIsinComputing.destination')
     eNode.addDoubleLink('RfreesurferMeshResampling.Isin',
                         'RfreesurferIsinComputing.Isin')
+    # destination has already a value in freesurferIsinComputing, so will
+    # not propagate automatically at the beginning
+    eNode.RfreesurferMeshResampling.setValue(
+        'destination', eNode.RfreesurferIsinComputing.destination)
+
     # 8
     eNode.addChild('LfreesurferMeshToAimsRef',
                    ProcessExecutionNode('freesurferMeshToAimsRef',
@@ -214,6 +223,8 @@ def initialization( self ):
                         'LfreesurferMeshResampling.ResampledWhiteMesh')
     eNode.addDoubleLink('LfreesurferMeshToAimsRef.bv_anat',
                         'BfreesurferImageToNii.NiiAnatImage')
+    eNode.addDoubleLink('LfreesurferMeshToAimsRef.scanner_based_to_mni',
+                        'MNI_transformation.transform_to_mni')
 
     eNode.addChild('RfreesurferMeshToAimsRef',
                    ProcessExecutionNode('freesurferMeshToAimsRef',
@@ -225,6 +236,8 @@ def initialization( self ):
                         'RfreesurferMeshResampling.ResampledWhiteMesh')
     eNode.addDoubleLink('RfreesurferMeshToAimsRef.bv_anat',
                         'BfreesurferImageToNii.NiiAnatImage')
+    eNode.addDoubleLink('RfreesurferMeshToAimsRef.scanner_based_to_mni',
+                        'MNI_transformation.transform_to_mni')
 
     # 9/10
     eNode.addChild('LfreesurferLabelToAimsTexture',
