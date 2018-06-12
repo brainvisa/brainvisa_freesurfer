@@ -14,7 +14,7 @@ def validation():
 
 signature = Signature(
   'AnatImageTimepoint', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
-  'AnatImageTemplate', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
+  'AnatImageTemplate', ReadDiskItem('T1 FreesurferAnat', 'FreesurferMGZ'),
   'Add_options', String(),
   'subject_tp', String(),
   'subject_template', String(),
@@ -23,13 +23,17 @@ signature = Signature(
   )
 
 def initialization(self):
-  def linkSubjectNames(proc, dummy):
-    if proc.AnatImageTimepoint is not None and proc.AnatImageTemplate is not None and\
-        proc.AnatImageTimepoint.get('subject') is not None and\
-        proc.AnatImageTemplate.get('subject') is not None :
-      proc.subject_tp = proc.AnatImageTimepoint.get('subject')
-      proc.subject_template = proc.AnatImageTemplate.get('subject')
-      return proc.subject_tp
+  def linkSubjectName(param, proc, dummy):
+    if self.__dict__[param] is not None:
+      subject = self.__dict__[param].get('subject')
+      return subject
+  #def linkSubjectNames(proc, dummy):
+    #if proc.AnatImageTimepoint is not None and proc.AnatImageTemplate is not None and\
+        #proc.AnatImageTimepoint.get('subject') is not None and\
+        #proc.AnatImageTemplate.get('subject') is not None :
+      #proc.subject_tp = proc.AnatImageTimepoint.get('subject')
+      #proc.subject_template = proc.AnatImageTemplate.get('subject')
+      #return proc.subject_tp
 
   def linkDB(proc, dummy):
     if proc.AnatImageTimepoint is not None and proc.AnatImageTimepoint.get('_database') is not None:
@@ -38,7 +42,11 @@ def initialization(self):
 
   self.setOptional('Add_options')
   self.setOptional('AnatImageTemplate')
-  self.linkParameters('subject_tp', ('AnatImageTimepoint', 'AnatImageTemplate'), linkSubjectNames)
+  self.linkParameters('subject_tp', 'AnatImageTimepoint',
+                      partial(linkSubjectName, 'AnatImageTimepoint'))
+  self.linkParameters('subject_template', 'AnatImageTemplate',
+                      partial(linkSubjectName, 'AnatImageTemplate'))
+  #self.linkParameters('subject_tp', ('AnatImageTimepoint', 'AnatImageTemplate'), linkSubjectNames)
   self.linkParameters('db', 'AnatImageTimepoint', linkDB)
   self.signature['subject_tp'].userLevel = 3
   self.signature['subject_template'].userLevel = 3
@@ -55,11 +63,11 @@ def execution(self, context):
     database = os.path.dirname( os.path.dirname( os.path.dirname( os.path.dirname( self.AnatImage.fullPath() ) ) ) )
 
 
-  context.write('recon-all -long %s %s -autorecon-all'%(subject_template, subject_tp))
+  context.write('recon-all -long %s %s -all'%(subject_template, subject_tp))
 
   #launchFreesurferCommand(context, database, args)
   kwargs={}
-  args = ['recon-all', '-long', subject_tp, subject_template, '-autorecon-all']
+  args = ['recon-all', '-long', subject_tp, subject_template, '-all']
   if self.Add_options is not None :
     liste_option = string.split(self.Add_options)
     for option in liste_option :
