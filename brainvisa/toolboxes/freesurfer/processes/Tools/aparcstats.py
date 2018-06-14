@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
@@ -43,7 +45,7 @@ def initialization(self):
             if all(x == dbs[0] for x in dbs):
                 return dbs[0]
             else:
-                print 'Anat images were selected from two different databases.'
+                print('Anat images were selected from two different databases.')
     
     def linkSubject(self, dummy):
         if self.anat_images:
