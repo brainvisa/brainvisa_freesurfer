@@ -1,5 +1,7 @@
 
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+
 from brainvisa.processes import *
 
 name = 'Freesurfer / BrainVisa full pipeline longitudinal'
@@ -26,7 +28,7 @@ def initialization( self ):
       acquisition = proc.RawT1Image.get('acquisition')
       if acquisition is not None:
         return os.path.basename( os.path.dirname( os.path.dirname( os.path.dirname( proc.RawT1Image.fullName() ) ) ) ) + '_acquis_' + acquisition
-      print 'no acquisition for RawT1Image:', proc.RawT1Image
+      print('no acquisition for RawT1Image:', proc.RawT1Image)
   #self.linkParameters( 'subjectName', 'RawT1Image', linkSubjectName )
   def linkAnatImage( proc, dummy ):
     if proc.subjectName is not None and proc.database is not None:
@@ -94,8 +96,8 @@ def initialization( self ):
   eNode.addDoubleLink('FreeSurferAverageSubjectLongitudinal01.AnatImage', 'FreeSurferLongitudinal.FreeSurferLongitudinalTp1.AnatImageTemplate')
   eNode.addDoubleLink('FreeSurferAverageSubjectLongitudinal01.AnatImage', 'FreeSurferLongitudinal.FreeSurferLongitudinalTp2.AnatImageTemplate')
 
-  print eNode.child('FreeSurferCrossSectional').child('FreeSurferSubjectTp1').child('FreeSurfer01').signature
-  #print eNode.child('FreeSurferLongitudinal').child('FreeSurferLongitudinalTp1').signature
+  print(eNode.child('FreeSurferCrossSectional').child('FreeSurferSubjectTp1').child('FreeSurfer01').signature)
+  #print(eNode.child('FreeSurferLongitudinal').child('FreeSurferLongitudinalTp1').signature)
   eNode.addDoubleLink('FreeSurferCrossSectional.FreeSurferSubjectTp1.FSdatabase', 'FSdatabase')
   eNode.addDoubleLink('FreeSurferCrossSectional.FreeSurferSubjectTp2.FSdatabase', 'FSdatabase')
   eNode.FreeSurferCrossSectional.FreeSurferSubjectTp1.addDoubleLink('FSdatabase', 'FreeSurfer01.database')
