@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer \
   import launchFreesurferCommand, testFreesurferCommand
@@ -141,7 +143,7 @@ def initialization(self):
                 return databases[0]
             else:
                 #context.Error('Anat images were selected from different databases')
-                print 'Anat images were selected from different databases'
+                print('Anat images were selected from different databases')
     
     def linkSubjectName(param, proc, dummy):
         if self.__dict__[param] is not None:
@@ -162,7 +164,7 @@ def initialization(self):
                 return subject_ave
             else:
                 #context.Error('Error in subject name')
-                print 'Error in subject name'
+                print('Error in subject name')
                 
     def linkAnatTemplatePath(proc, dummy):
         if self.template_name is not None and self.database is not None:
