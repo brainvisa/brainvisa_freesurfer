@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from soma import aims
 import numpy
 import sys
@@ -20,6 +22,6 @@ split = aims.read( splitname )
 sdat = numpy.asarray( split )
 dat[ sdat != 0 ] = 0
 sdat += dat
-print split
+print(split)
 aims.write( split, outfile )
 

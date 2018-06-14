@@ -1,4 +1,6 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python
+from __future__ import print_function
+
 from numpy import dot, array
 from soma import aims
 from scipy.io import loadmat
@@ -26,8 +28,8 @@ def normalizeMesh(anat, anat_mat, normanat, meshpath, output):
 
 
 def usage():
-    print "Normalize mesh"
-    print "usage: normalizeMesh.py anat.nii anatmat_sn.mat normanat.nii anat.mesh output.mesh"
+    print("Normalize mesh")
+    print("usage: normalizeMesh.py anat.nii anatmat_sn.mat normanat.nii anat.mesh output.mesh")
 
 if __name__=="__main__":
     if len(sys.argv)!=6:
