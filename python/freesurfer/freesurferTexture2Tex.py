@@ -1,4 +1,6 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python
+from __future__ import print_function
+
 from numpy import array, zeros
 from soma import aims
 import glob
@@ -23,9 +25,9 @@ def freesurferTexture2Tex(freesurferTexturesPath, brain_mesh, output_texture):
 
 def freesurferTexture2TexBrainvisa(freesurferTextures, brain_mesh,
                                    output_texture):
-    print 'freesurferTextures', freesurferTextures
-    print 'brainmesh', brain_mesh
-    print 'output texture', output_texture
+    print('freesurferTextures', freesurferTextures)
+    print('brainmesh', brain_mesh)
+    print('output texture', output_texture)
 
     mesh = aims.read(brain_mesh)
     nbv = len(mesh.vertex())
@@ -43,19 +45,19 @@ def freesurferTexture2TexBrainvisa(freesurferTextures, brain_mesh,
     tex.write()
 
 def usage():
-    print "Convert freesurfer ASCII parcels file to aims tex file"
-    print "usage : freesurferTexture2Tex.py freesurferTexturesPath brain_mesh output_texture"
-    print ""
-    print "Info: freesurferTexturesPath should be like /data/subject/label/lh.aparc.annot"
-    print " and the prog will take into account all files begining with that."
+    print("Convert freesurfer ASCII parcels file to aims tex file")
+    print("usage : freesurferTexture2Tex.py freesurferTexturesPath brain_mesh output_texture")
+    print("")
+    print("Info: freesurferTexturesPath should be like /data/subject/label/lh.aparc.annot")
+    print(" and the prog will take into account all files begining with that.")
 
 
 if __name__ == "__main__":
     if len(sys.argv)!=4:
         usage()
         sys.exit(1)
-    print "Freesurfer textures prototype: ", sys.argv[1]
-    print "Brain mesh path:", sys.argv[2]
-    print "Output texture path:", sys.argv[3]
+    print("Freesurfer textures prototype: ", sys.argv[1])
+    print("Brain mesh path:", sys.argv[2])
+    print("Output texture path:", sys.argv[3])
     freesurferTexture2Tex(sys.argv[1], sys.argv[2], sys.argv[3])
 

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+
 import os
 import numpy as _np
 import gzip as _gz
@@ -39,10 +41,10 @@ class Texture:
 
 
     def show(self):
-        print 'textype:', self.textype
-        print 'byteorder:', self.byteorder
-        print 'datatype:', self.data.dtype
-        print 'data shape', self.data.shape
+        print('textype:', self.textype)
+        print('byteorder:', self.byteorder)
+        print('datatype:', self.data.dtype)
+        print('data shape', self.data.shape)
 
     def copy(self):
         return Texture(filename=self.filename, textype=self.textype,
@@ -58,7 +60,7 @@ class Texture:
     def convertToType(self, t):
         typename = [k for k, v in datatypes.items() if v == t]
         if len(typename) == 0:
-            print "not this one"
+            print("not this one")
             return
         self.data = self.data.astype(t)
 
@@ -76,7 +78,7 @@ class Texture:
             #f_in = _gz.open(p.filename)
         #else:
             #f_in = open(p.filename)
-            #print 'b'
+            #print('b')
         ##
         #p.textype = f_in.read(5)
         #if p.textype not in textypes:
@@ -91,27 +93,27 @@ class Texture:
                 #raise TypeError, 'Littleindian byteorder not supported yet.'
             ##
             #datatypesize = (_np.frombuffer(f_in.read(4),_np.uint32))[0]
-            #print 'datatypesize', datatypesize
+            #print('datatypesize', datatypesize)
             #try:
                 #datatype     = datatypes[f_in.read(datatypesize)]
-                #print 'c', datatype
+                #print('c', datatype)
             #except:
                 #raise TypeError, 'Datatype not recognized.'
             ##
             #nb_t    = (_np.frombuffer(f_in.read(4), _np.uint32))[0]
-            #print 'nb_t', nb_t
+            #print('nb_t', nb_t)
             ##
             ## TODO some sanity check on data length
             #p.data = []
             #for t in range(nb_t):
                 #current_t = (_np.frombuffer(f_in.read(4), _np.uint32))[0]
-                #print 'current_t', current_t
+                #print('current_t', current_t)
                 #nbitems = (_np.frombuffer(f_in.read(4), _np.uint32))[0]
-                #print 'nbitems', nbitems
+                #print('nbitems', nbitems)
                 #size = nbitems*datatype().nbytes
-                #print 'size', size
+                #print('size', size)
                 #p.data.append(_np.frombuffer(f_in.read(size),datatype))
-                #print 'd'
+                #print('d')
         ##
         ## ASCII
         #else:
@@ -161,7 +163,7 @@ class Texture:
 
             
         #if filename==None:
-            #print '2'
+            #print('2')
             #filename = self.filename
 
         #zip = False
@@ -192,33 +194,33 @@ class Texture:
         
         ## si binaire
         #else:
-            #print '8'
+            #print('8')
             #self.convertToBinary()
             #f_out.write(self.textype)
-            #print 'textype', self.textype
+            #print('textype', self.textype)
             #f_out.write([k for k, v in byteordertypes.items()
                          #if v == self.byteorder][0])
-            #print 'byte orders', self.byteorder
-            #print 'datatype.items', datatypes.items()            
+            #print('byte orders', self.byteorder)
+            #print('datatype.items', datatypes.items()            )
             #datatype = [k for k, v in datatypes.items()
                         #if v == self.data.dtype][0]
-            #print 'datatype', datatype
+            #print('datatype', datatype)
             #datatypesize = _np.uint32(len(datatype))
-            #print 'datatypesize'; datatypesize
+            #print('datatypesize'; datatypesize)
             #f_out.write(datatypesize.tostring())
-            #print '01', datatypesize.tostring()
+            #print('01', datatypesize.tostring())
             #f_out.write(datatype)
-            #print '02', datatype
+            #print('02', datatype)
             #f_out.write(nb_t.tostring())
-            #print '03', nb_t.tostring()
+            #print('03', nb_t.tostring())
             
             ## ecrit les donnees en gerant la dimension t
             #if nb_t==1 :
-                #print '9'
+                #print('9')
                 #f_out.write('\x00\x00\x00\x00')
                 #f_out.write(_np.uint32(len(self.data)).tostring())
                 #f_out.write(self.data.tostring())
-                #print 'data.tostring', self.data.tostring()
+                #print('data.tostring', self.data.tostring())
             #else:
                 #for t in range(nb_t): 
                     #f_out.write(_np.uint32(t).tostring())

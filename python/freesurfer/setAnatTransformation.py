@@ -1,5 +1,7 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+
 from soma import aims
 from numpy import array
 
@@ -28,8 +30,8 @@ def setAnatTransformation(anatFile):
     aims.write(a, anatFile)
 
 def usage():
-    print "Set first transformation matrix to the center of the image"
-    print "usage: setAnatTransformation.py anat.nii"
+    print("Set first transformation matrix to the center of the image")
+    print("usage: setAnatTransformation.py anat.nii")
 
 if __name__ == "__main__":
     if len(sys.argv)!=2:

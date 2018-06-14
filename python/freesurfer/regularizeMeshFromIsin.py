@@ -1,5 +1,7 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+
 from numpy import array, vstack
 import math
 from soma import aims, aimsalgo
@@ -52,18 +54,18 @@ def regularizeMesh(brainMesh, isinFile,
 
 
 def usage():
-    print "Regularize the mesh"
-    print "usage : regularizeMeshFromIsin.py brain_mesh isin regular_sphere_mesh output_mesh"
+    print("Regularize the mesh")
+    print("usage : regularizeMeshFromIsin.py brain_mesh isin regular_sphere_mesh output_mesh")
 
 
 if __name__ == "__main__":
     if len(sys.argv)!=5:
         usage()
         sys.exit(1)
-    print "Brain mesh:", sys.argv[1]
-    print "Isin file:", sys.argv[2]
-    print "Real sphere mesh:", sys.argv[3]
-    print "Output mesh:", sys.argv[4]
+    print("Brain mesh:", sys.argv[1])
+    print("Isin file:", sys.argv[2])
+    print("Real sphere mesh:", sys.argv[3])
+    print("Output mesh:", sys.argv[4])
     #regularizeMesh(sys.argv[1], sys.argv[2], sys.argv[4], sys.argv[3])
     regularizeMeshAims(sys.argv[1], sys.argv[2], sys.argv[4], sys.argv[3])
 

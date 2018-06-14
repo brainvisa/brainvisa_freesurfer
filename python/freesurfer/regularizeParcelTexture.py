@@ -1,4 +1,6 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python
+from __future__ import print_function
+
 from numpy import vstack, array, zeros
 import pickle
 import sys
@@ -28,16 +30,16 @@ def regularizeParcelTexture(isin, mesh, tex, output):
     aims.write(output_tex, output)
 
 def usage():
-    print "Regularize parcels texture"
-    print "usage : regularizeParcelTexture.py isin white_mesh tex output"
+    print("Regularize parcels texture")
+    print("usage : regularizeParcelTexture.py isin white_mesh tex output")
 
 
 if __name__ == "__main__":
     if len(argv)!=5:
         usage()
         sys.exit(1)
-    print "Isin file:", argv[1]
-    print "White mesh:", argv[2]
-    print "Input texture:", argv[3]
-    print "Output texture:", argv[4]
+    print("Isin file:", argv[1])
+    print("White mesh:", argv[2])
+    print("Input texture:", argv[3])
+    print("Output texture:", argv[4])
     regularizeParcelTexture(argv[1], argv[2], argv[3], argv[4])
