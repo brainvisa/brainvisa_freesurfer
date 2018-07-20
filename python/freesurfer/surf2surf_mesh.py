@@ -4,7 +4,7 @@ from soma import aims
 import numpy as np
 import os
 from . import brainvisaFreesurfer as bvfs
-import subprocess
+import soma.subprocess
 import sys
 import tempfile
 from soma.wip.application.api import Application
@@ -35,7 +35,7 @@ def write_asc(filename, mesh, tex):
 def system(*args, **kwargs):
     ''' convenience function meant to replace context.system()
     '''
-    return subprocess.check_call(*args, **kwargs)
+    return soma.subprocess.check_call(*args, **kwargs)
 
 
 def resample_mesh_to_fs_ico(mesh, subject_dir, hemi, ico_order=6, context=None):
@@ -64,7 +64,7 @@ def resample_mesh_to_fs_ico(mesh, subject_dir, hemi, ico_order=6, context=None):
     configuration = Application().configuration
     if context is None:
         # fake context using our system() which redirects to
-        # subprocess.check_call()
+        # soma.subprocess.check_call()
         context = sys.modules[__module__]
 
     v = np.asarray(mesh.vertex())
