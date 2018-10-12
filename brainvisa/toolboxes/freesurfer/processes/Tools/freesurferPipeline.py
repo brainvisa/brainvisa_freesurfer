@@ -21,9 +21,11 @@ def validation():
 
 signature = Signature(
     'AnatImage', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
-    'Add_options', String(),
     'database', ReadDiskItem('Directory', 'Directory'),
     'subject', String(),
+    'force_fov_to_256', Boolean(),
+    'qcache_for_group_analysis', Boolean(),
+    'add_other_options', String(),
 
     # liens non visible
     'nu', WriteDiskItem('Nu FreesurferAnat',
@@ -101,7 +103,9 @@ def initialization(self):
         if self.AnatImage:
             return self.AnatImage.get('subject')
 
-    self.setOptional('Add_options')
+    self.setOptional('add_other_options')
+    self.force_fov_to_256 = False
+    self.qcache_for_group_analysis = False
     self.linkParameters('database', 'AnatImage', linkDB)
     self.linkParameters('subject', 'AnatImage', linkSubject)
     self.signature['database'].userLevel = 2
@@ -176,8 +180,12 @@ def execution(self, context):
     # launchFreesurferCommand(context, database, args)
     kwargs = {}
     args = ['recon-all', '-autorecon-all', '-subjid', subject]
-    if self.Add_options is not None:
-        liste_option = string.split(self.Add_options)
+    if self.force_fov_to_256:
+        args.append('-cw256')
+    if qcache_for_group_analysis:
+        args.append('-qcache')
+    if self.add_other_options is not None:
+        liste_option = string.split(self.add_other_options)
         for option in liste_option:
             args.append(option)
 
