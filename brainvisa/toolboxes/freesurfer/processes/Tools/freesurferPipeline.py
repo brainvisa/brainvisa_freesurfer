@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
-from brainvisa.processes import string
-from brainvisa.processes import String
-from brainvisa.processes import Signature
-from brainvisa.processes import ReadDiskItem
-from brainvisa.processes import WriteDiskItem
-from brainvisa.processes import neuroHierarchy
+from brainvisa.processes import *
 
 from freesurfer.brainvisaFreesurfer \
   import launchFreesurferCommand, testFreesurferCommand
@@ -18,6 +12,7 @@ def validation():
     """
     """
     testFreesurferCommand()
+
 
 signature = Signature(
     'AnatImage', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ'),
@@ -88,8 +83,7 @@ signature = Signature(
     'rightSulciGyri', WriteDiskItem('FreesurferSulciGyriTexture',
                                     'FreesurferParcellation',
                                     requiredAttributes={'side': 'right'}),
-
-  )
+)
 
 
 def initialization(self):
@@ -182,7 +176,7 @@ def execution(self, context):
     args = ['recon-all', '-autorecon-all', '-subjid', subject]
     if self.force_fov_to_256:
         args.append('-cw256')
-    if qcache_for_group_analysis:
+    if self.qcache_for_group_analysis:
         args.append('-qcache')
     if self.add_other_options is not None:
         liste_option = string.split(self.add_other_options)
