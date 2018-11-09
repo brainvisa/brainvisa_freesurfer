@@ -229,32 +229,33 @@ def execution( self, context ):
   context.system( 'AimsReplaceLevel',
                   '-i', self.split_brain_output,
                   '-o', VipGreyStatClassif ,
-                  '-g', '42', '41', '2', '3',
-                  '-n', '100', '200', '200', '100' )
+                  '-g', '42', '41', '2', '3', '110', '120', '10', '20',
+                  '-n', '100', '200', '200', '100',
+                  '100', '200', '100', '200')
   context.system( 'AimsReplaceLevel',
                   '-i', self.split_brain_output,
                   '-o', self.right_grey_white_output,
-                  '-g', '42', '41', '2', '3',
-                  '-n', '100', '200', '0', '0' )
+                  '-g', '42', '41', '2', '3', '110', '120', '10', '20',
+                  '-n', '100', '200', '0', '0', '100', '200', '0', '0')
   context.system( 'AimsReplaceLevel',
                   '-i', self.split_brain_output,
                   '-o', self.left_grey_white_output,
-                  '-g', '42', '41', '2', '3',
-                  '-n', '0', '0', '200', '100' )
+                  '-g', '42', '41', '2', '3', '110', '120', '10', '20',
+                  '-n', '0', '0', '200', '100', '0', '0', '200', '100')
   
   context.write("Create brain mask file from ribbon freesurfer data")
   context.system( 'AimsReplaceLevel',
                   '-i', self.split_brain_output,
                   '-o', self.brain_mask_output,
-                  '-g', '42', '41', '2', '3',
-                  '-n', '255', '255', '255', '255' )
+                  '-g', '42', '41', '2', '3', '110', '120', '10', '20',
+                  '-n', '255', '255', '255', '255', '255', '255', '255', '255')
   
   context.write("Create split brain file from ribbon freesurfer data")
   context.system( 'AimsReplaceLevel',
                   '-i', self.split_brain_output,
                   '-o', self.split_brain_output,
-                  '-g', '42', '41', '2', '3',
-                  '-n', '1', '1', '2', '2' )
+                  '-g', '42', '41', '2', '3', '110', '120', '10', '20',
+                  '-n', '1', '1', '2', '2', '1', '1', '2', '2')
 
   #Copy referential
   trManager = registration.getTransformationManager()
