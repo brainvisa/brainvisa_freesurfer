@@ -241,7 +241,7 @@ def execution( self, context ):
                   '-i', self.split_brain_output,
                   '-o', self.left_grey_white_output,
                   '-g', '42', '41', '2', '3', '110', '120', '10', '20',
-                  '-n', '0', '0', '200', '100', '0', '0', '200', '100')
+                  '-n', '0', '0', '200', '100', '0', '0', '100', '200')
   
   context.write("Create brain mask file from ribbon freesurfer data")
   context.system( 'AimsReplaceLevel',
