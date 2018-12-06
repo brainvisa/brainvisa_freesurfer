@@ -9,7 +9,7 @@ import distutils.spawn
 configuration = Application().configuration
 
 
-#print "Module brainvisafreesurfer.py"
+#print("Module brainvisafreesurfer.py")
 
 __freeSurferOK__ = None
 
@@ -31,15 +31,15 @@ def launchFreesurferCommand( context, database=None, *args, **kwargs ):
     raise ValidationError( 'FreeSurfer plugin for BrainVISA is not available '
                            'on Windows platform.' )
     
-  #print " -- Function launchFreesurferCommand -- ", args
-  #print 'kwargs:', kwargs
+  #print(" -- Function launchFreesurferCommand -- ", args)
+  #print('kwargs:', kwargs)
   
   #INI PATH SCRIPT TO RUN FREESURFER
   path_basename = os.path.dirname(mainPath)
   runFreesurferCommandSh = os.path.join(path_basename, 'scripts', 'runFreesurferCommand.sh' )
   #runFreesurferCommandSh = '/volatile/svn/source/cortical_surface/freesurfer_plugin/trunk/brainvisa/scripts/runFreesurferCommand.sh'
   if not os.path.exists( runFreesurferCommandSh ):
-    #print "path don't exist"
+    #print("path don't exist")
     runFreesurferCommandSh = None
 
 

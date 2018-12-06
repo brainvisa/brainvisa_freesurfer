@@ -7,7 +7,7 @@ import sys
 
 def usage():
     print("concatenate textures")
-    #print "usage: concatenate_textures.py output.tex file1.tex ... fileN.tex"
+    #print("usage: concatenate_textures.py output.tex file1.tex ... fileN.tex")
 
 def concatenate_textures(output, fileL, fileR):
     print('*** concatenate_textures ***')

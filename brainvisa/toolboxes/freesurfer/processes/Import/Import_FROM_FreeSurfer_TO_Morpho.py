@@ -31,6 +31,8 @@
 # The fact that you are presently reading this means that you have had
 # knowledge of the CeCILL license version 2 and that you accept its terms.
 
+from __future__ import print_function
+
 from freesurfer.brainvisaFreesurfer import *
 from brainvisa.processes import *
 from brainvisa.tools import aimsGlobals
@@ -348,15 +350,15 @@ def execution( self, context ):
     mainThreadActions().call( pv.hide )
     mainThreadActions().call( pv.show )
     r = context.ask( 'run the pipeline, then click here', 'OK' )
-    #print '***************** OK clicked'
+    #print('***************** OK clicked')
     mainThreadActions().call( pv.close )
     lock = threading.Lock()
     lock.acquire()
     mainThreadActions().push( delInMainThread, lock, pv )
     del pv
-    #print '*** DELETED'
+    #print('*** DELETED')
     lock.release()
-    #print 'lock released'
+    #print('lock released')
   elif self.use_morphologist == 1:
     context.runProcess( morphologist )
   else:
