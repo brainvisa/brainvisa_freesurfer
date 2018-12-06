@@ -35,6 +35,9 @@
 @organization: U{NeuroSpin<http://www.neurospin.org>} and U{IFR 49<http://www.ifr49.org>}
 @license: U{CeCILL version 2<http://www.cecill.info/licences/Licence_CeCILL_V2-en.html>}
 '''
+
+from __future__ import print_function
+
 __docformat__ = "epytext en"
 
 import os
@@ -76,17 +79,17 @@ class FreeSurferConfiguration( ConfigurationGroup ):
 
   def _get_freesurfer_home_path( self ):
     #/i2bm/local/x86_64/freesurfer
-    #print " -- Funtion _get_freesurfer_home_path --"
+    #print(" -- Funtion _get_freesurfer_home_path --")
     if not self._freesurfer_home_path : 
       self._freesurfer_home_path = os.getenv( 'FREESURFER_HOME' )
-    #print self._freesurfer_home_path
+    #print(self._freesurfer_home_path)
     return self._freesurfer_home_path
     
   def _set_freesurfer_home_path( self, value ):
     #/volatile/ALL_DATABASE_BRAINVISA/db_fs_1
-    #print " -- Funtion _set_freesurfer_home_path --"
-    #print "VALUE"
-    #print value
+    #print(" -- Funtion _set_freesurfer_home_path --")
+    #print("VALUE")
+    #print(value)
     self._freesurfer_home_path = value
     
   freesurfer_home_path = property(_get_freesurfer_home_path,
@@ -96,16 +99,16 @@ class FreeSurferConfiguration( ConfigurationGroup ):
   
   
   def _get_subjects_dir_path( self ):
-    #print " -- Function _get_subjects_dir_path --"
+    #print(" -- Function _get_subjects_dir_path --")
     if not self._subjects_dir_path : 
       self._subjects_dir_path = os.getenv( 'SUBJECTS_DIR' )
-    #print self._subjects_dir_path
+    #print(self._subjects_dir_path)
     return self._subjects_dir_path
     
   def _set_subjects_dir_path( self, value ):
-    #print " -- Function _set_subjects_dir_path --"
-    #print "VALUE"
-    #print value
+    #print(" -- Function _set_subjects_dir_path --")
+    #print("VALUE")
+    #print(value)
     self._subjects_dir_path = value
     
   subjects_dir_path = property( _get_subjects_dir_path, _set_subjects_dir_path )
@@ -113,15 +116,15 @@ class FreeSurferConfiguration( ConfigurationGroup ):
 
 
   #def _get_executable_freesurfer( self ):
-    ##print " -- Function _get_executable_freesurfer --"
-    ##print self._executable_freesurfer
+    ##print(" -- Function _get_executable_freesurfer --")
+    ##print(self._executable_freesurfer)
     #return self._executable_freesurfer
     
   #def _set_executable_freesurfer( self, value ):
-    ##print " -- Function _set_executable_freesurfer --"
+    ##print(" -- Function _set_executable_freesurfer --")
     #if not value : 
       #value = distutils.spawn.find_executable("freesurfer")
-    ##print value
+    ##print(value)
     #self._executable_freesurfer = value
     
   #executable_freesurfer = property( _get_executable_freesurfer, _set_executable_freesurfer )
@@ -129,9 +132,9 @@ class FreeSurferConfiguration( ConfigurationGroup ):
 
 
   def __init__( self, *args, **kwargs ):
-    #print " -- Function __init__ de FreeSurfer "
-    #print args
-    #print kwargs
+    #print(" -- Function __init__ de FreeSurfer ")
+    #print(args)
+    #print(kwargs)
     self._freesurfer_home_path = None
     self._subjects_dir_path = None
     self._executable_freesurfer = None

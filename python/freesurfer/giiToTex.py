@@ -1,4 +1,4 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python
 from soma import aims
 import sys
 from tio import Texture
@@ -8,7 +8,7 @@ import numpy as n
     #out = filename[:filename.rfind('gii')]+'tex'
     #g = gifti.loadImage(filename)
     #data = n.array(g.getArrays()[0].data)
-    #print data.shape
+    #print(data.shape)
     #t = Texture(filename=out, data=data.squeeze())
     #t.write()
 
@@ -19,9 +19,9 @@ def giftiToTex(filename, output):
     t.write()
 
 #def usage():
-    #print "Convert gifti texture to aims tex-format"
-    #print "usage: giiToTex.py filename.gii"
-    #print "Output will be filename.tex"
+    #print("Convert gifti texture to aims tex-format")
+    #print("usage: giiToTex.py filename.gii")
+    #print("Output will be filename.tex")
 
 #if __name__ == "__main__":
     #if len(sys.argv)!=2:
