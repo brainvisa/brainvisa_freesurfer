@@ -16,27 +16,27 @@ signature = Signature(
 )
 
 def initialization( self ):
-  self.linkParameters( 'ResampledWhiteMesh', 'ResampledPialMesh' )
-  self.linkParameters( 'bv_anat', 'ResampledPialMesh' )
-  self.linkParameters( 'AimsPial', 'ResampledPialMesh' )
-  self.linkParameters( 'AimsWhite', 'ResampledPialMesh' )
+    self.linkParameters( 'ResampledWhiteMesh', 'ResampledPialMesh' )
+    self.linkParameters( 'bv_anat', 'ResampledPialMesh' )
+    self.linkParameters( 'AimsPial', 'ResampledPialMesh' )
+    self.linkParameters( 'AimsWhite', 'ResampledPialMesh' )
 
 def execution(self, context):
-  context.write('Conversion to Aims ref.')
+    context.write('Conversion to Aims ref.')
 
-  cmd = 'from freesurfer.freesurferMeshToAimsMesh import freesurferMeshToAimsMesh as f;'
+    cmd = 'from freesurfer.freesurferMeshToAimsMesh import freesurferMeshToAimsMesh as f;'
 
-  #context.write('%s -c '+cmd+' f(\"%s\", \"%s\", \"%s\");'%(os.path.basename(sys.executable), self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
-  context.pythonSystem('-c', cmd+'f(\"%s\", \"%s\", \"%s\");'%(self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
+    context.write('%s -c %s f(\"%s\", \"%s\", \"%s\");'%(os.path.basename(sys.executable), cmd, self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
+    context.pythonSystem('-c', '%s f(\"%s\", \"%s\", \"%s\");'%(cmd, self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
+    
+    context.write('%s -c %s f(\"%s\", \"%s\", \"%s\");'%(os.path.basename(sys.executable), cmd, self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
+    context.pythonSystem('-c', '%s f(\"%s\", \"%s\", \"%s\");'%(cmd, self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
 
-  #context.write('%s -c '+cmd+' f(\"%s\", \"%s\", \"%s\");'%(os.path.basename(sys.executable), self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
-  context.pythonSystem('-c', cmd+'f(\"%s\", \"%s\", \"%s\");'%(self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
-
-  context.write( 'material:', self.AimsPial.get( 'material' ) )
-  if self.AimsPial.get( 'material' ):
-    self.AimsPial.removeMinf( 'material', saveMinf=True )
-  if self.AimsWhite.get( 'material' ):
-    self.AimsWhite.removeMinf( 'material', saveMinf=True )
-  tm = registration.getTransformationManager()
-  tm.copyReferential( self.bv_anat, self.AimsPial )
-  tm.copyReferential( self.bv_anat, self.AimsWhite )
+    context.write( 'material:', self.AimsPial.get( 'material' ) )
+    if self.AimsPial.get( 'material' ):
+        self.AimsPial.removeMinf( 'material', saveMinf=True )
+    if self.AimsWhite.get( 'material' ):
+        self.AimsWhite.removeMinf( 'material', saveMinf=True )
+    tm = registration.getTransformationManager()
+    tm.copyReferential( self.bv_anat, self.AimsPial )
+    tm.copyReferential( self.bv_anat, self.AimsWhite )
