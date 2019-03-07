@@ -46,7 +46,7 @@ Format( 'FreesurferCurv', "f|*.curv" )
 Format( 'FreesurferAvgCurv', "f|*.avg_curv" )
 Format( 'FreesurferCurvPial', "f|*.curv.pial" )
 Format( 'FreesurferParcellation', "f|*.annot")
-Format( 'FreesurferMGZ', "f|*.mgz")
+#Format( 'FreesurferMGZ', "f|*.mgz")
 Format( 'FreesurferIsin', "f|*.isin")
 Format( 'FreesurferLabel', "f|*.label")
 
