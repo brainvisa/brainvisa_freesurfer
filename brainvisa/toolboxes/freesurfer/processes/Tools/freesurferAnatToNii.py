@@ -55,20 +55,28 @@ def execution(self, context):
     context.write( 'removing residual .minf file %s' % self.NiiRibbonImage.minfFileName() )
     os.unlink( self.NiiRibbonImage.minfFileName() )
   
-  # convert from .mgz to .nii with Freesurfer
-  launchFreesurferCommand( context, '',
-                           'mri_convert',
-                           self.AnatImage.fullPath(),
-                           self.NiiAnatImage.fullPath() )
-  launchFreesurferCommand( context, '',
-                           'mri_convert',
-                           self.NuImage.fullPath(),
-                           self.NiiNuImage.fullPath() )                        
-  launchFreesurferCommand( context, '',
-                           'mri_convert',
-                           self.RibbonImage.fullPath(),
-                           self.NiiRibbonImage.fullPath() )
-                           
+  # convert from .mgz to .nii using a converter (which can be either aims or
+  # the freesurfer mri_convert-based one)
+  conv = context.getConverter(self.AnatImage, self.NiiAnatImage)
+  if conv is None:
+      raise ValidationError('No converter could be found to convert FreeSurfer MGZ format')
+  context.write('converter found:', conv.name)
+  context.runProcess(conv, self.AnatImage, self.NiiAnatImage)
+  context.runProcess(conv, self.NuImage, self.NiiNuImage)
+  context.runProcess(conv, self.RibbonImage, self.NiiRibbonImage)
+  #launchFreesurferCommand( context, '',
+                           #'mri_convert',
+                           #self.AnatImage.fullPath(),
+                           #self.NiiAnatImage.fullPath() )
+  #launchFreesurferCommand( context, '',
+                           #'mri_convert',
+                           #self.NuImage.fullPath(),
+                           #self.NiiNuImage.fullPath() )
+  #launchFreesurferCommand( context, '',
+                           #'mri_convert',
+                           #self.RibbonImage.fullPath(),
+                           #self.NiiRibbonImage.fullPath() )
+
   # reset minf attributes in case there was an existing older diskitem
   self.NiiAnatImage._minfAttributes = {}
   self.NiiNuImage._minfAttributes = {}
@@ -76,9 +84,9 @@ def execution(self, context):
   self.NiiAnatImage.saveMinf()
   self.NiiNuImage.saveMinf()
   self.NiiRibbonImage.saveMinf()
-  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiAnatImage.fullPath()))
-  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiNuImage.fullPath()))
-  context.system(os.path.basename(sys.executable), '-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiRibbonImage.fullPath()))
+  context.pythonSystem('-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiAnatImage.fullPath()))
+  context.pythonSystem('-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiNuImage.fullPath()))
+  context.pythonSystem('-c', 'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.NiiRibbonImage.fullPath()))
   self.NiiAnatImage.readAndUpdateMinf()
   self.NiiNuImage.readAndUpdateMinf()
   self.NiiRibbonImage.readAndUpdateMinf()
