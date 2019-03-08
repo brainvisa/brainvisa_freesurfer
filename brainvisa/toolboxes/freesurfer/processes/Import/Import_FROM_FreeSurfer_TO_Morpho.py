@@ -157,12 +157,18 @@ def execution( self, context ):
   #Convert the three volumes from .mgz to .nii with Freesurfer
   context.write("Convert .mgz to .nii with FreeSurfer")
 
-  #correct line
-  launchFreesurferCommand(context, database, 'mri_convert', '-i', self.T1_orig,
-    '-o', tmp_ori)
+  conv = context.getConverter(self.T1_orig, self.tmp_ori)
+  if conv is None:
+      raise ValidationError('No converter could be found to convert FreeSurfer MGZ format')
+  context.write('MGZ converter found:', conv.name)
+  context.runProcess(conv, self.T1_orig, self.tmp_ori)
+  context.runProcess(conv, self.ribbon_image, self.tmp_ribbon)
 
-  launchFreesurferCommand(context, database, 'mri_convert',
-    '-i', self.ribbon_image, '-o', tmp_ribbon)
+  #launchFreesurferCommand(context, database, 'mri_convert', '-i', self.T1_orig,
+    #'-o', tmp_ori)
+
+  #launchFreesurferCommand(context, database, 'mri_convert',
+    #'-i', self.ribbon_image, '-o', tmp_ribbon)
 
   #Import Data 
   context.write("Import data into database with brainvisa ontology")
