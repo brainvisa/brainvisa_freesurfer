@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
 from brainvisa.processes import *
-from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
+from freesurfer.brainvisaFreesurfer \
+    import launchFreesurferCommand, testFreesurferCommand
 from brainvisa import registration
 
 name = 'Conversion of Freesurfer meshes to Gifti format'
 userlevel = 2
+
+
+def validation():
+    testFreesurferCommand()
 
 signature = Signature(
   'Pial', ReadDiskItem('FreesurferType', 'FreesurferPial'),
@@ -15,7 +20,7 @@ signature = Signature(
   'WhiteGifti', WriteDiskItem('White', 'GIFTI File'),
   'SphereRegGifti', WriteDiskItem('SphereReg', 'GIFTI File'),
   'meshes_referential', ReadDiskItem( 'Referential of Pial', 'Referential' ),
-  )
+)
 
 def initialization(self):
   self.linkParameters('White', 'Pial')

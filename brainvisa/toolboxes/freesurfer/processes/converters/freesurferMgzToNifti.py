@@ -34,30 +34,32 @@
 from brainvisa.processes import *
 import distutils.spawn
 from freesurfer.brainvisaFreesurfer \
-  import launchFreesurferCommand, testFreesurferCommand
+    import launchFreesurferCommand, testFreesurferCommand
 
 name = 'FreeSurfer from MGZ Converter'
 roles = ('converter',)
 userLevel = 0
+rolePriority = 2 # set higher priority than aims converter
 
 def validation():
-  testFreesurferCommand()
+    testFreesurferCommand()
 
 signature = Signature(
-  'read', ReadDiskItem( '4D Volume', 'FreesurferMGZ', enableConversion=False ),
-  'write', WriteDiskItem( '4D Volume', 'NIFTI-1 image' ),
+    'read', ReadDiskItem('4D Volume', 'FreesurferMGZ', enableConversion=False),
+    'write', WriteDiskItem('4D Volume',
+                           ['NIFTI-1 image', 'gz compressed NIFTI-1 image']),
 )
 
-def initialization( self ):
-  self.linkParameters( 'write', 'read' )
+def initialization(self):
+    self.linkParameters('write', 'read')
 
-def execution( self, context ):
-  # mri_convert will not write a .minf, so we have to take care if it
-  # already exists from a previous data
-  if os.path.exists( self.write.minfFileName() ):
-    self.write.clearMinf( saveMinf=True )
-  launchFreesurferCommand( context, None, 'mri_convert', self.read,
-    self.write )
-  self.write.readAndUpdateMinf()
-  self.write.saveMinf()
+def execution(self, context):
+    # mri_convert will not write a .minf, so we have to take care if it
+    # already exists from a previous data
+    if os.path.exists(self.write.minfFileName()):
+        self.write.clearMinf(saveMinf=True)
+    launchFreesurferCommand(context, None, 'mri_convert', self.read,
+                            self.write)
+    self.write.readAndUpdateMinf()
+    self.write.saveMinf()
 
