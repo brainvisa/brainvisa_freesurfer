@@ -11,6 +11,8 @@ signature = Signature(
     'nu', ReadDiskItem('Nu FreesurferAnat', 'FreesurferMGZ',
         enableConversion=False),
     'ribbon', ReadDiskItem('Ribbon Freesurfer', 'FreesurferMGZ',
+        requiredAttributes={'side': 'both',
+                            'space': 'freesurfer analysis'},
         enableConversion=False),
 
     'leftPial', ReadDiskItem('FreesurferType', 'FreesurferPial',
@@ -76,13 +78,13 @@ def initialization( self ):
     # 3b
     eNode.addChild('BfreesurferImageToNii',
                     ProcessExecutionNode('freesurferAnatToNii', optional=1))
-    eNode.BfreesurferImageToNii.removeLink('NuImage', 'AnatImage')
-    eNode.BfreesurferImageToNii.removeLink('RibbonImage', 'AnatImage')
-    eNode.BfreesurferImageToNii.removeLink('referential', 'AnatImage')
+    eNode.BfreesurferImageToNii.removeLink('nu', 'orig')
+    eNode.BfreesurferImageToNii.removeLink('ribbon', 'nu')
+    eNode.BfreesurferImageToNii.removeLink('referential', 'raw')
     
-    eNode.addDoubleLink('BfreesurferImageToNii.AnatImage', 'anat')
-    eNode.addDoubleLink('BfreesurferImageToNii.NuImage', 'nu')
-    eNode.addDoubleLink('BfreesurferImageToNii.RibbonImage', 'ribbon')
+    eNode.addDoubleLink('BfreesurferImageToNii.raw', 'anat')
+    eNode.addDoubleLink('BfreesurferImageToNii.nu', 'nu')
+    eNode.addDoubleLink('BfreesurferImageToNii.ribbon', 'ribbon')
     eNode.addDoubleLink('BfreesurferImageToNii.referential',
                         'CreateReferential.referential')
 
@@ -91,7 +93,7 @@ def initialization( self ):
                    ProcessExecutionNode('AddScannerBasedReferential', optional=1))
     eNode.CreateReferentials.removeLink('referential_volume_input', 'volume_input')
     eNode.addDoubleLink('CreateReferentials.volume_input',
-                        'BfreesurferImageToNii.NiiAnatImage')
+                        'BfreesurferImageToNii.raw_nifti')
     eNode.addDoubleLink('CreateReferentials.referential_volume_input',
                         'CreateReferential.referential')
 
@@ -106,7 +108,7 @@ def initialization( self ):
     eNode.addChild('CreateMeshesReferential',
                    ProcessExecutionNode('createmeshesreferential', optional=1))
     eNode.addDoubleLink('CreateMeshesReferential.anat',
-                        'BfreesurferImageToNii.NiiAnatImage')
+                        'BfreesurferImageToNii.raw_nifti')
 
 
     eNode.addChild('CreateMeshesTransformation',
@@ -115,7 +117,7 @@ def initialization( self ):
     eNode.CreateMeshesTransformation.removeLink('freesurfer_meshes_referential',
                                                 'anat')
     eNode.CreateMeshesTransformation.removeLink('anat_referential', 'anat')
-    eNode.addDoubleLink('BfreesurferImageToNii.NiiAnatImage',
+    eNode.addDoubleLink('BfreesurferImageToNii.raw_nifti',
                         'CreateMeshesTransformation.anat')
     eNode.addDoubleLink('CreateMeshesReferential.meshes_referential',
                         'CreateMeshesTransformation.freesurfer_meshes_referential')
@@ -210,7 +212,7 @@ def initialization( self ):
     eNode.addDoubleLink('LfreesurferMeshToAimsRef.ResampledWhiteMesh',
                         'LfreesurferMeshResampling.ResampledWhiteMesh')
     eNode.addDoubleLink('LfreesurferMeshToAimsRef.bv_anat',
-                        'BfreesurferImageToNii.NiiAnatImage')
+                        'BfreesurferImageToNii.raw_nifti')
 
     eNode.addChild('RfreesurferMeshToAimsRef',
                    ProcessExecutionNode('freesurferMeshToAimsRef',
@@ -221,7 +223,7 @@ def initialization( self ):
     eNode.addDoubleLink('RfreesurferMeshToAimsRef.ResampledWhiteMesh',
                         'RfreesurferMeshResampling.ResampledWhiteMesh')
     eNode.addDoubleLink('RfreesurferMeshToAimsRef.bv_anat',
-                        'BfreesurferImageToNii.NiiAnatImage')
+                        'BfreesurferImageToNii.raw_nifti')
 
     # 9/10
     eNode.addChild('LfreesurferLabelToAimsTexture',

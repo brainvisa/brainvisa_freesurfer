@@ -26,7 +26,9 @@ signature = Signature(
     'nu', WriteDiskItem('Nu FreesurferAnat',
                         'FreesurferMGZ'),
     'ribbon', WriteDiskItem('Ribbon Freesurfer',
-                            'FreesurferMGZ'),
+                            'FreesurferMGZ',
+                            requiredAttributes={'side': 'both',
+                                                'space': 'freesurfer analysis'}),
 
     'leftPial', WriteDiskItem('BaseFreesurferType',
                               'FreesurferPial',

@@ -76,12 +76,15 @@ def execution(self, context):
     if len(custom_filt) < len(dtypes):
         custom_filt = custom_filt + [{}] * (len(dtypes) - len(custom_filt))
 
-    filter1 = {'_format': ('NIFTI-1 image', 'gz compressed NIFTI-1 image')}
+    filter1a = {'_format': ('NIFTI-1 image', 'gz compressed NIFTI-1 image')}
+    filter1b = {'_format': ('NIFTI-1 image', 'gz compressed NIFTI-1 image'),
+                'side': 'both',
+                'space': 'freesurfer analysis'}
     filter2 = {}
     filter3_l = {'side': 'left'}
     filter3_r = {'side': 'right'}
 
-    filters = [filter1, filter1, filter2, filter3_l, filter3_r,
+    filters = [filter1a, filter1b, filter2, filter3_l, filter3_r,
                filter3_l, filter3_r, filter3_l, filter3_r,
                filter3_l, filter3_r, filter3_l, filter3_r,
                filter3_l, filter3_r, filter3_l, filter3_r,
