@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+
+from __future__ import print_function
+
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 from brainvisa import registration
@@ -98,7 +101,7 @@ def updateFormat(self, param1, param2, proc, dummy):
         # I found no method to get the file extension from a format.
         fp = fobj.patterns.patterns[0].pattern.split('|*')
         if len(fp) == 2:
-            print self.__dict__[param1].fullPath()
+            # print(self.__dict__[param1].fullPath())
             filename = self.__dict__[param1].fullName() + fp[1]
             result = WriteDiskItem(param2, self.chosen_format).findValue(filename)
     return result
