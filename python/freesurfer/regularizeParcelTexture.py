@@ -12,7 +12,7 @@ def regularizeParcelTexture(isin, mesh, tex, output):
     mesh = aims.read(mesh)
     tex = aims.read(tex)
 
-    isin = pickle.load(open(isin))
+    isin = pickle.load(open(isin, 'rb'))
     isin = vstack((array(isin[0]), array(isin[1]).T)).T
 
     output_tex = tex.__class__()
