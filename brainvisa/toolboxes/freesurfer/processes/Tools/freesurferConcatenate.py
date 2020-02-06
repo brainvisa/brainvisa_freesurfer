@@ -7,33 +7,37 @@ userlevel = 2
 
 signature = Signature(
     'LeftWhite', ReadDiskItem('AimsWhite', 'Aims mesh formats',
-                              requiredAttributes = {'side' : 'left'}),
+                              requiredAttributes={'side': 'left'}),
     'RightWhite', ReadDiskItem('AimsWhite', 'Aims mesh formats',
-                              requiredAttributes = {'side' : 'right'}),
+                               requiredAttributes={'side': 'right'}),
     'LeftPial', ReadDiskItem('AimsPial', 'Aims mesh formats',
-                             requiredAttributes = {'side' : 'left'}),
+                             requiredAttributes={'side': 'left'}),
     'RightPial', ReadDiskItem('AimsPial', 'Aims mesh formats',
-                              requiredAttributes = {'side' : 'right'}),
+                              requiredAttributes={'side': 'right'}),
     'LeftInflatedWhite', ReadDiskItem('AimsInflatedWhite', 'Aims mesh formats',
-                                      requiredAttributes = {'side' : 'left'}),
+                                      requiredAttributes={'side': 'left'}),
     'RightInflatedWhite', ReadDiskItem('AimsInflatedWhite', 'Aims mesh formats',
-                                       requiredAttributes = {'side' : 'right'}),
+                                       requiredAttributes={
+                                           'side': 'right'}),
     'LeftInflatedWhite_sequence',
     ReadDiskItem('AimsInflatedWhite', 'Aims mesh formats',
-                 requiredAttributes = {'side': 'left', 'time_sequence': 'Yes'}),
+                 requiredAttributes={
+                     'side': 'left', 'time_sequence': 'Yes'}),
     'RightInflatedWhite_sequence',
     ReadDiskItem('AimsInflatedWhite', 'Aims mesh formats',
-                 requiredAttributes = {'side': 'right',
-                                       'time_sequence': 'Yes'}),
+                 requiredAttributes={'side': 'right',
+                                     'time_sequence': 'Yes'}),
 
     'BothWhite', WriteDiskItem('AimsBothWhite', 'Aims mesh formats'),
     'BothPial', WriteDiskItem('AimsBothPial', 'Aims mesh formats'),
-    'BothInflated', WriteDiskItem('AimsBothInflatedWhite', 'Aims mesh formats'),
+    'BothInflated', WriteDiskItem(
+        'AimsBothInflatedWhite', 'Aims mesh formats'),
     'BothInflated_sequence',
     WriteDiskItem('AimsBothInflatedWhite', 'Aims mesh formats',
                   requiredAttributes={'time_sequence': 'Yes'}),
     'hemi_order', Choice(('left-right', 0), ('right-left', 1)),
 )
+
 
 def initialization(self):
     self.linkParameters('RightWhite', 'LeftWhite')

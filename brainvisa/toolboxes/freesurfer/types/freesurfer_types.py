@@ -38,93 +38,105 @@ include('snapshots')
 
 from brainvisa.tools import aimsGlobals
 
-Format( 'FreesurferPial', "f|*.pial" )
-Format( 'FreesurferWhite', "f|*.white" )
-Format( 'FreesurferSphereReg', "f|*.sphere.reg" )
-Format( 'FreesurferThickness', "f|*.thickness" )
-Format( 'FreesurferCurv', "f|*.curv" )
-Format( 'FreesurferAvgCurv', "f|*.avg_curv" )
-Format( 'FreesurferCurvPial', "f|*.curv.pial" )
-Format( 'FreesurferParcellation', "f|*.annot")
-#Format( 'FreesurferMGZ', "f|*.mgz")
-Format( 'FreesurferIsin', "f|*.isin")
-Format( 'FreesurferLabel', "f|*.label")
+Format('FreesurferPial', "f|*.pial")
+Format('FreesurferWhite', "f|*.white")
+Format('FreesurferSphereReg', "f|*.sphere.reg")
+Format('FreesurferThickness', "f|*.thickness")
+Format('FreesurferCurv', "f|*.curv")
+Format('FreesurferAvgCurv', "f|*.avg_curv")
+Format('FreesurferCurvPial', "f|*.curv.pial")
+Format('FreesurferParcellation', "f|*.annot")
+# Format( 'FreesurferMGZ', "f|*.mgz")
+Format('FreesurferIsin', "f|*.isin")
+Format('FreesurferLabel', "f|*.label")
 
-FileType( 'FreesurferType', 'Any Type')
-FileType( 'FreesurferMesh', 'Mesh')
-#FileType( 'FreesurferAnaT', 'FreesurferMGZ')
+FileType('FreesurferType', 'Any Type')
+FileType('FreesurferMesh', 'Mesh')
+# FileType( 'FreesurferAnaT', 'FreesurferMGZ')
 
 # Group
-FileType( 'Freesurfer Group definition', 'Group definition', 'XML')
-FileType( 'AimsWhite', 'White Mesh')
-FileType( 'AverageBrainWhite', 'AimsWhite')
-FileType( 'BothAverageBrainWhite', 'AverageBrainWhite')
+FileType('Freesurfer Group definition', 'Group definition', 'XML')
+FileType('AimsWhite', 'White Mesh')
+FileType('AverageBrainWhite', 'AimsWhite')
+FileType('BothAverageBrainWhite', 'AverageBrainWhite')
 
 
 # Mri / Orig
-FileType( 'FreesurferAnat', 'T1 MRI', aimsGlobals.aimsVolumeFormats + [ 'FreesurferMGZ' ] )
-FileType( 'RawFreesurferAnat', 'FreesurferAnat' )
+FileType('FreesurferAnat', 'T1 MRI',
+         aimsGlobals.aimsVolumeFormats + ['FreesurferMGZ'])
+FileType('RawFreesurferAnat', 'FreesurferAnat')
 
 
-#Mri
-FileType( 'T1 FreesurferAnat', 'FreesurferAnat')
-FileType( 'Nu FreesurferAnat', 'T1 FreesurferAnat' )
-FileType( 'Ribbon Freesurfer', 'Label volume', aimsGlobals.aimsVolumeFormats + [ 'FreesurferMGZ' ] )
-FileType( 'Talairach Auto Freesurfer', 'MINC transformation matrix' )
-FileType( 'Freesurfer aseg', 'Label volume', aimsGlobals.aimsVolumeFormats + [ 'FreesurferMGZ' ] )
-FileType( 'Freesurfer Brain Mask', 'Label volume', aimsGlobals.aimsVolumeFormats + [ 'FreesurferMGZ' ] )
-FileType( 'Freesurfer Cortical Parcellation using Destrieux Atlas', 'Label volume', aimsGlobals.aimsVolumeFormats + [ 'FreesurferMGZ' ] )
+# Mri
+FileType('T1 FreesurferAnat', 'FreesurferAnat')
+FileType('Nu FreesurferAnat', 'T1 FreesurferAnat')
+FileType('Freesurfer Brain Mask',
+         'Label volume',
+         aimsGlobals.aimsVolumeFormats + ['FreesurferMGZ'])
+FileType('Ribbon Freesurfer',
+         'Label volume',
+         aimsGlobals.aimsVolumeFormats + ['FreesurferMGZ'])
+FileType('Freesurfer aseg',
+         'Label volume',
+         aimsGlobals.aimsVolumeFormats + ['FreesurferMGZ'])
+FileType('Freesurfer Cortical Parcellation',
+         'Label volume',
+         aimsGlobals.aimsVolumeFormats + ['FreesurferMGZ'])
+# FileType('Freesurfer Cortical Parcellation using Destrieux Atlas',
+         #'Label volume',
+         # aimsGlobals.aimsVolumeFormats + [ 'FreesurferMGZ' ])
 
-#mri / transforms
-FileType( 'Referential of Raw T1 MRI', 'Referential' )
-FileType( 'Referential of Pial', 'Referential' )
-FileType( 'Freesurfer Anat To Meshes Transformation', 'Transformation' )
-FileType( 'Freesurfer Scanner To MNI Transformation', 'Transformation' )
+# mri / transforms
+FileType('Talairach Auto Freesurfer', 'MINC transformation matrix')
+FileType('Referential of Raw T1 MRI', 'Referential')
+FileType('Referential of Pial', 'Referential')
+FileType('Freesurfer Anat To Meshes Transformation', 'Transformation')
+FileType('Freesurfer Scanner To MNI Transformation', 'Transformation')
 
 # Surf
-FileType( 'SphereReg', 'FreesurferMesh')
-FileType( 'BaseFreesurferType', 'FreesurferType')
-FileType( 'Pial', 'FreesurferMesh')
-FileType( 'White', 'White Mesh')
-FileType( 'ResampledPial', 'FreesurferMesh')
-FileType( 'ResampledWhite', 'White Mesh')
-FileType( 'AimsPial', 'FreesurferMesh')
-FileType( 'AimsNativePial', 'FreesurferMesh')
-FileType( 'AimsNativeWhite', 'FreesurferMesh')
-FileType( 'AimsNormalizedWhite', 'FreesurferMesh')
-FileType( 'AimsInflatedWhite', 'AimsWhite')
-FileType( 'DataTexture', 'Texture')
-FileType( 'FreesurferAvgCurvType', 'DataTexture')
-FileType( 'FreesurferCurvPialType', 'DataTexture')
-FileType( 'FreesurferCurvType', 'DataTexture')
-FileType( 'ResampledDataTexture', 'DataTexture')
-FileType( 'AimsInflatedWhiteCurvTex', 'ResampledDataTexture')
-FileType( 'FreesurferThicknessType', 'DataTexture')
-FileType( 'ResampledFreesurferAvgCurvType', 'ResampledDataTexture')
-FileType( 'ResampledFreesurferCurvPialType', 'ResampledDataTexture')
-FileType( 'ResampledFreesurferCurvType', 'ResampledDataTexture')
-FileType( 'ResampledFreesurferThicknessType', 'ResampledDataTexture')
+FileType('SphereReg', 'FreesurferMesh')
+FileType('BaseFreesurferType', 'FreesurferType')
+FileType('Pial', 'FreesurferMesh')
+FileType('White', 'White Mesh')
+FileType('ResampledPial', 'FreesurferMesh')
+FileType('ResampledWhite', 'White Mesh')
+FileType('AimsPial', 'FreesurferMesh')
+FileType('AimsNativePial', 'FreesurferMesh')
+FileType('AimsNativeWhite', 'FreesurferMesh')
+FileType('AimsNormalizedWhite', 'FreesurferMesh')
+FileType('AimsInflatedWhite', 'AimsWhite')
+FileType('DataTexture', 'Texture')
+FileType('FreesurferAvgCurvType', 'DataTexture')
+FileType('FreesurferCurvPialType', 'DataTexture')
+FileType('FreesurferCurvType', 'DataTexture')
+FileType('ResampledDataTexture', 'DataTexture')
+FileType('AimsInflatedWhiteCurvTex', 'ResampledDataTexture')
+FileType('FreesurferThicknessType', 'DataTexture')
+FileType('ResampledFreesurferAvgCurvType', 'ResampledDataTexture')
+FileType('ResampledFreesurferCurvPialType', 'ResampledDataTexture')
+FileType('ResampledFreesurferCurvType', 'ResampledDataTexture')
+FileType('ResampledFreesurferThicknessType', 'ResampledDataTexture')
 #
-FileType( 'AimsBothWhite', 'AimsWhite')
-FileType( 'AimsBothPial', 'FreesurferMesh')
-FileType( 'AimsBothInflatedWhite', 'AimsInflatedWhite')
+FileType('AimsBothWhite', 'AimsWhite')
+FileType('AimsBothPial', 'FreesurferMesh')
+FileType('AimsBothInflatedWhite', 'AimsInflatedWhite')
 
 # Label
-FileType( 'FreesurferParcellationPath', 'FreesurferType')
-FileType( 'FreesurferGyriTexture', 'ROI Texture', ['FreesurferParcellation'])
-FileType( 'FreesurferSulciGyriTexture', 'ROI Texture',
+FileType('FreesurferParcellationPath', 'FreesurferType')
+FileType('FreesurferGyriTexture', 'ROI Texture', ['FreesurferParcellation'])
+FileType('FreesurferSulciGyriTexture', 'ROI Texture',
          ['FreesurferParcellation'])
-FileType( 'FreesurferReadableGyriTexture', 'FreesurferType')
-FileType( 'FreesurferReadableSulciGyriTexture', 'FreesurferType')
-FileType( 'FreesurferParcellationType', 'ROI Texture')
-FileType( 'FreesurferResampledParcellationType', 'ROI Texture')
-FileType( 'FreesurferGyri', 'FreesurferParcellationType')
-FileType( 'FreesurferSulciGyri', 'FreesurferParcellationType')
-FileType( 'ResampledGyri', 'FreesurferResampledParcellationType')
-FileType( 'ResampledSulciGyri', 'FreesurferResampledParcellationType')
+FileType('FreesurferReadableGyriTexture', 'FreesurferType')
+FileType('FreesurferReadableSulciGyriTexture', 'FreesurferType')
+FileType('FreesurferParcellationType', 'ROI Texture')
+FileType('FreesurferResampledParcellationType', 'ROI Texture')
+FileType('FreesurferGyri', 'FreesurferParcellationType')
+FileType('FreesurferSulciGyri', 'FreesurferParcellationType')
+FileType('ResampledGyri', 'FreesurferResampledParcellationType')
+FileType('ResampledSulciGyri', 'FreesurferResampledParcellationType')
 
 #
-FileType( 'FreesurferResampledBothParcellationType', 'ROI Texture')
-FileType( 'BothResampledGyri', 'ResampledGyri')
-FileType( 'BothResampledSulciGyri', 'ResampledSulciGyri')
-FileType( 'BothAverageResampledGyri', 'ResampledGyri' )
+FileType('FreesurferResampledBothParcellationType', 'ROI Texture')
+FileType('BothResampledGyri', 'ResampledGyri')
+FileType('BothResampledSulciGyri', 'ResampledSulciGyri')
+FileType('BothAverageResampledGyri', 'ResampledGyri')

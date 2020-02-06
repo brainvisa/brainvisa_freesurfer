@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import os, sys
+import os
+import sys
 from brainvisa.processes import *
 
 name = 'Concatenate textures'
@@ -7,14 +8,14 @@ userlevel = 2
 
 signature = Signature(
     'LeftGyri', ReadDiskItem('ResampledGyri', 'Aims Texture formats',
-                             requiredAttributes = {'side' : 'left'}),
+                             requiredAttributes={'side': 'left'}),
     'RightGyri', ReadDiskItem('ResampledGyri', 'Aims Texture formats',
-                              requiredAttributes = {'side' : 'right'}),
+                              requiredAttributes={'side': 'right'}),
 
     'LeftSulciGyri', ReadDiskItem('ResampledSulciGyri', 'Aims Texture formats',
-                                  requiredAttributes = {'side' : 'left'}),
+                                  requiredAttributes={'side': 'left'}),
     'RightSulciGyri', ReadDiskItem('ResampledSulciGyri', 'Aims Texture formats',
-                                   requiredAttributes = {'side' : 'right'}),
+                                   requiredAttributes={'side': 'right'}),
 
     'Gyri', WriteDiskItem('BothResampledGyri', 'Aims Texture formats'),
     'SulciGyri', WriteDiskItem('BothResampledSulciGyri',
@@ -22,13 +23,15 @@ signature = Signature(
     'hemi_order', Choice(('left-right', 0), ('right-left', 1)),
 )
 
+
 def initialization(self):
     self.linkParameters('RightGyri', 'LeftGyri')
     self.linkParameters('LeftSulciGyri', 'LeftGyri')
     self.linkParameters('RightSulciGyri', 'LeftGyri')
     self.linkParameters('Gyri', 'LeftGyri')
     self.linkParameters('SulciGyri', 'LeftGyri')
-    self.setOptional('LeftGyri', 'RightGyri', 'LeftSulciGyri', 'RightSulciGyri',
+    self.setOptional(
+        'LeftGyri', 'RightGyri', 'LeftSulciGyri', 'RightSulciGyri',
                      'Gyri', 'SulciGyri')
     self.hemi_order = 0
 
@@ -52,7 +55,6 @@ def execution(self, context):
             raise ValueError('Gyri can only be written if LeftGyri and '
                              'RightGyri are present')
 
-
     if self.SulciGyri is not None:
         if self.LeftSulciGyri is not None and self.RightSulciGyri is not None:
             context.write(self.SulciGyri.fullPath())
@@ -71,4 +73,3 @@ def execution(self, context):
         else:
             raise ValueError('SulciGyri can only be written if LeftSulciGyri '
                              'and RightSulciGyri are present')
-

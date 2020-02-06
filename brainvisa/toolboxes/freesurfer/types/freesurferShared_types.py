@@ -35,4 +35,4 @@
 
 include('builtin')
 
-FileType( 'Ico Mesh', 'Mesh' )
+FileType('Ico Mesh', 'Mesh')

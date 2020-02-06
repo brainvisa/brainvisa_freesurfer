@@ -37,4 +37,3 @@ def execution(self, context):
         mesh, subject_dir=subject_dir, hemi=hemi,
         ico_order=self.freesurfer_ico_order, context=context)
     aims.write(resampled_mesh, self.resampled_mesh.fullPath())
-

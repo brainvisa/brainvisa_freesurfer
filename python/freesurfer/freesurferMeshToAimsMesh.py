@@ -48,10 +48,11 @@ def freesurferMeshToAimsMesh(meshfile, anatfile, mni_trm, outputmeshfile):
 
 def usage():
     print("Convert Freesurfer mesh file to Aims mesh file")
-    print("usage: python freesurferMeshToAimsMesh meshfile.mesh anatfile.nii scanner_to_talairach.trm outputmeshfile.mesh")
+    print(
+        "usage: python freesurferMeshToAimsMesh meshfile.mesh anatfile.nii scanner_to_talairach.trm outputmeshfile.mesh")
 
 if __name__ == "__main__":
-    if len(argv)!=4:
+    if len(argv) != 5:
         print(usage())
         sys.exit(1)
     print("Mesh file:", sys.argv[1])
@@ -60,7 +61,3 @@ if __name__ == "__main__":
     print("Output mesh file:", sys.argv[4])
     freesurferMeshToAimsMesh(sys.argv[1], sys.argv[2], sys.argv[3],
                              sys.argv[4])
-
-
-
-

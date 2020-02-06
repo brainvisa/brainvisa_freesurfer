@@ -23,11 +23,13 @@ def regularizeParcelTexture(isin, mesh, tex, output):
 
     for n in range(len(isin)):
         t = arr_tex[mesh.polygon()[isin[n][0]].arraydata()]
-        weights = array([(1-isin[n][1]-isin[n][2]), isin[n][1], isin[n][2]])
+        weights = array(
+            [(1 - isin[n][1] - isin[n][2]), isin[n][1], isin[n][2]])
         value = t[weights.argmax()]
         arr_output[n] = value
 
     aims.write(output_tex, output)
+
 
 def usage():
     print("Regularize parcels texture")
@@ -35,7 +37,7 @@ def usage():
 
 
 if __name__ == "__main__":
-    if len(argv)!=5:
+    if len(argv) != 5:
         usage()
         sys.exit(1)
     print("Isin file:", argv[1])

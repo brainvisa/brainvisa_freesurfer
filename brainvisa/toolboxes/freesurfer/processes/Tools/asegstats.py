@@ -18,13 +18,13 @@ signature = Signature(
     'skip_subject_with_error', Boolean(),
     'other_options', String(),
     'output_file',  WriteDiskItem(
-        'Text file', 
+        'Text file',
         ['Text file', 'CSV file']),
 )
 
 
 def initialization(self):
-    
+
     databases = [h.name for h in neuroHierarchy.hierarchies()
                  if h.fso.name == 'freesurfer']
     self.signature['database'].setChoices(*databases)
@@ -32,20 +32,21 @@ def initialization(self):
         self.database = databases[0]
     else:
         self.signature["database"] = ReadDiskItem('Directory', 'Directory')
-    
+
     def linkDB(self, dummy):
         if self.anat_images:
             dbs = [anat.get('_database') for anat in self.anat_images]
             if all(x == dbs[0] for x in dbs):
                 return dbs[0]
             else:
-                print('Anat images were selected from two different databases.')
-    
+                print(
+                    'Anat images were selected from two different databases.')
+
     def linkSubject(self, dummy):
         if self.anat_images:
             subjects = [anat.get('subject') for anat in self.anat_images]
             return subjects
-        
+
     self.setOptional('anat_images')
     self.setOptional('other_options')
     self.linkParameters('database', 'anat_images', linkDB)
@@ -60,10 +61,10 @@ def execution(self, context):
            '--tablefile', self.output_file,
            '--subjects']
     cmd.extend(self.subjects)
-    
+
     if self.skip_subject_with_error:
         cmd.append('--skip')
-    
+
     if self.other_options is not None:
         liste_option = string.split(self.other_options)
         for option in liste_option:

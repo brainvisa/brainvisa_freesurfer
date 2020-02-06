@@ -6,8 +6,9 @@ name = 'Freesurfer resampled data textures viewer'
 roles = ('viewer',)
 userLevel = 0
 
+
 def validation():
-  anatomist.validation()
+    anatomist.validation()
 
 signature = Signature(
     'Texture', ReadDiskItem('ResampledDataTexture',
@@ -16,7 +17,8 @@ signature = Signature(
     "prefer_inflated_meshes", Boolean(),
 )
 
-def initialization( self ):
+
+def initialization(self):
     def link_mesh(self, dummy):
         if self.Texture is not None:
             if self.prefer_inflated_meshes:
@@ -39,6 +41,6 @@ def initialization( self ):
                         link_mesh)
 
 
-def execution( self, context ):
-    a=anatomist.Anatomist()
+def execution(self, context):
+    a = anatomist.Anatomist()
     return a.viewTextureOnMesh(self.WhiteMesh, self.Texture)
