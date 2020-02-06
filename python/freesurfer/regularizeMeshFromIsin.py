@@ -17,7 +17,7 @@ def regularizeMeshAims(brainMesh, isinFile,
                        output_mesh, realsphere='./ico100_7.mesh'):
     brain = aims.read(brainMesh)
     sphere = aims.read(realsphere)
-    isin = pickle.load(open(isinFile))
+    isin = pickle.load(open(isinFile, 'rb'))
     triangles = aims.TimeTexture(isin[0])
     aisin = numpy.array(isin[1])
     coords1 = aims.TimeTexture(aisin[:, 0])

@@ -13,7 +13,7 @@ def regularizeTexture(isin, mesh, tex, output):
     mesh = aims.read(mesh)
     tex = Texture.read(tex)
 
-    isin = pickle.load(open(isin))
+    isin = pickle.load(open(isin, 'rb'))
     isin = vstack((array(isin[0]), array(isin[1]).T)).T
 
     output = Texture(filename=output, data=zeros(len(isin)))

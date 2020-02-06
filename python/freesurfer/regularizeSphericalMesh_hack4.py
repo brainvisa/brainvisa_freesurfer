@@ -175,6 +175,6 @@ def regularizeSphericalMesh(srcmesh, isinFile, dstmesh='./ico100_7.mesh'):
     print("computing transformation")
     # remesh_params = remesh(srcgii, dstgii)
     remesh_params = remeshAims(srcgii, dstgii)
-    f = open(isinFile, 'w')
+    f = open(isinFile, 'wb')
     pickle.dump(remesh_params, f)
     f.close()
