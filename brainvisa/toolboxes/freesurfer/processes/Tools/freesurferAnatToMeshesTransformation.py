@@ -14,7 +14,7 @@ signature = Signature(
     'scanner_based_to_mni',
       ReadDiskItem('Freesurfer Scanner To MNI Transformation',
                    'Transformation matrix'),
-    'fs_mesh', ReadDiskItem('FreesurferType', 'FreesurferWhite'),
+    'fs_mesh', ReadDiskItem('White', 'aims mesh formats'),
     'anat_to_meshes_transform',
         WriteDiskItem('Freesurfer Anat To Meshes Transformation',
                       'Transformation matrix'),
