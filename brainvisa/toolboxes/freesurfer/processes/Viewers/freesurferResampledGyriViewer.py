@@ -6,17 +6,19 @@ name = 'Freesurfer resampled gyri viewer'
 roles = ('viewer',)
 userLevel = 0
 
+
 def validation():
-  anatomist.validation()
+    anatomist.validation()
 
 signature = Signature(
     'Gyri', ReadDiskItem('FreesurferResampledParcellationType',
-        'anatomist Texture formats'),
+                         'anatomist Texture formats'),
     'WhiteMesh', ReadDiskItem('AimsWhite', 'anatomist mesh formats'),
     "prefer_inflated_meshes", Boolean(),
 )
 
-def initialization( self ):
+
+def initialization(self):
     def link_mesh(self, dummy):
         if self.Gyri is not None:
             if self.prefer_inflated_meshes:
@@ -39,7 +41,7 @@ def initialization( self ):
                         link_mesh)
 
 
-def execution( self, context ):
-    a=anatomist.Anatomist()
+def execution(self, context):
+    a = anatomist.Anatomist()
     return a.viewTextureOnMesh(self.WhiteMesh, self.Gyri, interpolation='rgb',
                                palette='freesurfer_gyri')

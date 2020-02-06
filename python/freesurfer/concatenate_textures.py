@@ -1,13 +1,16 @@
 from __future__ import print_function
 from numpy import array
 import numpy
-#from tio import Texture
+# from tio import Texture
 from soma import aims
 import sys
 
+
 def usage():
     print("concatenate textures")
-    #print("usage: concatenate_textures.py output.tex file1.tex ... fileN.tex")
+    # print("usage: concatenate_textures.py output.tex file1.tex ...
+    # fileN.tex")
+
 
 def concatenate_textures(output, fileL, fileR):
     print('*** concatenate_textures ***')
@@ -29,7 +32,7 @@ def concatenate_textures(output, fileL, fileR):
         lt = gyriTexL.header()['GIFTI_labels_table']
         for i in range(lh_max - 1):
             try:
-                new_lt[i ] = lt[i]
+                new_lt[i] = lt[i]
             except:
                 pass
     if 'GIFTI_labels_table' in gyriTexR.header():
@@ -48,7 +51,7 @@ def concatenate_textures(output, fileL, fileR):
         for i, v in new_lt.items():
             lt[i] = v
         # should just be:
-        #gyriTexB.header()['GIFTI_labels_table'] = new_lt
+        # gyriTexB.header()['GIFTI_labels_table'] = new_lt
     print('header:')
     print(gyriTexB.header())
     aims.write(gyriTexB, output)
@@ -61,4 +64,3 @@ if __name__ == "__main__":
     fileL = sys.argv[2]
     fileR = sus.argv[3]
     concatenate_textures(output, fileL, fileR)
-

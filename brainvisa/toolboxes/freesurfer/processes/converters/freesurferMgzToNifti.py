@@ -39,7 +39,8 @@ from freesurfer.brainvisaFreesurfer \
 name = 'FreeSurfer from MGZ Converter'
 roles = ('converter',)
 userLevel = 0
-rolePriority = 2 # set higher priority than aims converter
+rolePriority = 2  # set higher priority than aims converter
+
 
 def validation():
     testFreesurferCommand()
@@ -50,8 +51,10 @@ signature = Signature(
                            ['NIFTI-1 image', 'gz compressed NIFTI-1 image']),
 )
 
+
 def initialization(self):
     self.linkParameters('write', 'read')
+
 
 def execution(self, context):
     # mri_convert will not write a .minf, so we have to take care if it
@@ -62,4 +65,3 @@ def execution(self, context):
                             self.write)
     self.write.readAndUpdateMinf()
     self.write.saveMinf()
-

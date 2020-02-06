@@ -1,11 +1,11 @@
-###############################################################################
+#
 # This software and supporting documentation are distributed by CEA/NeuroSpin,
 # Batiment 145, 91191 Gif-sur-Yvette cedex, France. This software is governed
 # by the CeCILL license version 2 under French law and abiding by the rules of
 # distribution of free software. You can  use, modify and/or redistribute the
 # software under the terms of the CeCILL license version 2 as circulated by
 # CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
-###############################################################################
+#
 
 """
 This script does the following:
@@ -59,6 +59,7 @@ signature = Signature(
 def initialization(self):
     """Defines the link of parameters.
     """
+
     def link_rmesh(self, dummy):
         """
         """
@@ -113,9 +114,9 @@ def execution(self, context):
     t_tr = context.temporary('Transformation matrix')
     aims.write(to_apc_tal, t_tr.fullPath())
 
-    ###########################################################################
-    #                        LEFT HEMISPHERE (lh)                             #
-    ###########################################################################
+    #
+    # LEFT HEMISPHERE (lh)                             #
+    #
 
     # create the left average mesh
     args = ['freesurfer_average_mesh.py', '-r', 'Talairach', '-f', t_tr]
@@ -125,9 +126,9 @@ def execution(self, context):
     context.pythonSystem(*args)
     context.write('left hemispheres done.')
 
-    ###########################################################################
-    #                        RIGHT HEMISPHERE (rh)                            #
-    ###########################################################################
+    #
+    # RIGHT HEMISPHERE (rh)                            #
+    #
 
     # create the right average mesh
     args = ['freesurfer_average_mesh.py', '-r', 'Talairach', '-f', t_tr]
@@ -137,9 +138,9 @@ def execution(self, context):
     context.pythonSystem(*args)
     context.write('right hemispheres done.')
 
-    ###########################################################################
-    #                        BOTH HEMISPHERE (bh)                             #
-    ###########################################################################
+    #
+    # BOTH HEMISPHERE (bh)                             #
+    #
 
     # concatenate the left and right average meshes
     # create the both average mesh
@@ -148,4 +149,4 @@ def execution(self, context):
         "-i", self.LeftAverageMesh.fullPath(),
         self.RightAverageMesh.fullPath(),
         "-o", self.BothAverageMesh.fullPath()
-        )
+    )

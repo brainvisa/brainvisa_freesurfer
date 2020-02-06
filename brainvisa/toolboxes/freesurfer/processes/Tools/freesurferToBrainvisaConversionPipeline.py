@@ -6,62 +6,65 @@ userLevel = 0
 
 signature = Signature(
     'anat', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ',
-        enableConversion=False),
+                         enableConversion=False),
     'icosphere_type', Choice('brainvisa 40k', 'hcp 32k', 'freesurfer ic6 40k'),
     'nu', ReadDiskItem('Nu FreesurferAnat', 'FreesurferMGZ',
-        enableConversion=False),
+                       enableConversion=False),
     'ribbon', ReadDiskItem('Ribbon Freesurfer', 'FreesurferMGZ',
-        requiredAttributes={'side': 'both',
-                            'space': 'freesurfer analysis'},
-        enableConversion=False),
+                           requiredAttributes={'side': 'both',
+                                               'space': 'freesurfer analysis'},
+                           enableConversion=False),
 
     'leftPial', ReadDiskItem('FreesurferType', 'FreesurferPial',
-            requiredAttributes = {'side': 'left'}),
+                             requiredAttributes={'side': 'left'}),
     'leftWhite', ReadDiskItem('FreesurferType', 'FreesurferWhite',
-            requiredAttributes = {'side': 'left'}),
+                              requiredAttributes={'side': 'left'}),
     'leftSphereReg', ReadDiskItem('FreesurferType', 'FreesurferSphereReg',
-            requiredAttributes = {'side': 'left'}),
+                                  requiredAttributes={'side': 'left'}),
     'leftThickness', ReadDiskItem('FreesurferType', 'FreesurferThickness',
-            requiredAttributes = {'side': 'left'}),
+                                  requiredAttributes={'side': 'left'}),
     'leftCurv', ReadDiskItem('FreesurferType', 'FreesurferCurv',
-            requiredAttributes = {'side': 'left'}),
+                             requiredAttributes={'side': 'left'}),
     'leftAvgCurv', ReadDiskItem('FreesurferType', 'FreesurferAvgCurv',
-            requiredAttributes = {'side': 'left'}),
+                                requiredAttributes={'side': 'left'}),
     'leftCurvPial', ReadDiskItem('FreesurferType', 'FreesurferCurvPial',
-            requiredAttributes = {'side': 'left'}),
+                                 requiredAttributes={'side': 'left'}),
     'leftGyri', ReadDiskItem('FreesurferGyriTexture', 'FreesurferParcellation',
-            requiredAttributes = {'side': 'left'}),
+                             requiredAttributes={'side': 'left'}),
     'leftSulciGyri',
-            ReadDiskItem('FreesurferSulciGyriTexture', 'FreesurferParcellation',
-            requiredAttributes = {'side': 'left'}),
-    
-    'rightPial', ReadDiskItem('FreesurferType', 'FreesurferPial',
-            requiredAttributes = {'side': 'right'}),
-    'rightWhite', ReadDiskItem('FreesurferType', 'FreesurferWhite',
-            requiredAttributes = {'side': 'right'}),
-    'rightSphereReg', ReadDiskItem('FreesurferType', 'FreesurferSphereReg',
-            requiredAttributes = {'side': 'right'}),
-    'rightThickness', ReadDiskItem('FreesurferType', 'FreesurferThickness',
-            requiredAttributes = {'side': 'right'}),
-    'rightCurv', ReadDiskItem('FreesurferType', 'FreesurferCurv',
-            requiredAttributes = {'side': 'right'}),
-    'rightAvgCurv', ReadDiskItem('FreesurferType', 'FreesurferAvgCurv',
-            requiredAttributes = {'side': 'right'}),
-    'rightCurvPial', ReadDiskItem('FreesurferType', 'FreesurferCurvPial',
-            requiredAttributes = {'side': 'right'}),
-    'rightGyri', ReadDiskItem('FreesurferGyriTexture', 'FreesurferParcellation',
-            requiredAttributes = {'side': 'right'}),
-    'rightSulciGyri',
-            ReadDiskItem('FreesurferSulciGyriTexture', 'FreesurferParcellation',
-            requiredAttributes = {'side': 'right'}),
-  
-  #'bv_anat', ReadDiskItem('Raw T1 MRI', 'NIFTI-1 image')
-    )
+            ReadDiskItem(
+                'FreesurferSulciGyriTexture', 'FreesurferParcellation',
+            requiredAttributes={'side': 'left'}),
 
-def initialization( self ):
+    'rightPial', ReadDiskItem('FreesurferType', 'FreesurferPial',
+                              requiredAttributes={'side': 'right'}),
+    'rightWhite', ReadDiskItem('FreesurferType', 'FreesurferWhite',
+                               requiredAttributes={'side': 'right'}),
+    'rightSphereReg', ReadDiskItem('FreesurferType', 'FreesurferSphereReg',
+                                   requiredAttributes={'side': 'right'}),
+    'rightThickness', ReadDiskItem('FreesurferType', 'FreesurferThickness',
+                                   requiredAttributes={'side': 'right'}),
+    'rightCurv', ReadDiskItem('FreesurferType', 'FreesurferCurv',
+                              requiredAttributes={'side': 'right'}),
+    'rightAvgCurv', ReadDiskItem('FreesurferType', 'FreesurferAvgCurv',
+                                 requiredAttributes={'side': 'right'}),
+    'rightCurvPial', ReadDiskItem('FreesurferType', 'FreesurferCurvPial',
+                                  requiredAttributes={'side': 'right'}),
+    'rightGyri', ReadDiskItem('FreesurferGyriTexture', 'FreesurferParcellation',
+                              requiredAttributes={'side': 'right'}),
+    'rightSulciGyri',
+            ReadDiskItem(
+                'FreesurferSulciGyriTexture', 'FreesurferParcellation',
+            requiredAttributes={'side': 'right'}),
+
+  #'bv_anat', ReadDiskItem('Raw T1 MRI', 'NIFTI-1 image')
+)
+
+
+def initialization(self):
     self.linkParameters('nu', 'anat')
     self.linkParameters('ribbon', 'anat')
-    
+
     self.linkParameters('leftPial', 'anat')
     self.linkParameters('leftCurv', 'anat')
 
@@ -77,11 +80,11 @@ def initialization( self ):
 
     # 3b
     eNode.addChild('BfreesurferImageToNii',
-                    ProcessExecutionNode('freesurferAnatToNii', optional=1))
+                   ProcessExecutionNode('freesurferAnatToNii', optional=1))
     eNode.BfreesurferImageToNii.removeLink('nu', 'orig')
     eNode.BfreesurferImageToNii.removeLink('ribbon', 'nu')
     eNode.BfreesurferImageToNii.removeLink('referential', 'raw')
-    
+
     eNode.addDoubleLink('BfreesurferImageToNii.raw', 'anat')
     eNode.addDoubleLink('BfreesurferImageToNii.nu', 'nu')
     eNode.addDoubleLink('BfreesurferImageToNii.ribbon', 'ribbon')
@@ -91,7 +94,8 @@ def initialization( self ):
     # referential
     eNode.addChild('CreateReferentials',
                    ProcessExecutionNode('AddScannerBasedReferential', optional=1))
-    eNode.CreateReferentials.removeLink('referential_volume_input', 'volume_input')
+    eNode.CreateReferentials.removeLink(
+        'referential_volume_input', 'volume_input')
     eNode.addDoubleLink('CreateReferentials.volume_input',
                         'BfreesurferImageToNii.raw_nifti')
     eNode.addDoubleLink('CreateReferentials.referential_volume_input',
@@ -110,11 +114,11 @@ def initialization( self ):
     eNode.addDoubleLink('CreateMeshesReferential.anat',
                         'BfreesurferImageToNii.raw_nifti')
 
-
     eNode.addChild('CreateMeshesTransformation',
                    ProcessExecutionNode('freesurferAnatToMeshesTransformation',
                                         optional=1))
-    eNode.CreateMeshesTransformation.removeLink('freesurfer_meshes_referential',
+    eNode.CreateMeshesTransformation.removeLink(
+        'freesurfer_meshes_referential',
                                                 'anat')
     eNode.CreateMeshesTransformation.removeLink('anat_referential', 'anat')
     eNode.addDoubleLink('BfreesurferImageToNii.raw_nifti',
@@ -128,29 +132,31 @@ def initialization( self ):
     eNode.addChild('LfreesurferConversionMeshToGii',
                    ProcessExecutionNode('freesurferConversionMeshToGii',
                                         optional=1))
-    #eNode.LfreesurferConversionMeshToGii.removeLink('White', 'Pial')
-    #eNode.LfreesurferConversionMeshToGii.removeLink('SphereReg', 'Pial')
+    # eNode.LfreesurferConversionMeshToGii.removeLink('White', 'Pial')
+    # eNode.LfreesurferConversionMeshToGii.removeLink('SphereReg', 'Pial')
     eNode.LfreesurferConversionMeshToGii.removeLink('meshes_referential',
                                                     'PialGifti')
 
     eNode.addDoubleLink('LfreesurferConversionMeshToGii.Pial', 'leftPial')
     eNode.addDoubleLink('LfreesurferConversionMeshToGii.White', 'leftWhite')
-    eNode.addDoubleLink('LfreesurferConversionMeshToGii.SphereReg', 'leftSphereReg')
+    eNode.addDoubleLink(
+        'LfreesurferConversionMeshToGii.SphereReg', 'leftSphereReg')
     eNode.addDoubleLink('LfreesurferConversionMeshToGii.meshes_referential',
                         'CreateMeshesReferential.meshes_referential')
 
-    #4  -Right
+    # 4  -Right
     eNode.addChild('RfreesurferConversionMeshToGii',
                    ProcessExecutionNode('freesurferConversionMeshToGii',
                                         optional=1))
-    #eNode.RfreesurferConversionMeshToGii.removeLink('White', 'Pial')
-    #eNode.RfreesurferConversionMeshToGii.removeLink('SphereReg', 'Pial')
+    # eNode.RfreesurferConversionMeshToGii.removeLink('White', 'Pial')
+    # eNode.RfreesurferConversionMeshToGii.removeLink('SphereReg', 'Pial')
     eNode.RfreesurferConversionMeshToGii.removeLink('meshes_referential',
                                                     'PialGifti')
 
     eNode.addDoubleLink('RfreesurferConversionMeshToGii.Pial', 'rightPial')
     eNode.addDoubleLink('RfreesurferConversionMeshToGii.White', 'rightWhite')
-    eNode.addDoubleLink('RfreesurferConversionMeshToGii.SphereReg', 'rightSphereReg')
+    eNode.addDoubleLink(
+        'RfreesurferConversionMeshToGii.SphereReg', 'rightSphereReg')
     eNode.addDoubleLink('RfreesurferConversionMeshToGii.meshes_referential',
                         'CreateMeshesReferential.meshes_referential')
 
@@ -205,7 +211,7 @@ def initialization( self ):
                    ProcessExecutionNode('freesurferMeshToAimsRef',
                                         optional=1))
     eNode.LfreesurferMeshToAimsRef.removeLink('ResampledWhiteMesh',
-                                              'ResampledPialMesh' )
+                                              'ResampledPialMesh')
     eNode.LfreesurferMeshToAimsRef.removeLink('bv_anat', 'ResampledPialMesh')
     eNode.addDoubleLink('LfreesurferMeshToAimsRef.ResampledPialMesh',
                         'LfreesurferMeshResampling.ResampledPialMesh')
@@ -401,6 +407,4 @@ def initialization( self ):
                         'RfreesurferResampleLabels.ResampledSulciGyri')
 
     # 18
-    self.setExecutionNode( eNode )
-
-
+    self.setExecutionNode(eNode)

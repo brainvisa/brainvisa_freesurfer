@@ -95,23 +95,23 @@ def resample_mesh_to_fs_ico(mesh, subject_dir, hemi, ico_order=6, context=None):
 
     try:
         cmd = ['mri_surf2surf', '--srcsubject', os.path.basename(subject_dir),
-              '--trgsubject', 'ico', '--trgicoorder', str(ico_order),
-              '--hemi', hemi, '--srcsurfval', 'x.asc', '--trgsurfval', x_file,
-              '--src_type', 'curv']
+               '--trgsubject', 'ico', '--trgicoorder', str(ico_order),
+               '--hemi', hemi, '--srcsurfval', 'x.asc', '--trgsurfval', x_file,
+               '--src_type', 'curv']
         bvfs.launchFreesurferCommand(context, os.path.dirname(subject_dir),
                                      *cmd)
 
         cmd = ['mri_surf2surf', '--srcsubject', os.path.basename(subject_dir),
-              '--trgsubject', 'ico', '--trgicoorder', str(ico_order),
-              '--hemi', hemi, '--srcsurfval', 'y.asc', '--trgsurfval', y_file,
-              '--src_type', 'curv']
+               '--trgsubject', 'ico', '--trgicoorder', str(ico_order),
+               '--hemi', hemi, '--srcsurfval', 'y.asc', '--trgsurfval', y_file,
+               '--src_type', 'curv']
         bvfs.launchFreesurferCommand(context, os.path.dirname(subject_dir),
                                      *cmd)
 
         cmd = ['mri_surf2surf', '--srcsubject', os.path.basename(subject_dir),
-              '--trgsubject', 'ico', '--trgicoorder', str(ico_order),
-              '--hemi', hemi, '--srcsurfval', 'z.asc', '--trgsurfval', z_file,
-              '--src_type', 'curv']
+               '--trgsubject', 'ico', '--trgicoorder', str(ico_order),
+               '--hemi', hemi, '--srcsurfval', 'z.asc', '--trgsurfval', z_file,
+               '--src_type', 'curv']
         bvfs.launchFreesurferCommand(context, os.path.dirname(subject_dir),
                                      *cmd)
 

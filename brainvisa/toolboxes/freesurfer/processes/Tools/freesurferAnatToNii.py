@@ -23,7 +23,7 @@ signature = Signature(
         'RawFreesurferAnat',
         ['gz compressed NIFTI-1 image', 'NIFTI-1 image']),
         #_debug=sys.stdout,
-        #preferExisting=True),
+        # preferExisting=True),
     'referential', ReadDiskItem(
         'Referential of Raw T1 MRI',
         'Referential'),
@@ -45,7 +45,7 @@ signature = Signature(
         'Nu FreesurferAnat',
         ['gz compressed NIFTI-1 image', 'NIFTI-1 image']),
         #_debug=sys.stdout,
-        #preferExisting=True),
+        # preferExisting=True),
     # Segmentation
     'ribbon', ReadDiskItem(
         'Ribbon Freesurfer',
@@ -103,7 +103,8 @@ def updateFormat(self, param1, param2, proc, dummy):
         if len(fp) == 2:
             # print(self.__dict__[param1].fullPath())
             filename = self.__dict__[param1].fullName() + fp[1]
-            result = WriteDiskItem(param2, self.chosen_format).findValue(filename)
+            result = WriteDiskItem(
+                param2, self.chosen_format).findValue(filename)
     return result
 
 
@@ -115,7 +116,7 @@ def initialization(self):
     self.linkParameters('aseg', 'nu')
     self.linkParameters('aparc_aseg', 'nu')
     self.linkParameters('aparc_a2009s_aseg', 'nu')
-    
+
     self.linkParameters('raw_nifti',
                         ['raw', 'chosen_format'],
                         partial(self.updateFormat, 'raw', 'RawFreesurferAnat'))
@@ -149,68 +150,79 @@ def execution(self, context):
     # the freesurfer mri_convert-based one)
     conv = context.getConverter(self.orig, self.orig_nifti)
     if conv is None:
-        raise ValidationError('No converter could be found to convert FreeSurfer MGZ format')
+        raise ValidationError(
+            'No converter could be found to convert FreeSurfer MGZ format')
     context.write('converter found:', conv.name)
-    
+
     if self.raw_nifti:
         if os.path.exists(self.raw_nifti.minfFileName()):
-            context.write('removing residual .minf file %s' % self.raw_nifti.minfFileName())
+            context.write('removing residual .minf file %s' %
+                          self.raw_nifti.minfFileName())
             os.unlink(self.raw_nifti.minfFileName())
         context.runProcess(conv, self.raw, self.raw_nifti)
-        #launchFreesurferCommand(context, '',
+        # launchFreesurferCommand(context, '',
                                 #'mri_convert',
-                                #self.raw.fullPath(),
-                                #self.raw_nifti.fullPath())
+                                # self.raw.fullPath(),
+                                # self.raw_nifti.fullPath())
         self.raw_nifti._minfAttributes = {}
         self.raw_nifti.saveMinf()
         context.system(os.path.basename(sys.executable),
                        '-c',
-                       'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.raw_nifti.fullPath()))
+                       'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");' % (self.raw_nifti.fullPath()))
         self.raw_nifti.readAndUpdateMinf()
         if self.referential:
-            self.raw_nifti.setMinf('referential', self.referential.uuid(), saveMinf=True)
-            registration.getTransformationManager().copyReferential(self.referential,
-                                                                    self.raw_nifti)
-    
+            self.raw_nifti.setMinf(
+                'referential', self.referential.uuid(), saveMinf=True)
+            registration.getTransformationManager(
+            ).copyReferential(self.referential,
+                              self.raw_nifti)
+
     # reset minf attributes in case there was an existing older diskitem
     if os.path.exists(self.orig_nifti.minfFileName()):
-        context.write('removing residual .minf file %s' % self.orig_nifti.minfFileName())
+        context.write('removing residual .minf file %s' %
+                      self.orig_nifti.minfFileName())
         os.unlink(self.orig_nifti.minfFileName())
     if os.path.exists(self.nu_nifti.minfFileName()):
-        context.write('removing residual .minf file %s' % self.nu_nifti.minfFileName())
+        context.write('removing residual .minf file %s' %
+                      self.nu_nifti.minfFileName())
         os.unlink(self.nu_nifti.minfFileName())
     if os.path.exists(self.ribbon_nifti.minfFileName()):
-        context.write('removing residual .minf file %s' % self.ribbon_nifti.minfFileName())
+        context.write('removing residual .minf file %s' %
+                      self.ribbon_nifti.minfFileName())
         os.unlink(self.ribbon_nifti.minfFileName())
     if os.path.exists(self.aseg_nifti.minfFileName()):
-        context.write('removing residual .minf file %s' % self.aseg_nifti.minfFileName())
+        context.write('removing residual .minf file %s' %
+                      self.aseg_nifti.minfFileName())
         os.unlink(self.aseg_nifti.minfFileName())
     if os.path.exists(self.aparc_aseg_nifti.minfFileName()):
-        context.write('removing residual .minf file %s' % self.aparc_aseg_nifti.minfFileName())
+        context.write('removing residual .minf file %s' %
+                      self.aparc_aseg_nifti.minfFileName())
         os.unlink(self.aparc_aseg_nifti.minfFileName())
     if os.path.exists(self.aparc_a2009s_aseg_nifti.minfFileName()):
-        context.write('removing residual .minf file %s' % self.aparc_a2009s_aseg_nifti.minfFileName())
+        context.write('removing residual .minf file %s' %
+                      self.aparc_a2009s_aseg_nifti.minfFileName())
         os.unlink(self.aparc_a2009s_aseg_nifti.minfFileName())
-    
+
     # convert images
     context.runProcess(conv, self.orig, self.orig_nifti)
     context.runProcess(conv, self.nu, self.nu_nifti)
     context.runProcess(conv, self.ribbon, self.ribbon_nifti)
     context.runProcess(conv, self.aseg, self.aseg_nifti)
     context.runProcess(conv, self.aparc_aseg, self.aparc_aseg_nifti)
-    context.runProcess(conv, self.aparc_a2009s_aseg, self.aparc_a2009s_aseg_nifti)
-    #launchFreesurferCommand( context, '',
+    context.runProcess(
+        conv, self.aparc_a2009s_aseg, self.aparc_a2009s_aseg_nifti)
+    # launchFreesurferCommand( context, '',
                             #'mri_convert',
-                            #self.RawImage.fullPath(),
-                            #self.NiiRawImage.fullPath() )
-    #launchFreesurferCommand( context, '',
+                            # self.RawImage.fullPath(),
+                            # self.NiiRawImage.fullPath() )
+    # launchFreesurferCommand( context, '',
                             #'mri_convert',
-                            #self.NuImage.fullPath(),
-                            #self.NiiNuImage.fullPath() )
-    #launchFreesurferCommand( context, '',
+                            # self.NuImage.fullPath(),
+                            # self.NiiNuImage.fullPath() )
+    # launchFreesurferCommand( context, '',
                             #'mri_convert',
-                            #self.RibbonImage.fullPath(),
-                            #self.NiiRibbonImage.fullPath() )
+                            # self.RibbonImage.fullPath(),
+                            # self.NiiRibbonImage.fullPath() )
 
     # set minf files
     self.orig_nifti._minfAttributes = {}
@@ -226,24 +238,24 @@ def execution(self, context):
     self.aparc_a2009s_aseg_nifti._minfAttributes = {}
     self.aparc_a2009s_aseg_nifti.saveMinf()
     context.pythonSystem('-c',
-                        'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.orig_nifti.fullPath()))
+                         'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");' % (self.orig_nifti.fullPath()))
     context.pythonSystem('-c',
-                        'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.nu_nifti.fullPath()))
+                         'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");' % (self.nu_nifti.fullPath()))
     context.pythonSystem('-c',
-                        'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.ribbon_nifti.fullPath()))
+                         'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");' % (self.ribbon_nifti.fullPath()))
     context.pythonSystem('-c',
-                        'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.aseg_nifti.fullPath()))
+                         'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");' % (self.aseg_nifti.fullPath()))
     context.pythonSystem('-c',
-                        'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.aparc_aseg_nifti.fullPath()))
+                         'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");' % (self.aparc_aseg_nifti.fullPath()))
     context.pythonSystem('-c',
-                        'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");'%(self.aparc_a2009s_aseg_nifti.fullPath()))
+                         'from freesurfer.setAnatTransformation import setAnatTransformation as f; f(\"%s\");' % (self.aparc_a2009s_aseg_nifti.fullPath()))
     self.orig_nifti.readAndUpdateMinf()
     self.nu_nifti.readAndUpdateMinf()
     self.ribbon_nifti.readAndUpdateMinf()
     self.aseg_nifti.readAndUpdateMinf()
     self.aparc_aseg_nifti.readAndUpdateMinf()
     self.aparc_a2009s_aseg_nifti.readAndUpdateMinf()
-    
+
     # referential
     if self.referential:
         self.orig_nifti.setMinf('referential',
@@ -264,10 +276,15 @@ def execution(self, context):
         self.aparc_a2009s_aseg_nifti.setMinf('referential',
                                              self.referential.uuid(),
                                              saveMinf=True)
-        registration.getTransformationManager().copyReferential(self.referential, self.orig_nifti)
-        registration.getTransformationManager().copyReferential(self.referential, self.nu_nifti)  
-        registration.getTransformationManager().copyReferential(self.referential, self.ribbon_nifti) 
-        registration.getTransformationManager().copyReferential(self.referential, self.aseg_nifti)
-        registration.getTransformationManager().copyReferential(self.referential, self.aparc_aseg_nifti)
-        registration.getTransformationManager().copyReferential(self.referential, self.aparc_a2009s_aseg_nifti)
-
+        registration.getTransformationManager().copyReferential(
+            self.referential, self.orig_nifti)
+        registration.getTransformationManager().copyReferential(
+            self.referential, self.nu_nifti)
+        registration.getTransformationManager().copyReferential(
+            self.referential, self.ribbon_nifti)
+        registration.getTransformationManager().copyReferential(
+            self.referential, self.aseg_nifti)
+        registration.getTransformationManager().copyReferential(
+            self.referential, self.aparc_aseg_nifti)
+        registration.getTransformationManager().copyReferential(
+            self.referential, self.aparc_a2009s_aseg_nifti)

@@ -22,9 +22,9 @@ def initialization(self):
 
     eNode = SerialExecutionNode(self.name, parameterized=self)
 
-    ###########################################################################
-    #           01 Create Freesurfer subject from T1 anatomical image         #
-    ###########################################################################
+    #
+    # 01 Create Freesurfer subject from T1 anatomical image         #
+    #
 
     eNode.addChild(
         "FreeSurfer01",
@@ -42,9 +42,9 @@ def initialization(self):
     else:
         self.signature["database"] = OpenChoice()
 
-    ###########################################################################
-    #            02 Launch Freesurfer full pipeline recon-all                 #
-    ###########################################################################
+    #
+    # 02 Launch Freesurfer full pipeline recon-all                 #
+    #
 
     eNode.addChild(
         "FreeSurfer02",
@@ -52,9 +52,9 @@ def initialization(self):
 
     eNode.addDoubleLink("FreeSurfer02.AnatImage", "FreeSurfer01.AnatImage")
 
-    ###########################################################################
-    #        FreeSurfer outputs To BrainVisa conversion pipeline              #
-    ###########################################################################
+    #
+    # FreeSurfer outputs To BrainVisa conversion pipeline              #
+    #
 
     eNode.addChild(
         "FreeSurferPipeline",

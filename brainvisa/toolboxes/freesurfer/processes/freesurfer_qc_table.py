@@ -48,27 +48,27 @@ def execution(self, context):
               'BothResampledGyri', 'BothResampledSulciGyri']
 
     tlabels = ['Raw T1', 'Ribbon',
-              'Freesurfer To MNI Transformation',
-              'Left Pial Mesh', 'Right Pial Mesh',
-              'Left White Mesh', 'Right White Mesh',
-              'Left Resampled Pial', 'Right Resampled Pial',
-              'Left Resampled White', 'Right Resampled White',
-              'Left Gyri Texture', 'Right Gyri Texture',
-              'Left Sulci/Gyri', 'Right Sulci/Gyri',
-              'Left Resampled Gyri', 'Right Resampled Gyri',
-              'Left Resampled Sulci/Gyri', 'Right Resampled Sulci/Gyri',
-              'Left Resampled Curvature', 'Right Resampled Curvature',
-              'Left Resampled Avg. Curvature',
-              'Right Resampled Avg. Curvature',
-              'Left Resampled Pial Curvature',
-              'Right Resampled Pial Curvature',
-              'Left Resampled Thickness',
-              'Right Resampled Thickness',
-              'Left Resampled Inflated White',
-              'Right Resampled Inflated White',
-              'Both Hemi. White', 'Both Hemi. Pial',
-              'Both Hemi. Inflated White',
-              'Both Hemi. Resampled Gyri', 'Both Hemi. Resampled Sulci/Gyri']
+               'Freesurfer To MNI Transformation',
+               'Left Pial Mesh', 'Right Pial Mesh',
+               'Left White Mesh', 'Right White Mesh',
+               'Left Resampled Pial', 'Right Resampled Pial',
+               'Left Resampled White', 'Right Resampled White',
+               'Left Gyri Texture', 'Right Gyri Texture',
+               'Left Sulci/Gyri', 'Right Sulci/Gyri',
+               'Left Resampled Gyri', 'Right Resampled Gyri',
+               'Left Resampled Sulci/Gyri', 'Right Resampled Sulci/Gyri',
+               'Left Resampled Curvature', 'Right Resampled Curvature',
+               'Left Resampled Avg. Curvature',
+               'Right Resampled Avg. Curvature',
+               'Left Resampled Pial Curvature',
+               'Right Resampled Pial Curvature',
+               'Left Resampled Thickness',
+               'Right Resampled Thickness',
+               'Left Resampled Inflated White',
+               'Right Resampled Inflated White',
+               'Both Hemi. White', 'Both Hemi. Pial',
+               'Both Hemi. Inflated White',
+               'Both Hemi. Resampled Gyri', 'Both Hemi. Resampled Sulci/Gyri']
 
     custom_filt = [eval(filt) for filt in self.data_filters]
     if len(custom_filt) == 1:
@@ -103,5 +103,3 @@ def execution(self, context):
                               keys=self.keys,
                               type_labels=tlabels,
                               output_file=self.output_file)
-
-

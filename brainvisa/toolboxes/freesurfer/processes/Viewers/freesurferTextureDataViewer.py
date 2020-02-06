@@ -6,18 +6,20 @@ name = 'Freesurfer data textures viewer'
 roles = ('viewer',)
 userLevel = 0
 
+
 def validation():
-  anatomist.validation()
+    anatomist.validation()
 
 signature = Signature(
-  'Texture', ReadDiskItem('DataTexture', 'anatomist Texture formats'),
+    'Texture', ReadDiskItem('DataTexture', 'anatomist Texture formats'),
   'WhiteMesh', ReadDiskItem('White', 'anatomist mesh formats'),
 )
 
-def initialization( self ):
-  self.linkParameters('WhiteMesh', 'Texture')
+
+def initialization(self):
+    self.linkParameters('WhiteMesh', 'Texture')
 
 
-def execution( self, context ):
-  a=anatomist.Anatomist()
-  return a.viewTextureOnMesh(self.WhiteMesh, self.Texture)
+def execution(self, context):
+    a = anatomist.Anatomist()
+    return a.viewTextureOnMesh(self.WhiteMesh, self.Texture)

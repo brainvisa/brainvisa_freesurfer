@@ -2,7 +2,7 @@
 from brainvisa.processes import *
 
 from freesurfer.brainvisaFreesurfer \
-  import launchFreesurferCommand, testFreesurferCommand
+    import launchFreesurferCommand, testFreesurferCommand
 
 name = "02 Launch Freesurfer full pipeline recon-all"
 userLevel = 1
@@ -91,6 +91,7 @@ signature = Signature(
 def initialization(self):
     """
     """
+
     def linkDB(self, dummy):
         if self.AnatImage:
             return self.AnatImage.get('_database')

@@ -1,3 +1,3 @@
-userName='Freesurfer'
-description='Freesurfer to Brainvisa tools'
-icon='freesurfer.png'
+userName = 'Freesurfer'
+description = 'Freesurfer to Brainvisa tools'
+icon = 'freesurfer.png'

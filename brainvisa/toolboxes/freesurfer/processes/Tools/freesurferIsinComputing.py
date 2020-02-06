@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 from brainvisa.processes import *
 
 name = 'Computation of resampling parameters'
@@ -10,6 +11,7 @@ signature = Signature(
     'destination', ReadDiskItem('Ico Mesh', 'GIFTI File'),
     'Isin', WriteDiskItem('BaseFreesurferType', 'FreesurferIsin'),
 )
+
 
 def initialization(self):
     def link_sphere(self, dummy):
@@ -29,19 +31,17 @@ def initialization(self):
                         link_sphere)
     self.setOptional('icosphere_type')
 
-  
+
 def execution(self, context):
     context.write('Compute \'isin\' file, allowing the mesh resampling.')
 
     context.write('%s -c \"from freesurfer.regularizeSphericalMesh_hack4 import regularizeSphericalMesh as f; f(\'%s\', \'%s\', \'%s\');\"'
-                  %(os.path.basename(sys.executable),
-                    self.SphereRegMesh.fullPath(), self.Isin.fullPath(),
-                    self.destination.fullPath()))
+                  % (os.path.basename(sys.executable),
+                     self.SphereRegMesh.fullPath(), self.Isin.fullPath(),
+                     self.destination.fullPath()))
 
     context.pythonSystem(
         '-c',
         'from freesurfer.regularizeSphericalMesh_hack4 import regularizeSphericalMesh as f; f(\"%s\", \"%s\", \"%s\"); '
-        %(self.SphereRegMesh.fullPath(), self.Isin.fullPath(),
-          self.destination.fullPath()))
-
-
+        % (self.SphereRegMesh.fullPath(), self.Isin.fullPath(),
+           self.destination.fullPath()))

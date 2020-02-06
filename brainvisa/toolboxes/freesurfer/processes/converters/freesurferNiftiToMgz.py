@@ -34,12 +34,13 @@
 from brainvisa.processes import *
 import distutils.spawn
 from freesurfer.brainvisaFreesurfer \
-  import launchFreesurferCommand, testFreesurferCommand
+    import launchFreesurferCommand, testFreesurferCommand
 
 name = 'FreeSurfer to MGZ Converter'
 roles = ('converter',)
 userLevel = 0
-rolePriority = 2 # set higher priority than aims converter
+rolePriority = 2  # set higher priority than aims converter
+
 
 def validation():
     testFreesurferCommand()
@@ -50,10 +51,11 @@ signature = Signature(
     'write', WriteDiskItem('4D Volume', 'FreesurferMGZ'),
 )
 
+
 def initialization(self):
     self.linkParameters('write', 'read')
 
-def execution(self, context):
-      launchFreesurferCommand(context, None, 'mri_convert', self.read,
-                              self.write )
 
+def execution(self, context):
+    launchFreesurferCommand(context, None, 'mri_convert', self.read,
+                            self.write)
