@@ -152,20 +152,20 @@ def initialization(self):
 def execution(self, context):
 
     # Temporary files
-    tmp_ori = context.temporary('NIFTI-1 image', 'Raw T1 MRI')
+    tmp_ori = context.temporary('NIFTI-1 image', 'T1 FreesurferAnat')
     tmp_ribbon = context.temporary('NIFTI-1 image', 'Split Brain Mask')
     database = ''
 
     # Convert the three volumes from .mgz to .nii with Freesurfer
     context.write("Convert .mgz to .nii with FreeSurfer")
 
-    conv = context.getConverter(self.T1_orig, self.tmp_ori)
+    conv = context.getConverter(self.T1_orig, tmp_ori)
     if conv is None:
         raise ValidationError(
             'No converter could be found to convert FreeSurfer MGZ format')
     context.write('MGZ converter found:', conv.name)
-    context.runProcess(conv, self.T1_orig, self.tmp_ori)
-    context.runProcess(conv, self.ribbon_image, self.tmp_ribbon)
+    context.runProcess(conv, self.T1_orig, tmp_ori)
+    context.runProcess(conv, self.ribbon_image, tmp_ribbon)
 
     # launchFreesurferCommand(context, database, 'mri_convert', '-i', self.T1_orig,
         #'-o', tmp_ori)
@@ -199,7 +199,7 @@ def execution(self, context):
         m = []
         i = 0
         rl = False
-        for l in open(self.Talairach_Auto.fullPath()).xreadlines():
+        for l in open(self.Talairach_Auto.fullPath()).readlines():
             if l.startswith('Linear_Transform ='):
                 rl = True
             elif rl:
