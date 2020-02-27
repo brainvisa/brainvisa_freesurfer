@@ -1,10 +1,11 @@
 #! /usr/bin/env python
 from __future__ import print_function
 
+from __future__ import absolute_import
 from numpy import array, zeros
 from soma import aims
 import glob
-from tio import Texture
+from .tio import Texture
 import sys
 
 

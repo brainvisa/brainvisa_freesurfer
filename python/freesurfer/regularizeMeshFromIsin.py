@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 
+from __future__ import absolute_import
 from numpy import array, vstack
 import math
 from soma import aims, aimsalgo
@@ -11,6 +12,7 @@ from numpy.linalg import pinv
 import pickle
 import sys
 import numpy
+from six.moves import range
 
 
 def regularizeMeshAims(brainMesh, isinFile,

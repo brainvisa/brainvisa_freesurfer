@@ -31,11 +31,12 @@
 # The fact that you are presently reading this means that you have had
 # knowledge of the CeCILL license version 2 and that you accept its terms.
 
+from __future__ import absolute_import
 import os
 import re
 from brainvisa.configuration.freesurfer_configuration import FreeSurferConfiguration
 from soma.wip.application.api import Application
 
 configuration = Application().configuration
-if not configuration.signature.has_key('freesurfer'):
+if 'freesurfer' not in configuration.signature:
     configuration.add('freesurfer', FreeSurferConfiguration())

@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+from __future__ import absolute_import
 from numpy import array, dot, hstack, reshape
 from soma import aims
 import sys
@@ -39,7 +40,7 @@ def freesurferMeshToAimsMesh(meshfile, anatfile, mni_trm, outputmeshfile):
         mesh.header()['transformations'][mni_r])
     m_to_a = a_to_s.inverse() * s_to_mni.inverse() * m_to_mni
     aims.SurfaceManip.meshTransform( mesh, m_to_a )
-    if mesh.header().has_key('material'):
+    if 'material' in mesh.header():
         # remove any counter-clockwise polygons ordering
         del mesh.header()['material']
 

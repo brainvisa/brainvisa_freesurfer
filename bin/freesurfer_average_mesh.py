@@ -13,6 +13,8 @@
 
 
 # python system module
+from __future__ import absolute_import
+from __future__ import print_function
 import sys
 import json
 import numpy
@@ -22,6 +24,8 @@ import os
 
 # soma-base module
 from soma import aims
+from six.moves import range
+from six.moves import zip
 
 
 #----------------------------Header--------------------------------------------
@@ -154,7 +158,7 @@ def average_mesh(avg_mesh, list_filenames, transform_list=[],
     mat = None
     old_ff = 'clockwise'
     # if 'material' in nb_mesh.header():
-    if nb_mesh.header().has_key('material'):
+    if 'material' in nb_mesh.header():
         mat = nb_mesh.header()['material']
         if 'front_face' in mat:
             old_ff = mat['front_face']
@@ -167,7 +171,7 @@ def average_mesh(avg_mesh, list_filenames, transform_list=[],
             mat = {}
             nb_mesh.header()['material'] = mat
         mat['front_face'] = ff
-    if nb_mesh.header().has_key('transformations'):
+    if 'transformations' in nb_mesh.header():
         del nb_mesh.header()['transformations']
         del nb_mesh.header()['referentials']
 
@@ -194,7 +198,7 @@ def get_transform(mesh, trans_filename, referential=None):
         name
     """
     if not trans_filename:
-        if referential is not None and mesh.header().has_key('referentials') \
+        if referential is not None and 'referentials' in mesh.header() \
                 and referential in mesh.header()['referentials']:
             for iref, ref in enumerate(mesh.header()['referentials']):
                 if ref == referential:

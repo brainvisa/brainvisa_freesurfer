@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+from __future__ import absolute_import
 import math
 import sys
 import time
@@ -9,6 +10,7 @@ import numpy
 import pickle
 # from gifti import GiftiIntentCode
 from soma import aims, aimsalgo
+from six.moves import zip
 
 
 def remeshAims(unstructured, target):

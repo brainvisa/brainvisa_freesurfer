@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 from brainvisa.processes import *
 
 name = '05 Conversion of Gifti meshes to Aims mesh format'

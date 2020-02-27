@@ -1,9 +1,11 @@
 from __future__ import print_function
+from __future__ import absolute_import
 from numpy import array
 import numpy
 # from tio import Texture
 from soma import aims
 import sys
+from six.moves import range
 
 
 def usage():
