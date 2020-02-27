@@ -1,11 +1,13 @@
 #! /usr/bin/env python
 from __future__ import print_function
 
+from __future__ import absolute_import
 from numpy import vstack, array, zeros
 import pickle
 from .tio import Texture
 import sys
 from soma import aims
+from six.moves import range
 
 
 def regularizeTexture(isin, mesh, tex, output):

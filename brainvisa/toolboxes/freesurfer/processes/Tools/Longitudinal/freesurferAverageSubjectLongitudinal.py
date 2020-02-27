@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 
+from __future__ import absolute_import
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer \
     import launchFreesurferCommand, testFreesurferCommand
+from six.moves import range
 
 
 name = "Average Subject Longitudinal Pipeline"

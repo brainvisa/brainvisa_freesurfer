@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from brainvisa.processes import *
 
 name = 'Get FreeSurfer Cerebellum in split mask'

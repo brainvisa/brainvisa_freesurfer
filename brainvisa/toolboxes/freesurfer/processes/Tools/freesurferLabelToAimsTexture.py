@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 from brainvisa.processes import *
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 from glob import glob

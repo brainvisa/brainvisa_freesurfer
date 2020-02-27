@@ -33,6 +33,7 @@
 
 from __future__ import print_function
 
+from __future__ import absolute_import
 from freesurfer.brainvisaFreesurfer import *
 from brainvisa.processes import *
 from brainvisa.tools import aimsGlobals

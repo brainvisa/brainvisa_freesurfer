@@ -18,6 +18,7 @@ Main dependencies: axon python API.
 
 
 # axon python API modules
+from __future__ import absolute_import
 from brainvisa.processes import Signature, ReadDiskItem, WriteDiskItem, ListOf
 from brainvisa.group_utils import Subject
 

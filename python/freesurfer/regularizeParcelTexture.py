@@ -1,10 +1,12 @@
 #! /usr/bin/env python
 from __future__ import print_function
 
+from __future__ import absolute_import
 from numpy import vstack, array, zeros
 import pickle
 import sys
 from soma import aims
+from six.moves import range
 
 
 def regularizeParcelTexture(isin, mesh, tex, output):

@@ -1,4 +1,5 @@
 
+from __future__ import absolute_import
 from brainvisa.processes import *
 from soma import aims
 from freesurfer import surf2surf_mesh as surf2surf

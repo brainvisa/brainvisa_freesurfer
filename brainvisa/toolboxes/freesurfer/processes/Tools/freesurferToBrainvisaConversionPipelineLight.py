@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 from brainvisa.processes import *
 
 name = 'Freesurfer outputs To BrainVisa conversion pipeline, Light version'
@@ -28,7 +29,7 @@ def initialization(self):
         del s, n
     p = getProcessInstance('freesurferToBrainvisaConversionPipeline')
     if not hasattr(self.__class__, 'initParent'):
-        self.__class__.initParent = p.__class__.initialization.im_func
+        self.__class__.initParent = p.__class__.initialization.__func__
     self.initParent()
     self.setOptional('leftSulciGyri')
     self.setOptional('rightSulciGyri')
