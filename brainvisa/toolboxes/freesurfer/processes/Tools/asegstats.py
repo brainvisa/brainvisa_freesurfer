@@ -69,7 +69,7 @@ def execution(self, context):
     if self.other_options is not None:
         liste_option = string.split(self.other_options)
         for option in liste_option:
-            args.append(option)
+            cmd.append(option)
 
     context.write(*cmd)
     launchFreesurferCommand(context, self.database, *cmd)
