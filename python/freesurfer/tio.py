@@ -29,7 +29,7 @@ datatypes = {'U8': _np.uint8,
              }
 
 
-class Texture:
+class Texture(object):
 
     def __init__(self, filename, textype='binar',
                  byteorder='bigindian', data=None):

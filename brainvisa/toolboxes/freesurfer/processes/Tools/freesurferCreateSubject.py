@@ -6,12 +6,16 @@ from brainvisa.processes import (Signature, String, Choice, neuroHierarchy,
                                  ReadDiskItem, WriteDiskItem, OpenChoice)
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand
 
+
 name = "01 Create Freesurfer subject from T1 anatomical image"
 userLevel = 1
 
+
 signature = Signature(
     "RawT1Image", ReadDiskItem(
-        "Raw T1 MRI", ["NIFTI-1 image", "GZ Compressed NIFTI-1 image"]),
+        "Raw T1 MRI",
+        ["NIFTI-1 image", "GZ Compressed NIFTI-1 image"]),
+    "time_point", OpenChoice(None, "M0", "M000", "M024"),
     "subjectName", String(),
     "database", Choice(),
     "AnatImage", WriteDiskItem("RawFreesurferAnat", "FreesurferMGZ")
@@ -33,8 +37,13 @@ def initialization(self):
         """
         """
         if proc.RawT1Image is not None:
-            return os.path.basename(os.path.dirname(os.path.dirname(
+            name = os.path.basename(os.path.dirname(os.path.dirname(
                 os.path.dirname(proc.RawT1Image.fullName()))))
+            if proc.time_point:
+                suffix = "_" + proc.time_point
+            else:
+                suffix = ""
+            return name + suffix
 
     def linkAnatImage(proc, dummy):
         """
@@ -45,9 +54,12 @@ def initialization(self):
             filename = os.path.join(dirname, subject, "mri/orig/001.mgz")
             return filename
 
-    self.linkParameters("subjectName", "RawT1Image", linkSubjectName)
-    self.linkParameters(
-        "AnatImage", ("subjectName", "database"), linkAnatImage)
+    self.linkParameters("subjectName", 
+                        ("RawT1Image", "time_point"),
+                        linkSubjectName)
+    self.linkParameters("AnatImage",
+                        ("subjectName", "database"),
+                        linkAnatImage)
     self.signature["AnatImage"].userLevel = 3
 
 
