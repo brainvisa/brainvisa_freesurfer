@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
+from __future__ import print_function
 import os
 import platform
 from brainvisa.configuration.neuroConfig import mainPath
@@ -82,12 +83,14 @@ def launchFreesurferCommand(context, database=None, *args, **kwargs):
                           configuration.freesurfer.freesurfer_home_path, 'FreeSurferEnv.sh'))
     else:
         # test a freesurfer command
-        cmdFreeSurferSystem = distutils.spawn.find_executable("mri_convert")
+        cmdFreeSurferSystem = distutils.spawn.find_executable(args[0])
         if cmdFreeSurferSystem:
             # run directly without setting environment
             try:
                 context.system(* args, nativeEnv=True, **kwargs)
-            except:
+                return
+            except Exception as e:
+                context.warning('direct run failed:', e)
                 ret = 2
         else:
             # hope FreeSurferEnv.sh is in the path, but few chances...
@@ -104,8 +107,8 @@ def launchFreesurferCommand(context, database=None, *args, **kwargs):
     try:
         ret = context.system(*((runFreesurferCommandSh, ) + argShell),
                              nativeEnv=True, **kwargs)
-    except:
+    except Exception as e:
         ret = 2
     if ret != 0:
         raise ValidationError(
-            'FreeSurfer not available or one freesurfer command line has failed. Please see the log file in the main menu of BrainVISA for more information.')
+            'FreeSurfer not available or one freesurfer command line has failed. Please see the log file in the main menu of BrainVISA for more information.\nException: %s' % str(e))
