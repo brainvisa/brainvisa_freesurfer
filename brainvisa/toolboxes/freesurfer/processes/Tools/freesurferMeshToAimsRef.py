@@ -13,6 +13,9 @@ signature = Signature(
     'ResampledWhiteMesh', ReadDiskItem('ResampledWhite', 'Aims mesh formats'),
     'bv_anat', ReadDiskItem(
         'RawFreesurferAnat', 'Aims readable volume formats'),
+    'scanner_based_to_mni',
+        ReadDiskItem('Freesurfer Scanner To MNI Transformation',
+                     'Transformation matrix'),
     'AimsPial', WriteDiskItem('AimsPial', 'Aims mesh formats'),
     'AimsWhite', WriteDiskItem('AimsWhite', 'Aims mesh formats',
                                exactType=True),
@@ -33,13 +36,19 @@ def execution(self, context):
 
     context.write('%s -c %s f(\"%s\", \"%s\", \"%s\");' %
                   (os.path.basename(sys.executable), cmd, self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
-    context.pythonSystem('-c', '%s f(\"%s\", \"%s\", \"%s\");' %
-                         (cmd, self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(), self.AimsPial.fullPath()))
+    context.pythonSystem(
+        '-c',
+        '%s f(\"%s\", \"%s\", \"%s\", \"%s\");'
+            %(cmd, self.ResampledPialMesh.fullPath(), self.bv_anat.fullPath(),
+            self.scanner_based_to_mni.fullPath(), self.AimsPial.fullPath()))
 
-    context.write('%s -c %s f(\"%s\", \"%s\", \"%s\");' %
-                  (os.path.basename(sys.executable), cmd, self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
-    context.pythonSystem('-c', '%s f(\"%s\", \"%s\", \"%s\");' %
-                         (cmd, self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.AimsWhite.fullPath()))
+    context.write('%s -c %s f(\"%s\", \"%s\", \"%s\", \"%s\");' %
+                  (os.path.basename(sys.executable), cmd, self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(), self.scanner_based_to_mni.fullPath(), self.AimsWhite.fullPath()))
+    context.pythonSystem(
+        '-c',
+        '%s f(\"%s\", \"%s\", \"%s\", \"%s\");'
+            %(cmd, self.ResampledWhiteMesh.fullPath(), self.bv_anat.fullPath(),
+              self.scanner_based_to_mni.fullPath(), self.AimsWhite.fullPath()))
 
     context.write('material:', self.AimsPial.get('material'))
     if self.AimsPial.get('material'):
