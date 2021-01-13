@@ -8,7 +8,8 @@ userLevel = 0
 signature = Signature(
     'anat', ReadDiskItem('RawFreesurferAnat', 'FreesurferMGZ',
                          enableConversion=False),
-    'icosphere_type', Choice('brainvisa 40k', 'hcp 32k', 'freesurfer ic6 40k'),
+    'icosphere_type', Choice('brainvisa 40k', 'hcp 32k', 'freesurfer ic7 163k',
+                             'freesurfer ic6 40k', 'freesurfer ic5 10k'),
     'nu', ReadDiskItem('Nu FreesurferAnat', 'FreesurferMGZ',
                        enableConversion=False),
     'ribbon', ReadDiskItem('Ribbon Freesurfer', 'FreesurferMGZ',

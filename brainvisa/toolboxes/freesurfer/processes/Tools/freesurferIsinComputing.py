@@ -8,7 +8,8 @@ userlevel = 2
 
 signature = Signature(
     'SphereRegMesh', ReadDiskItem('SphereReg', 'Aims Mesh formats'),
-    'icosphere_type', Choice('brainvisa 40k', 'hcp 32k', 'freesurfer ic6 40k'),
+    'icosphere_type', Choice('brainvisa 40k', 'hcp 32k', 'freesurfer ic7 163k',
+                             'freesurfer ic6 40k', 'freesurfer ic5 10k'),
     'destination', ReadDiskItem('Ico Mesh', 'Aims mesh formats'),
     'Isin', WriteDiskItem('BaseFreesurferType', 'FreesurferIsin'),
 )
