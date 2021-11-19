@@ -52,6 +52,7 @@ def delInMainThread(lock, thing):  # Pour pb de communiation avec Anatomist
 name = 'Import FreeSurfer grey/white segmentation to Morphologist'
 roles = ('importer',)
 userLevel = 0
+require_databasing = True
 
 
 signature = Signature(
@@ -119,6 +120,7 @@ def initialization(self):
                 return x
             else:
                 return []
+    self.require_databasing = True  # for use with pre-patched axon
 
     self.linkParameters('ribbon_image', 'T1_orig')
     self.linkParameters('scanner_based_referential', 'T1_orig')
