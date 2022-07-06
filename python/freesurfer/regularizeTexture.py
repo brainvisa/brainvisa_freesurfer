@@ -1,32 +1,32 @@
 #! /usr/bin/env python
 from __future__ import print_function
-
 from __future__ import absolute_import
-from numpy import vstack, array, zeros
+
+from numpy import vstack, array
+import numpy as np
 import pickle
-from .tio import Texture
 import sys
 from soma import aims
-from six.moves import range
 
 
 def regularizeTexture(isin, mesh, tex, output):
     fisin = open(isin, 'r')
     mesh = aims.read(mesh)
-    tex = Texture.read(tex)
+    tex = aims.read(tex)
 
     isin = pickle.load(open(isin, 'rb'))
-    isin = vstack((array(isin[0]), array(isin[1]).T)).T
+    isin0 = array(isin[0])
+    isin1 = array(isin[1])
 
-    output = Texture(filename=output, data=zeros(len(isin)))
+    output_tex = aims.TimeTexture(dtype=tex[0].np.dtype)
 
-    for n in range(len(isin)):
-        t = tex.data[mesh.polygon()[isin[n][0]].arraydata()]
-        value = (1 - isin[n][1] - isin[n][2]) * t[
-            0] + isin[n][1] * t[1] + isin[n][2] * t[2]
-        output.data[n] = value
+    t = tex[0].np[mesh.polygon().np[isin0]]
+    weights = vstack(
+        ((1 - isin1[:, 0] - isin1[:, 1]), isin1[:, 0], isin1[:, 1])).T
+    value = np.sum(t * weights, axis=1)
+    output_tex[0].assign(value)
 
-    output.write()
+    aims.write(output_tex, output)
 
 
 def usage():
