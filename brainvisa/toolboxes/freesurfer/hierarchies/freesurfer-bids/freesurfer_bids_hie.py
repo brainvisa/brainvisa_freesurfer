@@ -53,10 +53,6 @@ hierarchy = (
     SetWeakAttr('database', '%f'),
     SetContent(
         *fs_db_entries,
-        'derivatives', SetContent(
-            '*freesurfer', SetContent(
-                *fs_content,
-            ),
-        ),
+        *fs_content,
     ),
 )
