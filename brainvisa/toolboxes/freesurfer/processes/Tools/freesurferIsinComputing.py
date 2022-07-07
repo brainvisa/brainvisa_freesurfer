@@ -19,13 +19,17 @@ def initialization(self):
     def link_sphere(self, dummy):
         atts = {}
         if self.SphereRegMesh is not None:
-            atts.update(self.SphereRegMesh.hierarchyAttributes())
+            atts.update({k: v
+                         for k, v in
+                            self.SphereRegMesh.hierarchyAttributes().items()
+                         if k in ('side', )})
         if self.icosphere_type:
             # if icosphere_type is specified, use it for selection
             atts['icosphere_type'] = self.icosphere_type
             if not self.icosphere_type.startswith('hcp') and 'side' in atts:
                 # only the HCP mesh has side information, otherwise drop it
                 del atts['side']
+        print('link_sphere atts:', atts)
         return self.signature['destination'].findValue(atts)
 
     self.linkParameters('Isin', 'SphereRegMesh')
