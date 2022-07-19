@@ -1,45 +1,33 @@
 
-from brainvisa.data.fileSystemOntology import *
-
-
-fs_db_entries = (
-    'history_book', SetContent(
-        'bvsession', SetType('Bvsession'), SetContent(
-            '*', SetType('BrainVISA session event'),),
-        '*', SetContent('*', SetType('Process execution event'),),
-    ),
-    'database_fso', SetType('Database description page'),
-    'database_settings', SetType('Database settings'),
-    '*', SetType('Database Cache file'),
-)
+from brainvisa.data.ontology.base import *
 
 
 # snapshots snapbase freesurfer
-snap_aimspial_content = (
+snap_aimspial_content = lambda: (
     "snapshot_freesurfer_left_aimspial_{subject}", SetType(
         'Snapshot Pial Mesh'), SetWeakAttr('side', 'left', 'processing', 'freesurfer'),
   "snapshot_freesurfer_right_aimspial_{subject}", SetType(
       'Snapshot Pial Mesh'), SetWeakAttr('side', 'right', 'processing', 'freesurfer'),
 )
-snap_aimswhite_content = (
+snap_aimswhite_content = lambda: (
     "snapshot_freesurfer_left_aimswhite_{subject}", SetType(
         'Snapshot White Mesh'), SetWeakAttr('side', 'left', 'processing', 'freesurfer'),
   "snapshot_freesurfer_right_aimswhite_{subject}", SetType(
       'Snapshot White Mesh'), SetWeakAttr('side', 'right', 'processing', 'freesurfer'),
 )
-snap_thickness_content = (
+snap_thickness_content = lambda: (
     "snapshot_freesurfer_left_thickness_{subject}", SetType(
         'Snapshot Thickness Map'), SetWeakAttr('side', 'left', 'processing', 'freesurfer'),
   "snapshot_freesurfer_right_thickness_{subject}", SetType(
       'Snapshot Thickness Map'), SetWeakAttr('side', 'right', 'processing', 'freesurfer'),
 )
-snap_gyri_content = (
+snap_gyri_content = lambda: (
     "snapshot_freesurfer_left_gyri_{subject}", SetType(
         'Snapshot Gyral Parcellation'), SetWeakAttr('side', 'left', 'processing', 'freesurfer'),
   "snapshot_freesurfer_right_gyri_{subject}", SetType(
       'Snapshot Gyral Parcellation'), SetWeakAttr('side', 'right', 'processing', 'freesurfer'),
 )
-snap_curv_content = (
+snap_curv_content = lambda: (
     "snapshot_freesurfer_left_curv_{subject}", SetType(
         'Snapshot Curvature Map'), SetWeakAttr('side', 'left', 'processing', 'freesurfer'),
   "snapshot_freesurfer_right_curv_{subject}", SetType(
@@ -47,7 +35,7 @@ snap_curv_content = (
 )
 
 
-fs_snapshots = (
+fs_snapshots = lambda: (
     'freesurfer', SetContent(
         'greywhite', SetContent(
             'snapshot_freesurfer_greywhite_{subject}', SetType(
@@ -59,16 +47,16 @@ fs_snapshots = (
             'snapshot_freesurfer_meshcut_{subject}', SetType(
                 'Snapshot Meshcut'), SetWeakAttr('processing', 'freesurfer'),
         ),
-        'aimspial', SetContent(*snap_aimspial_content),
-        'aimswhite', SetContent(*snap_aimswhite_content),
-        'thickness', SetContent(*snap_thickness_content),
-        'gyri', SetContent(*snap_gyri_content),
-        'curv', SetContent(*snap_curv_content),
+        'aimspial', SetContent(*snap_aimspial_content()),
+        'aimswhite', SetContent(*snap_aimswhite_content()),
+        'thickness', SetContent(*snap_thickness_content()),
+        'gyri', SetContent(*snap_gyri_content()),
+        'curv', SetContent(*snap_curv_content()),
     ),
 )
 
 
-fs_tables = (
+fs_tables = lambda: (
     'thicknesses_freesurfer', SetType(
         'Cortical Thicknesses Table'), SetWeakAttr('processing', 'freesurfer'),
     'tissues_volumes_freesurfer', SetType(
@@ -82,7 +70,7 @@ fs_tables = (
 )
 
 
-fs_group_analysis = (
+fs_group_analysis = lambda: (
     '<freesurfer_group_of_subjects>_group',
     SetType('Freesurfer Group definition'),
     'average_brain', SetContent(
@@ -115,7 +103,7 @@ fs_group_analysis = (
 )
 
 
-fs_subject = (
+fs_subject = lambda: (
     'mri', SetContent(
         'orig', SetType('T1 FreesurferAnat'),
         'nu', SetType('Nu FreesurferAnat'),

@@ -34,17 +34,16 @@
 # knowledge of the CeCILL license version 2 and that you accept its terms.
 
 from freesurfer.fs_hierarchy import (fs_subject, fs_snapshots, fs_tables,
-                                     fs_db_entries, fs_group_analysis)
+                                     db_entries, fs_group_analysis)
 
 
 fs_content = (
-    'snapshots', SetType('Snapshots Dir'), SetContent(*fs_snapshots),
-    'tables', SetType('Tables Directory'), SetContent(*fs_tables),
-    *fs_db_entries,
-    'group_analysis', SetContent(*fs_group_analysis),
+    'snapshots', SetType('Snapshots Dir'), SetContent(*fs_snapshots()),
+    'tables', SetType('Tables Directory'), SetContent(*fs_tables()),
+    'group_analysis', SetContent(*fs_group_analysis()),
     'subj-{subject}', SetFileNameStrongAttribute('subject'), SetType('Subject'), SetContent(
         'ses-{acquisition}', SetContent(
-            *fs_subject
+            *fs_subject()
         ),
     ),
 )
@@ -52,7 +51,7 @@ fs_content = (
 hierarchy = (
     SetWeakAttr('database', '%f'),
     SetContent(
-        *fs_db_entries,
+        *db_entries(),
         *fs_content,
     ),
 )
