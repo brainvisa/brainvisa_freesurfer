@@ -51,7 +51,7 @@ def execution(self, context):
     transfo_fs2nat = context.temporary('Transformation matrix')
     aims.write(s2n, transfo_fs2nat.fullPath())
 
-    context.system('AimsResample',
+    context.system('AimsApplyTransform',
                    '-i', self.image,
                    '-o', self.image_in_native_space,
                    '-m', transfo_fs2nat,
