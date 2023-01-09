@@ -77,7 +77,7 @@ def execution(self, context):
     kwargs = {}
     args = ['recon-all', '-long', subject_tp, subject_template, '-all']
     if self.Add_options is not None:
-        liste_option = string.split(self.Add_options)
+        liste_option = self.Add_options.split()
         for option in liste_option:
             args.append(option)
 
