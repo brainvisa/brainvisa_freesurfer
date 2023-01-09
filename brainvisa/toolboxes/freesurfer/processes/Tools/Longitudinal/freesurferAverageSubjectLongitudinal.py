@@ -269,7 +269,7 @@ def execution(self, context):
     args.append('-all')
 
     if self.add_options is not None:
-        liste_option = string.split(self.add_options)
+        liste_option = self.add_options.split()
         for option in liste_option:
             args.append(option)
 

@@ -183,7 +183,7 @@ def execution(self, context):
     if self.qcache_for_group_analysis:
         args.append('-qcache')
     if self.add_other_options is not None:
-        liste_option = string.split(self.add_other_options)
+        liste_option = self.add_other_options.split()
         for option in liste_option:
             args.append(option)
 

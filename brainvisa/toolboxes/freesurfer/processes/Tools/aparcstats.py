@@ -75,7 +75,7 @@ def execution(self, context):
         cmd.append('--skip')
 
     if self.other_options is not None:
-        liste_option = string.split(self.other_options)
+        liste_option = self.other_options.split()
         for option in liste_option:
             cmd.append(option)
 
