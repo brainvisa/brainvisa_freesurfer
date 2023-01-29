@@ -11,7 +11,7 @@ userLevel = 0
 
 signature = Signature(
     'anat_images', ListOf(ReadDiskItem(
-        'RawFreesurferAnat',
+        'T1 FreesurferAnat',
         ['FreesurferMGZ', 'NIFTI-1 image'])),
     'database', Choice(),
     'subjects', ListOf(String()),
