@@ -14,7 +14,7 @@ def setAnatTransformation(anatFile):
     n = s * v / 2.0
     s2m = a.header()['storage_to_memory']
     s2m = aims.AffineTransformation3d(s2m)
-    vs2 = (s2m.transform(v) - s2m.transform([0, 0, 0])) / 2.
+    vs2 = (s2m.transform(v).np - s2m.transform([0, 0, 0]).np) / 2.
     n += vs2
     if len(a.header()['transformations']) < 2:
         tr = list(a.header()['transformations'][0])
