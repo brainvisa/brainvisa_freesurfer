@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
+
 from brainvisa.processes import *
 from brainvisa.group_utils import Subject
 from soma.minf.api import registerClass, readMinf
 from soma import aims, aimsalgo
-from six.moves import zip
 
 name = 'Make template spherical mesh'
 userlevel = 2
@@ -99,12 +98,12 @@ def execution(self, context):
             if density is None:
                 density = rdenstex
                 # invert density to get mean distance
-                density[0].arraydata()[:] = 1. / density[0].arraydata()
+                density[0][:] = 1. / density[0].np
             else:  # add inverses (mean distance, inversed)
-                ar = density[0].arraydata()
-                ar += 1. / rdenstex[0].arraydata()
+                ar = density[0].np
+                ar += 1. / rdenstex[0].np
         # invert mean (or sum, no matter) distance
-        density[0].arraydata()[:] = 1. / density[0].arraydata()
+        density[0][:] = 1. / density[0].np
         if outtex is not None:
             aims.write(density, outtex.fullPath())
 

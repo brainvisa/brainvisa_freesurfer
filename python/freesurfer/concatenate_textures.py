@@ -1,11 +1,6 @@
-from __future__ import print_function
-from __future__ import absolute_import
-from numpy import array
-import numpy
-# from tio import Texture
+
 from soma import aims
 import sys
-from six.moves import range
 
 
 def usage():
@@ -23,10 +18,10 @@ def concatenate_textures(output, fileL, fileR):
     vertexNbL = gyriTexL[0].nItem()
     vertexNbB = vertexNbR + vertexNbL
     gyriTexB[0].resize(vertexNbB)
-    arr_b = gyriTexB[0].arraydata()
-    arr_b[:vertexNbL] = gyriTexL[0].arraydata()
-    lh_max = gyriTexL[0].arraydata().max() + 2
-    arr_b[vertexNbL:] = gyriTexR[0].arraydata() + lh_max
+    arr_b = gyriTexB[0].np
+    arr_b[:vertexNbL] = gyriTexL[0].np
+    lh_max = gyriTexL[0].np.max() + 2
+    arr_b[vertexNbL:] = gyriTexR[0].np + lh_max
     # fix header
     new_lt = {}
     if 'GIFTI_labels_table' in gyriTexL.header():
@@ -35,14 +30,14 @@ def concatenate_textures(output, fileL, fileR):
         for i in range(lh_max - 1):
             try:
                 new_lt[i] = lt[i]
-            except:
+            except Exception:
                 pass
     if 'GIFTI_labels_table' in gyriTexR.header():
         lt = gyriTexR.header()['GIFTI_labels_table']
-        for i in range(gyriTexR[0].arraydata().max() + 1):
+        for i in range(gyriTexR[0].np.max() + 1):
             try:
                 new_lt[lh_max + i] = lt[i]
-            except:
+            except Exception:
                 pass
     gyriTexB.header().update(gyriTexL.header())
     print('new_lt:', new_lt)
@@ -58,11 +53,12 @@ def concatenate_textures(output, fileL, fileR):
     print(gyriTexB.header())
     aims.write(gyriTexB, output)
 
+
 if __name__ == "__main__":
     if len(sys.argv) <= 3:
         usage()
         sys.exit(1)
     output = sys.argv[1]
     fileL = sys.argv[2]
-    fileR = sus.argv[3]
+    fileR = sys.argv[3]
     concatenate_textures(output, fileL, fileR)

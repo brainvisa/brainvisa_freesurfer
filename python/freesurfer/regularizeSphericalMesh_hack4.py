@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
-from __future__ import absolute_import
-import math
-import sys
+
 import time
 from numpy import *
 import numpy
-# import gifti
 import pickle
-# from gifti import GiftiIntentCode
-from soma import aims, aimsalgo
-from six.moves import zip
+from soma import aims
 
 
 def remeshAims(unstructured, target):
@@ -23,9 +17,9 @@ def remeshAims(unstructured, target):
     mi.project()
     t = mi.projectedTriangles()
     tc1, tc2 = mi.projectedTriCoord1(), mi.projectedTriCoord2()
-    isiN = numpy.array(t[0].arraydata())
-    c1 = numpy.array(tc1[0].arraydata())
-    c2 = numpy.array(tc2[0].arraydata())
+    isiN = numpy.array(t[0].np)
+    c1 = numpy.array(tc1[0].np)
+    c2 = numpy.array(tc2[0].np)
     isin = numpy.hstack((numpy.reshape(c1, [len(c1), 1]),
                          numpy.reshape(c2, [len(c2), 1])))
     return isiN, isin

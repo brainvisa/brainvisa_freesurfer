@@ -1,6 +1,4 @@
 
-from __future__ import print_function
-from __future__ import absolute_import
 from soma import aims
 import numpy as np
 import os
@@ -27,7 +25,7 @@ def write_asc(filename, mesh, tex):
     if isinstance(tex, np.ndarray):
         t0 = tex
     else:
-        t0 = tex[0].arraydata()
+        t0 = tex[0].np
     with open(filename, 'w') as f:
         for l, x in enumerate(v):
             f.write('%03d %f %f %f %f\n' % (l, x[0], x[1], x[2], t0[l]))
@@ -39,7 +37,8 @@ def system(*args, **kwargs):
     return soma.subprocess.check_call(*args, **kwargs)
 
 
-def resample_mesh_to_fs_ico(mesh, subject_dir, hemi, ico_order=6, context=None):
+def resample_mesh_to_fs_ico(mesh, subject_dir, hemi, ico_order=6,
+                            context=None):
     ''' Resample a mesh to Freesurfer icosphere.
 
     mri_surf2surf is able to resample textures, but I could not find a way to
@@ -127,9 +126,9 @@ def resample_mesh_to_fs_ico(mesh, subject_dir, hemi, ico_order=6, context=None):
         resamp_z = aims.read(z_file)
         ico_mesh = aims.read(ico_file)
 
-        new_vertex = np.hstack((np.expand_dims(resamp_x[0].arraydata(), 1),
-                                np.expand_dims(resamp_y[0].arraydata(), 1),
-                                np.expand_dims(resamp_z[0].arraydata(), 1)))
+        new_vertex = np.hstack((np.expand_dims(resamp_x[0].np, 1),
+                                np.expand_dims(resamp_y[0].np, 1),
+                                np.expand_dims(resamp_z[0].np, 1)))
         ico_mesh.vertex().assign(new_vertex)
         return ico_mesh
 

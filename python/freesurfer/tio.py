@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
 
-from __future__ import absolute_import
-import os
 import numpy as _np
-import gzip as _gz
 from soma import aims
 
 # from zip import *
@@ -74,9 +70,8 @@ class Texture(object):
         p.data = p.data.squeeze()  # not needed I think
         return p
 
-
     def write(self, filename=None):
-        if filename == None:
+        if filename is None:
             filename = self.filename
         # anatomist desn't currently read float64 textrues :
         # FIXME after it is allowed in Anatomist...
