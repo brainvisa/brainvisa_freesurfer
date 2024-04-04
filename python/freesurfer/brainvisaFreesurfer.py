@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 import os
 import platform
-from brainvisa.configuration.neuroConfig import mainPath
+from brainvisa.configuration.neuroConfig import sharePath
 import brainvisa.processes
 from soma.wip.application.api import Application
 from brainvisa.validation import ValidationError
@@ -39,11 +39,9 @@ def launchFreesurferCommand(context, database=None, *args, **kwargs):
     # print('kwargs:', kwargs)
 
     # INI PATH SCRIPT TO RUN FREESURFER
-    path_basename = os.path.dirname(mainPath)
+    path_basename = os.path.dirname(os.path.dirname(sharePath))
     runFreesurferCommandSh = os.path.join(
         path_basename, 'scripts', 'runFreesurferCommand.sh')
-    # runFreesurferCommandSh =
-    # '/volatile/svn/source/cortical_surface/freesurfer_plugin/trunk/brainvisa/scripts/runFreesurferCommand.sh'
     if not os.path.exists(runFreesurferCommandSh):
         # print("path don't exist")
         runFreesurferCommandSh = None
