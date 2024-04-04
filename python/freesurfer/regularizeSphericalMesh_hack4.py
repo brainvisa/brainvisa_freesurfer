@@ -4,7 +4,7 @@ import time
 from numpy import *
 import numpy
 import pickle
-from soma import aims
+from soma import aims, aimsalgo
 
 
 def remeshAims(unstructured, target):
