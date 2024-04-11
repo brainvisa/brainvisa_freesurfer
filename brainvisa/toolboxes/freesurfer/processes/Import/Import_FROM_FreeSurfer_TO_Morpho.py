@@ -59,49 +59,50 @@ signature = Signature(
     'T1_orig', ReadDiskItem('T1 FreesurferAnat',
                             'FreesurferMGZ',
                             exactType=True),
-  'ribbon_image', ReadDiskItem('Ribbon Freesurfer',
-                               'FreesurferMGZ',
-                               requiredAttributes={'side': 'both',
-                                                   'space': 'freesurfer analysis'}),
-  'scanner_based_referential', ReadDiskItem('Scanner Based Referential',
-                                            'Referential'),
-  'Talairach_Auto', ReadDiskItem('Talairach Auto Freesurfer',
-                                 'MINC transformation matrix'),
-  'T1_output', WriteDiskItem('Raw T1 MRI',
-                             ['gz compressed NIFTI-1 image',
-                              'NIFTI-1 image',
-                              'GIS image']),
-  'T1_referential', WriteDiskItem('Referential of Raw T1 MRI',
-                                  'Referential'),
-  'transform_to_scanner_based', WriteDiskItem('Transformation to Scanner Based Referential',
-                                              'Transformation matrix'),
-  'bias_corrected_output', WriteDiskItem('T1 MRI Bias Corrected',
-                                         'Aims writable volume formats'),
-  'normalization_transformation', WriteDiskItem('Transform Raw T1 MRI to Talairach-MNI template-SPM',
+    'ribbon_image', ReadDiskItem('Ribbon Freesurfer',
+                                'FreesurferMGZ',
+                                requiredAttributes={'side': 'both',
+                                                    'space': 'freesurfer analysis'}),
+    'scanner_based_referential', ReadDiskItem('Scanner Based Referential',
+                                                'Referential'),
+    'Talairach_Auto', ReadDiskItem('Talairach Auto Freesurfer',
+                                    'MINC transformation matrix'),
+    'T1_output', WriteDiskItem('Raw T1 MRI',
+                                ['gz compressed NIFTI-1 image',
+                                'NIFTI-1 image',
+                                'GIS image']),
+    'T1_referential', WriteDiskItem('Referential of Raw T1 MRI',
+                                    'Referential'),
+    'transform_to_scanner_based', WriteDiskItem('Transformation to Scanner Based Referential',
                                                 'Transformation matrix'),
-  'talairach_transform', WriteDiskItem('Transform Raw T1 MRI to Talairach-AC/PC-Anatomist',
-                                       'Transformation matrix'),
-  'commissure_coordinates', WriteDiskItem('Commissure Coordinates',
-                                          'Commissure coordinates'),
-  'histo_analysis', WriteDiskItem('Histo Analysis',
-                                  'Histo Analysis'),
-  'brain_mask_output', WriteDiskItem('T1 Brain Mask',
-                                     'Aims writable volume formats'),
-  'split_brain_output', WriteDiskItem('Split Brain Mask',
-                                      'Aims writable volume formats'),
-  'right_grey_white_output', WriteDiskItem('Right Grey White Mask',
-                                           'Aims writable volume formats'),
-  'left_grey_white_output', WriteDiskItem('Left Grey White Mask',
-                                          'Aims writable volume formats'),
-  'use_morphologist', Choice(('graphically', 0),
-                             ('in batch', 1),
-                             ('don\'t use it', 2)),
-  'mni_referential', ReadDiskItem('Referential',
-                                  'Referential'),
-  'transform_chain_ACPC_to_Normalized', ListOf(ReadDiskItem('Transformation',
-                                                            'Transformation matrix')),
-  'acpc_referential', ReadDiskItem('Referential',
-                                   'Referential'),
+    'bias_corrected_output', WriteDiskItem('T1 MRI Bias Corrected',
+                                            'Aims writable volume formats'),
+    'normalization_transformation', WriteDiskItem('Transform Raw T1 MRI to Talairach-MNI template-SPM',
+                                                    'Transformation matrix'),
+    'talairach_transform', WriteDiskItem('Transform Raw T1 MRI to Talairach-AC/PC-Anatomist',
+                                        'Transformation matrix'),
+    'commissure_coordinates', WriteDiskItem('Commissure Coordinates',
+                                            'Commissure coordinates'),
+    'histo_analysis', WriteDiskItem('Histo Analysis',
+                                    'Histo Analysis'),
+    'brain_mask_output', WriteDiskItem('T1 Brain Mask',
+                                        'Aims writable volume formats'),
+    'split_brain_output', WriteDiskItem('Split Brain Mask',
+                                        'Aims writable volume formats'),
+    'right_grey_white_output', WriteDiskItem('Right Grey White Mask',
+                                            'Aims writable volume formats'),
+    'left_grey_white_output', WriteDiskItem('Left Grey White Mask',
+                                            'Aims writable volume formats'),
+    'use_morphologist', Choice(('graphically', 0),
+                                ('in batch', 1),
+                                ('don\'t use it', 2)),
+    'mni_referential', ReadDiskItem('Referential',
+                                    'Referential'),
+    'transform_chain_ACPC_to_Normalized',
+        ListOf(ReadDiskItem('Transformation', 'Transformation matrix')),
+    'acpc_referential', ReadDiskItem('Referential',
+                                    'Referential'),
+    'allow_multithreading', Boolean(),
 )
 
 
@@ -146,6 +147,7 @@ def initialization(self):
         registration.talairachACPCReferentialId)
 
     self.use_morphologist = 1
+    self.allow_multithreading = True
     self.setOptional('scanner_based_referential', 'transform_to_scanner_based')
     self.signature['mni_referential'].userLevel = 2
     self.signature['transform_chain_ACPC_to_Normalized'].userLevel = 2
@@ -370,6 +372,18 @@ def execution(self, context):
             True)
         enode.HemispheresProcessing.RightHemisphere.SulciRecognition.setSelected(
             True)
+
+        if 'allow_multithreading' in morphologist.signature:
+            morphologist.allow_multithreading = self.allow_multithreading
+        else:
+            # older pipeline
+            enode.HemispheresProcessing.LeftHemisphere.CorticalFoldsGraph._process.allow_multithreading = self.allow_multithreading
+            enode.HemispheresProcessing.RightHemisphere.CorticalFoldsGraph._process.allow_multithreading = self.allow_multithreading
+            if hasattr(
+                    enode.HemispheresProcessing.LeftHemisphere.SulciRecognition,
+                    'CNN_recognition19'):
+                enode.HemispheresProcessing.LeftHemisphere.SulciRecognition.CNN_recognition19._process.allow_multithreading = self.allow_multithreading
+                enode.HemispheresProcessing.RightHemisphere.SulciRecognition.CNN_recognition19._process.allow_multithreading = self.allow_multithreading
 
     if self.use_morphologist == 0:
         pv = mainThreadActions().call(ProcessView, morphologist)
