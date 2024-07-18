@@ -42,14 +42,20 @@ def execution(self, context):
     mref = -1
     for r in ('Talairach', aims.StandardReferentials.mniTemplateReferential(),
               aims.StandardReferentials.mniTemplateReferentialID()):
-        mref = mrefs.index('Talairach')
-        if mref >= 0:
+        if r in mrefs:
+            mref = mrefs.index(r)
             break
     if mref < 0:
-        raise ValueError('no Talairach/MNI transformation in mesh')
-    m2mni = aims.AffineTransformation3d(mesh.header()['transformations'][mref])
-
-    tr = m2mni.inverse() * sb2mni * a2sb
+        if 'Scanner-based anatomical coordinates' not in mrefs:
+            raise ValueError('no Talairach/MNI transformation in mesh')
+        mref = mrefs.index('Scanner-based anatomical coordinates')
+        m2sb = aims.AffineTransformation3d(
+            mesh.header()['transformations'][mref])
+        tr = m2sb.inverse() * a2sb
+    else:
+        m2mni = aims.AffineTransformation3d(
+            mesh.header()['transformations'][mref])
+        tr = m2mni.inverse() * sb2mni * a2sb
 
     aims.write(tr, self.anat_to_meshes_transform.fullPath())
     self.anat_to_meshes_transform.setMinf('source_referential',
