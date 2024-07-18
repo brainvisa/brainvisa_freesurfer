@@ -1,9 +1,7 @@
-from __future__ import print_function
 
-from __future__ import absolute_import
-from numpy import array, dot, hstack, reshape
 from soma import aims
 import sys
+
 
 def freesurferMeshToAimsMesh(meshfile, anatfile, mni_trm, outputmeshfile):
     ''' Transform mesh file from the Freesurfer coordinates system to the
@@ -30,16 +28,24 @@ def freesurferMeshToAimsMesh(meshfile, anatfile, mni_trm, outputmeshfile):
     for ref in ('Talairach',
                 aims.StandardReferentials.mniTemplateReferential(),
                 aims.StandardReferentials.mniTemplateReferentialID()):
-        mni_r = refs.index('Talairach')
-        if mni_r >= 0:
+        if ref in refs:
+            mni_r = refs.index(ref)
             break
     if mni_r < 0:
-        raise ValueError('MNI transform not found in mesh header')
+        if aims.StandardReferentials.commonScannerBasedReferential() \
+                not in refs:
+            raise ValueError('MNI transform not found in mesh header')
+        sb_r = refs.index(
+            aims.StandardReferentials.commonScannerBasedReferential())
+        m_to_s = aims.AffineTransformation3d(
+            mesh.header()['transformations'][sb_r])
+        m_to_a = a_to_s.inverse() * m_to_s
+    else:
+        m_to_mni = aims.AffineTransformation3d(
+            mesh.header()['transformations'][mni_r])
+        m_to_a = a_to_s.inverse() * s_to_mni.inverse() * m_to_mni
 
-    m_to_mni = aims.AffineTransformation3d(
-        mesh.header()['transformations'][mni_r])
-    m_to_a = a_to_s.inverse() * s_to_mni.inverse() * m_to_mni
-    aims.SurfaceManip.meshTransform( mesh, m_to_a )
+    aims.SurfaceManip.meshTransform(mesh, m_to_a)
     if 'material' in mesh.header():
         # remove any counter-clockwise polygons ordering
         del mesh.header()['material']
@@ -50,10 +56,12 @@ def freesurferMeshToAimsMesh(meshfile, anatfile, mni_trm, outputmeshfile):
 def usage():
     print("Convert Freesurfer mesh file to Aims mesh file")
     print(
-        "usage: python freesurferMeshToAimsMesh meshfile.mesh anatfile.nii scanner_to_talairach.trm outputmeshfile.mesh")
+        "usage: python freesurferMeshToAimsMesh meshfile.mesh anatfile.nii "
+        "scanner_to_talairach.trm outputmeshfile.mesh")
+
 
 if __name__ == "__main__":
-    if len(argv) != 5:
+    if len(sys.argv) != 5:
         print(usage())
         sys.exit(1)
     print("Mesh file:", sys.argv[1])
