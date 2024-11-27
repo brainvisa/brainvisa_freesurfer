@@ -103,6 +103,7 @@ signature = Signature(
     'acpc_referential', ReadDiskItem('Referential',
                                     'Referential'),
     'allow_multithreading', Boolean(),
+    'perform_morpho_report', Boolean(),
 )
 
 
@@ -324,6 +325,8 @@ def execution(self, context):
     # Launch Morphologist
     if self.use_morphologist != 2:
         morphologist = getProcessInstance('morphologist')
+        if not self.perform_morpho_report:
+            morphologist.executionNode().Report.setSelected(False)
 
         morphologist.t1mri = self.T1_output
         morphologist.t1mri_nobias = self.bias_corrected_output
