@@ -1,0 +1,9 @@
+package:
+  name: soma-freesurfer
+
+soma-dev:
+  internal-dependencies:
+    - soma
+    - morphologist
+
+  type: interpreted
