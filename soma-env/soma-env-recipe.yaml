@@ -2,6 +2,7 @@ package:
   name: soma-freesurfer
 
 soma-env:
+  publication: neuro-forge
   internal-dependencies:
     - soma
     - morphologist
