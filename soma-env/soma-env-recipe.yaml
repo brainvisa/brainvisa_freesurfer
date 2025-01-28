@@ -4,7 +4,7 @@ package:
 soma-env:
   publication: neuro-forge
   components:
-    - brainvisa-freesurfer
+    - brainvisa_freesurfer
   internal-dependencies:
     - soma
     - morphologist
