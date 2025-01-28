@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
-from __future__ import print_function
+
 import os
 import platform
 from brainvisa.configuration.neuroConfig import sharePath
 import brainvisa.processes
 from soma.wip.application.api import Application
 from brainvisa.validation import ValidationError
-import distutils.spawn
+import shutil
 
 configuration = Application().configuration
 
@@ -81,7 +80,7 @@ def launchFreesurferCommand(context, database=None, *args, **kwargs):
                           configuration.freesurfer.freesurfer_home_path, 'FreeSurferEnv.sh'))
     else:
         # test a freesurfer command
-        cmdFreeSurferSystem = distutils.spawn.find_executable(args[0])
+        cmdFreeSurferSystem = shutil.which(args[0])
         if cmdFreeSurferSystem:
             # run directly without setting environment
             try:
@@ -92,7 +91,7 @@ def launchFreesurferCommand(context, database=None, *args, **kwargs):
                 ret = 2
         else:
             # hope FreeSurferEnv.sh is in the path, but few chances...
-            cmdFreeSurferSystem = distutils.spawn.find_executable(
+            cmdFreeSurferSystem = shutil.which(
                 "FreeSurferEnv.sh")
             if cmdFreeSurferSystem:
                 setupShell.append("FreeSurferEnv.sh")

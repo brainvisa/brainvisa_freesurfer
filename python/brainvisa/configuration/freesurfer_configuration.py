@@ -36,15 +36,10 @@
 @license: U{CeCILL version 2<http://www.cecill.info/licences/Licence_CeCILL_V2-en.html>}
 '''
 
-from __future__ import print_function
-
-from __future__ import absolute_import
-__docformat__ = "epytext en"
-
 import os
-import distutils.spawn
+import shutil
 from soma.configuration import ConfigurationGroup
-from soma.signature.api import Signature, Unicode, FileName, Sequence, Boolean
+from soma.signature.api import Signature, FileName
 
 
 # Pour initialiser Freesurfer, plusieurs possibiités
@@ -120,7 +115,7 @@ class FreeSurferConfiguration(ConfigurationGroup):
     # def _set_executable_freesurfer( self, value ):
         # print(" -- Function _set_executable_freesurfer --")
         # if not value :
-            # value = distutils.spawn.find_executable("freesurfer")
+            # value = shutil.which("freesurfer")
         # print(value)
         # self._executable_freesurfer = value
 
