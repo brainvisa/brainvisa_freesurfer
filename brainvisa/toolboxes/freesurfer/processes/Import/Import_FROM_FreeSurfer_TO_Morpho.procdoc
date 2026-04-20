@@ -6,25 +6,7 @@
    
     
 </xhtml>
-    <d name="parameters">
-      <xhtml name="normalization_transformation">Output for brainvisa ontology</xhtml>
-      <xhtml name="Lgrey_white_output">Output for brainvisa ontology</xhtml>
-      <xhtml name="T1_output">Output for brainvisa ontology</xhtml>
-      <xhtml name="use_t1pipeline">Here you can choose if you want run the Morphologist pipeline now and how you want to use it. You can run it with the graphical interface or not (in batch mode). Please, note that <b>the version of cortical graph is set to 3.1 by default</b>. You can change it when the graphical interface of the Morphologist pipeline is open.</xhtml>
-      <xhtml name="ribbon_image">Input comes from freesurfer ontology, which corresponds to {directory_data_fressurfer}/{subject}/mri/ribbon.mgz</xhtml>
-      <xhtml name="T1_orig">Input comes from freesurfer ontology, which corresponds to {directory_data_fressurfer}/{subject}/mri/ori.mgz
-</xhtml>
-      <xhtml name="Rgrey_white_output">Output for brainvisa ontology</xhtml>
-      <xhtml name="Biais_corrected_output">Output for brainvisa ontology</xhtml>
-      <xhtml name="Split_brain_output"/>
-      <xhtml name="Talairach_transform">Output for brainvisa ontology</xhtml>
-      <xhtml name="Talairach_Auto">Input comes from freesurfer ontology, which corresponds to {directory_data_fressurfer}/{subject}/mri/transforms/talairach.auto</xhtml>
-      <xhtml name="histo_analysis">Output for brainvisa ontologie. </xhtml>
-    </d>
     <xhtml name="long"><p>By using this process, you can import some data processed with FreeSurfer and reuse the computed segmentations and manual corrections when some have been performed. In fact, this segmentation can be computed with Morphologist pipeline but if you have already processed this kind of step with FreeSurfer, and wish to share the same segmentation with the rest of Morphologist computing, this process imports a Freesurfer segmentation and prevents Morphologist to reprocess it. In that way, the Morphologist pipeline will be launched with some unselected steps, starting at the "GreyWhite Surface" step. After that the pipeline will compute some meshes, and especially extract cortical fold graphs to drive an idenfication of sulci.</p>
-
-<p>Note that if you run the Morphologist pipeline with the "Import From FreeSurfer to T1 pipeline", <b>the version of cortical fold graphs is set to 3.1</b>. By default, this value is set to 3.0 in the Morphologist pipeline. So it's a questionable choice ... if you prefer the 3.0 version, you can change it before the Morphologist pipeline is run (if the <em>use_t1pipeline</em> parameter is set to "graphically").
-</p>
 
 <p>
 Note that outputs, which are computed by this process, will be locked before using the Morphologist pipeline (parameters with a padlock icon). These parameters correspond to the first steps of the Morphologist pipeline. So that, you can't rewrite the files. After running the Morphologist pipeline, you can unlock files by clicking on the contextual menu of locked parameters, if you like to allow overwriting files afterwards.
@@ -37,6 +19,15 @@ In order to use this process, you need to set 2 databases:
     <li>one with brainvisa ontology (to manage new outputs in the brainvisa organisation)</li>
 </ul>
 For more explanations, please refer to <a href="categories/freesurfer/category_documentation.html">documentation of the freesurfer toolbox</a> . </p></xhtml>
+    <d name="parameters">
+      <xhtml name="T1_orig">Input comes from freesurfer ontology, which corresponds to {directory_data_fressurfer}/{subject}/mri/ori.mgz
+</xhtml>
+      <xhtml name="ribbon_image">Input comes from freesurfer ontology, which corresponds to {directory_data_fressurfer}/{subject}/mri/ribbon.mgz</xhtml>
+      <xhtml name="Talairach_Auto">Input comes from freesurfer ontology, which corresponds to {directory_data_fressurfer}/{subject}/mri/transforms/talairach.auto</xhtml>
+      <xhtml name="T1_output">Output for brainvisa ontology</xhtml>
+      <xhtml name="normalization_transformation">Output for brainvisa ontology</xhtml>
+      <xhtml name="histo_analysis">Output for brainvisa ontologie. </xhtml>
+    </d>
   </d>
 </d>
 </minf>
