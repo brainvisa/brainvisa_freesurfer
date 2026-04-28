@@ -1,7 +1,7 @@
 
 from capsul.api import Process, get_process_instance
 from capsul.attributes.completion_engine import ProcessCompletionEngine
-from traits.api import File, Bool, Enum, List
+from traits.api import File, Enum, List, Undefined
 import os
 import os.path as osp
 from soma import aims
@@ -76,7 +76,7 @@ class ImportFreesurferToMorpho(Process):
         if self.transform_to_scanner_based is not None:
             tr = aims.AffineTransformation3d(t1h['transformations'][-1])
             tr.header()['source_referential'] = t1ref['uuid']
-            if self.scanner_based_referential is not None:
+            if self.scanner_based_referential not in (None, Undefined, ''):
                 sb = aims.read(self.scanner_based_referential)
                 tr.header()['destination_referential'] = sb['uuid']
             aims.write(tr, self.transform_to_scanner_based)
@@ -111,7 +111,7 @@ class ImportFreesurferToMorpho(Process):
                     source_referential=self.T1_referential,
                     normalized_referential=self.mni_referential,
                     transform_chain_ACPC_to_Normalized=
-                        self.transform_chain_ACPC_to_Normalized,
+                        [self.transform_chain_ACPC_to_Normalized],
                     acpc_referential=self.acpc_referential)
 
         # change labels for Split Brain
