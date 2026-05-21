@@ -8,13 +8,12 @@ userLevel = 2  # completion is not fully working
 base_class = capsul_process.CapsulProcess
 capsul_process = 'brainvisa.freesurfer.capsul.morphologist_from_freesurfer'
 
+fs_formats = ['FreesurferMGZ', 'FreesurferMGH', 'gz compressed Nifti-1 image', 'Nifti-1 image']
+
 signature = Signature(
-    'T1_orig', ReadDiskItem('T1 FreesurferAnat',
-                            'FreesurferMGZ',
-                            exactType=True),
+    'T1_orig', ReadDiskItem('T1 FreesurferAnat', fs_formats, exactType=True),
     'ribbon_image', ReadDiskItem(
-        'Ribbon Freesurfer',
-        'FreesurferMGZ',
+        'Ribbon Freesurfer', fs_formats,
         requiredAttributes={'side': 'both', 'space': 'freesurfer analysis'}),
     'scanner_based_referential', ReadDiskItem('Scanner Based Referential',
                                               'Referential'),

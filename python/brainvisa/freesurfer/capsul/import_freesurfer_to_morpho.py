@@ -15,14 +15,16 @@ aims_vol_ext = ['.nii.gz', '.svs', '.dcm', '', '.i', '.v', '.fdf',
                 '.mgh', '.mgz', '.ima', '.dim', '.ndpi', '.vms', '.vmu',
                 '.jpg', '.scn', '.mnc', '.nii', '.img', '.hdr', '.svslide',
                 '.tiff', '.tif', '.bif', '.czi', '.mnc.gz']
+fs_vol_ext = ['.mgz', '.mgh']
+fs_vol_ext += [f for f in aims_vol_ext if f not in fs_vol_ext]
 
 
 class ImportFreesurferToMorpho(Process):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.add_trait('T1_orig', File(allowed_extensions=aims_vol_ext))
-        self.add_trait('ribbon_image', File(allowed_extensions=aims_vol_ext))
+        self.add_trait('T1_orig', File(allowed_extensions=fs_vol_ext))
+        self.add_trait('ribbon_image', File(allowed_extensions=fs_vol_ext))
         self.add_trait('scanner_based_referential',
                        File(allowed_extensions=['.referential'],
                             optional=True))
