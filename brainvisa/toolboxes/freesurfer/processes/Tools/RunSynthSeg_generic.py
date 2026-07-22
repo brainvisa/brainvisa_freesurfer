@@ -86,8 +86,7 @@ def execution(self, context):
             raise AttributeError()
 
     # Build command
-    output_file = os.path.join(output_dir, "segmentation.nii.gz")
-    cmd = ["mri_synthseg", "--i", self.t1mri, "--o", output_file]
+    cmd = ["mri_synthseg", "--i", self.t1mri, "--o", self.segmentation]
 
     # Add optional flags
     if self.parc:
@@ -103,7 +102,7 @@ def execution(self, context):
     if self.threads:
         cmd.extend(["--threads", str(self.threads)])
     if self.crop:
-        cmd.extend(["--crop", self.crop])
+        cmd.extend(["--crop"] + self.crop.split())
     if self.volumes_csv:
         cmd.extend(["--vol", self.volumes_csv])
     if self.qc_csv:
@@ -114,6 +113,7 @@ def execution(self, context):
         cmd.extend(["--resample", self.resampled])
 
     if self.execution_json:
+    if self.execution_log:
         exec_json = {
             "process": "synthSeg",
             "parameters": {
@@ -122,22 +122,23 @@ def execution(self, context):
                 },
                 "outputs": {
                     "segmentation": self.segmentation.fullPath(),
-                    "volumes_csv": self.volumes_csv.fullPath(),
-                    "qc_csv": self.qc_csv.fullPath(),
-                    "posterior": self.posterior.fullPath(),
+                    "volumes_csv": self.volumes_csv.fullPath() if self.volumes_csv else None,
+                    "qc_csv": self.qc_csv.fullPath() if self.qc_csv else None,
+                    "posterior": self.posterior.fullPath() if self.posterior else None,
+                    "resampled": self.resampled.fullPath() if self.resampled else None,
                 },
                 "robust": self.robust,
                 "parc": self.parc,
                 "fast": self.fast,
-                "crop": self.proc,
+                "crop": self.crop,
                 "v1": self.v1,
                 "threads": self.threads,
                 "cpu": self.cpu,
-                "command": self
+                "command": " ".join(str(c) for c in cmd)
             }
         }
 
-        with open(self.execution_json.fullPath(), "w") as json_file:
+        with open(self.execution_log.fullPath(), "w") as json_file:
             json.dump(exec_json, json_file)
     
     launchFreesurferCommand(context, None, *cmd)

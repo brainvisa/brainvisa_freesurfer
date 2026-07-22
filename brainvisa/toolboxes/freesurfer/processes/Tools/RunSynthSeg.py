@@ -113,10 +113,10 @@ def execution(self, context):
             os.makedirs(output_dir, exist_ok=True)
         else:
             context.error(
-                f"Output directory '{output_dir}' is not empty. SynthSeg has already been launched for this subjet and timepoint. "
-                "Please remove these results or choose overwrtie option to do so."
+                f"Output directory '{output_dir}' is not empty. SynthSeg has already been launched for this subject and timepoint. "
+                "Please remove these results or choose the overwrite option to do so."
             )
-            raise AttributeError()
+            raise RuntimeError(f"Output directory '{output_dir}' is not empty.")
 
     context.runProcess(
         "RunSynthSeg_generic",
