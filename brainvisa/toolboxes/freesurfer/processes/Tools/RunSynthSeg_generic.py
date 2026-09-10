@@ -6,7 +6,7 @@ from pathlib import Path
 from brainvisa.processes import Boolean, Integer, ReadDiskItem, Signature, String, WriteDiskItem
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand, testFreesurferCommand
 
-name = "Run SynthSeg"
+name = "Run SynthSeg generic"
 userLevel = 1
 
 synthseg_options = "SynthSeg options"
@@ -32,7 +32,7 @@ signature = Signature(
                                section=optional_outputs),
     "resampled", WriteDiskItem("4D Volume", default_format,
                                section=optional_outputs),
-    "execution_log", WriteDiskItem("JSON file", "JSON file", section=optional_outputs),
+    "execution_log", WriteDiskItem("Any Type", "JSON file", section=optional_outputs),
 
     # SynthSeg options
     "parc", Boolean(section=synthseg_options),
@@ -112,7 +112,6 @@ def execution(self, context):
     if self.resampled:
         cmd.extend(["--resample", self.resampled])
 
-    if self.execution_json:
     if self.execution_log:
         exec_json = {
             "process": "synthSeg",
