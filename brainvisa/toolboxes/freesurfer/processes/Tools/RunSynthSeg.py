@@ -27,7 +27,7 @@ signature = Signature(
     # Optional outputs
     "volumes_csv", WriteDiskItem("SynthSeg volumes", "CSV file", section=optional_outputs,
                                  requiredAttributes={"modality": "synthSeg"}),
-    "qc_csv", WriteDiskItem("QC Table", "CSV file", section=optional_outputs,
+    "qc_csv", WriteDiskItem("SynthSeg qc", "CSV file", section=optional_outputs,
                             requiredAttributes={"modality": "synthSeg"}),
     "posterior", WriteDiskItem("Tissue probability map", default_format,
                                section=optional_outputs, requiredAttributes={"modality": "synthSeg"}),
@@ -121,7 +121,7 @@ def execution(self, context):
     context.runProcess(
         "RunSynthSeg_generic",
         t1mri=self.t1mri,
-        output_folder=self.output_folder,
+        output_folder=self.output_folder.fullPath(),
         segmentation=self.segmentation,
         volumes_csv=self.volumes_csv,
         qc_csv=self.qc_csv,
