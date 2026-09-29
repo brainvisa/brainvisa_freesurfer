@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<minf expander="minf_2.0">
+<d>
+  <d name="en">
+    <xhtml name="short">This process runs <b>SynthSeg</b> (https://github.com/BBillot/SynthSeg) to segment MRI data. SynthSeg is a deep learning-based brain segmentation tool that performs whole-brain segmentation and optionally cortical parcellation.</xhtml>
+    <xhtml name="long">SynthSeg is a robust brain segmentation tool that can segment MRI scans of any contrast and resolution, without retraining or fine-tuning. It uses a deep learning model trained on synthetic data to generalize to real scans. The process accepts Raw T1 MRI in NIfTI format and produces segmentation outputs organized in the subject folder structure.</xhtml>
+    <d name="parameters">
+      <xhtml name="t1mri">Raw T1 MRI scan to be segmented. Must be in NIfTI format (.nii or .nii.gz).</xhtml>
+      <xhtml name="output_folder">Output folder for SynthSeg results, organized according to BrainVISA database hierarchy with modality "synthseg".</xhtml>
+      <xhtml name="segmentation">Output segmentation volume containing brain structures labels.</xhtml>
+
+      <xhtml name="volumes_csv">Optional CSV file to save volumes for all segmented regions.</xhtml>
+      <xhtml name="qc_csv">Optional CSV file to save quality control scores.</xhtml>
+      <xhtml name="posterior">Optional output for 3D posterior probabilities.</xhtml>
+      <xhtml name="resampled">Optional output to save resampled images at 1mm resolution.</xhtml>
+      <xhtml name="execution_log">Optional JSON file to save execution log with all parameters, inputs, outputs, and command used.</xhtml>
+
+      <xhtml name="parc">Perform cortical parcellation in addition to whole-brain segmentation.</xhtml>
+      <xhtml name="robust">Use the variant for increased robustness (slower but better for clinical data with large slice spacing).</xhtml>
+      <xhtml name="fast">Disable some postprocessing for faster prediction (approximately twice as fast, slightly less accurate). Not compatible with --robust.</xhtml>
+      <xhtml name="crop">Crop the inputs to a given shape before segmentation (must be divisible by 32). Can be a single integer or multiple integers in RAS coordinates (e.g., "160" or "160 128 192").</xhtml>
+      <xhtml name="threads">Number of threads to be used by Tensorflow (default: 1). Increase to decrease runtime when using CPU version.</xhtml>
+      <xhtml name="cpu">Run on CPU rather than GPU.</xhtml>
+      <xhtml name="v1">Use the first version of SynthSeg (SynthSeg 1.0).</xhtml>
+      <xhtml name="overwrite">Allow overwriting of existing output directory if it already contains SynthSeg results.</xhtml>
+    </d>
+  </d>
+</d>
+</minf>
