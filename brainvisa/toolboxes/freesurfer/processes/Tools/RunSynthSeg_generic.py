@@ -12,7 +12,7 @@ userLevel = 1
 synthseg_options = "SynthSeg options"
 optional_outputs = "Optional outputs"
 
-default_format = ["gz compressed NIFTI-1 image", "NIFTI-1 image"]
+default_format = ["gz compressed NIFTI-1 image", "NIFTI-1 image", "FreesurferMGZ"]
 
 # fmt: off
 signature = Signature(
