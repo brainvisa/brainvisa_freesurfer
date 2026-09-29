@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from brainvisa.processes import Boolean, Integer, ReadDiskItem, Signature, String, WriteDiskItem
+from brainvisa.processes import Boolean, Integer, List, ReadDiskItem, Signature, WriteDiskItem
 from freesurfer.brainvisaFreesurfer import testFreesurferCommand
 
 name = "Run SynthSeg"
@@ -40,7 +40,7 @@ signature = Signature(
     "parc", Boolean(section=synthseg_options),
     "robust", Boolean(section=synthseg_options),
     "fast", Boolean(section=synthseg_options),
-    "crop", String(section=synthseg_options),
+    "crop", List(Integer(section=synthseg_options)),
     "threads", Integer(section=synthseg_options),
     "cpu", Boolean(section=synthseg_options),
     "v1", Boolean(section=synthseg_options),
