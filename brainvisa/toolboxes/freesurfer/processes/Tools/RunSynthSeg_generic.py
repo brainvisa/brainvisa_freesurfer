@@ -83,7 +83,7 @@ def execution(self, context):
                 f"Output directory '{output_dir}' is not empty. SynthSeg has already been launched for this subjet and timepoint. "
                 "Please remove these results or choose overwrtie option to do so."
             )
-            raise AttributeError()
+            raise AttributeError(f"Output directory '{output_dir}' is not empty.")
 
     # Build command
     cmd = ["mri_synthseg", "--i", self.t1mri, "--o", self.segmentation]

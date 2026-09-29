@@ -102,22 +102,6 @@ def update_output(self, *_):
 
 
 def execution(self, context):
-    # Check if output folder is empty
-    output_dir = self.output_folder.fullPath()
-    os.makedirs(output_dir, exist_ok=True)
-
-    # Check if directory is empty
-    if os.listdir(output_dir):
-        if self.overwrite:
-            shutil.rmtree(output_dir)
-            os.makedirs(output_dir, exist_ok=True)
-        else:
-            context.error(
-                f"Output directory '{output_dir}' is not empty. SynthSeg has already been launched for this subject and timepoint. "
-                "Please remove these results or choose the overwrite option to do so."
-            )
-            raise RuntimeError(f"Output directory '{output_dir}' is not empty.")
-
     context.runProcess(
         "RunSynthSeg_generic",
         t1mri=self.t1mri,
