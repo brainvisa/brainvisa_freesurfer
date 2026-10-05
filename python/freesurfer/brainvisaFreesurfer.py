@@ -100,12 +100,14 @@ def launchFreesurferCommand(context, database=None, *args, **kwargs):
                 raise ValidationError('FreeSurfer is not available')
 
     argShell = tuple(setupShell) + args
+    exc = None
 
     try:
         ret = context.system(*((runFreesurferCommandSh, ) + argShell),
                              nativeEnv=True, **kwargs)
     except Exception as e:
         ret = 2
+        exc = e
     if ret != 0:
         raise ValidationError(
-            'FreeSurfer not available or one freesurfer command line has failed. Please see the log file in the main menu of BrainVISA for more information.\nException: %s' % str(e))
+            'FreeSurfer not available or one freesurfer command line has failed. Please see the log file in the main menu of BrainVISA for more information.\nException: %s' % str(exc))
