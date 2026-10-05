@@ -74,7 +74,8 @@ def execution(self, context):
     os.makedirs(output_dir, exist_ok=True)
 
     # Check if directory is empty
-    if os.listdir(output_dir):
+    output_dir_files = [i for i in os.listdir(output_dir) if not i.endswith(".minf")]
+    if output_dir_files:
         if self.overwrite:
             shutil.rmtree(output_dir)
             os.makedirs(output_dir, exist_ok=True)
