@@ -3,7 +3,7 @@ import shutil
 import json
 from pathlib import Path
 
-from brainvisa.processes import Boolean, Integer, ReadDiskItem, Signature, String, WriteDiskItem
+from brainvisa.processes import Boolean, Integer, ListOf, ReadDiskItem, Signature, WriteDiskItem
 from freesurfer.brainvisaFreesurfer import launchFreesurferCommand, testFreesurferCommand
 
 name = "Run SynthSeg generic"
@@ -38,7 +38,7 @@ signature = Signature(
     "parc", Boolean(section=synthseg_options),
     "robust", Boolean(section=synthseg_options),
     "fast", Boolean(section=synthseg_options),
-    "crop", String(section=synthseg_options),
+    "crop", ListOf(Integer(section=synthseg_options)),
     "threads", Integer(section=synthseg_options),
     "cpu", Boolean(section=synthseg_options),
     "v1", Boolean(section=synthseg_options),
@@ -102,7 +102,7 @@ def execution(self, context):
     if self.threads:
         cmd.extend(["--threads", str(self.threads)])
     if self.crop:
-        cmd.extend(["--crop"] + self.crop.split())
+        cmd.extend(["--crop"] + self.crop)
     if self.volumes_csv:
         cmd.extend(["--vol", self.volumes_csv])
     if self.qc_csv:
